@@ -1,0 +1,10 @@
+{
+    "name": "sirulli/yoimages-crop",
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/sirulli/yoimages-commons"
+    }],
+    "require": {
+        "sirulli/yoimages-commons": "master-dev"
+    }
+}

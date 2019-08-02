@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: YoImages\n"
+"Language: nl\n"
+
+#: 
+msgid "[title]"
+msgstr "[title]"
+
+#: 
+msgid "[post_type]"
+msgstr "[post_type]"
+
+#: 
+msgid "[site_name]"
+msgstr "[site_name]"
+
+#: 
+msgid "[tags]"
+msgstr "[tags]"
+
+#: 
+msgid "[categories]"
+msgstr "[categories]"
+
+#: 
+msgid "YoImages settings"
+msgstr "YoImages instellingen"
+
+#: 
+msgid "You do not have sufficient permissions to access this page."
+msgstr "U heeft onvoldoende rechten om deze pagina aan te passen."
+
+#: 
+msgid "Crop qualities"
+msgstr "Uitsnede kwaliteit"
+
+#: 
+msgid "SEO for images"
+msgstr "SEO voor afbeeldingen"
+
+#: 
+msgid "Change image title"
+msgstr "Bewerk titel afbeelding"
+
+#: 
+msgid "Image title expression"
+msgstr "Afbeelding titel expressie"
+
+#: 
+msgid "Change image alt attribute"
+msgstr "Bewerk afbeelding ALT-tekst"
+
+#: 
+msgid "Image alt expression"
+msgstr "Afbeelding ALT-tekst expressie"
+
+#: 
+msgid "Change image file name"
+msgstr "Bewerk bestandsnaam afbeelding"
+
+#: 
+msgid "Image file name expression"
+msgstr "Bestandsnaam afbeelding expressie"
+
+#: 
+msgid "Enter your cropping settings here below"
+msgstr "Voer de uitsnede instellingen hieronder in"
+
+#: 
+msgid "Enter your images SEO settings here below"
+msgstr "Voer de afbeelding SEO instellingen hieronder in"
+
+#: 
+msgid "Supported expressions:"
+msgstr "Beschikbare expressies:"
+
+#: 
+msgid "Crop qualities value is not valid, using default:"
+msgstr "uitsnede kwaliteit is ongeldig, standaardwaarde toegepast"
+
+#: 
+msgid "Close"
+msgstr "Sluiten"
+
+#: 
+msgid "Current"
+msgstr "Huidig"
+
+#: 
+msgid "This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it"
+msgstr "De uitsnede is kleiner dan verwacht. U mag de originele afbeelding vervangen door de VERVANG-knop te gebruiken en daarna een uitsnede te maken"
+
+#: 
+msgid "Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button on the left"
+msgstr "Uitsnede kan niet worden gemaakt omdat originele afbeelding te klein is, daarom zal originele afbeelding worden gebruikt. Klik op de vervang-knop om de afbeelding te vervangen"
+
+#: 
+msgid "Crop not generated yet, use the crop button here below to generate it"
+msgstr "Er is nog geen uitsnede gemaakt, klik op de [Maak uitsnede] knop om uitsnede te maken en te bewaren"
+
+#: 
+msgid "Crop preview"
+msgstr "Voorvertoning uitsnede"
+
+#: 
+msgid "Replace image source for"
+msgstr "Vervang bron-afbeelding voor"
+
+#: 
+msgid "Replace"
+msgstr "Vervang"
+
+#: 
+msgid "Restore original image source for"
+msgstr "Herstel bron-afbeelding voor"
+
+#: 
+msgid "Restore"
+msgstr "Herstel"
+
+#: 
+msgid "Crop quality"
+msgstr "Uitsnede kwaliteit"
+
+#: 
+msgid "Crop"
+msgstr "Maak uitsnede"
+
+#: 
+msgid "The sizes listed below are the crop and resize formats defined by "
+msgstr "De lijst van afmetingen voor uitsnedes en verkleiningen bepaald door "
+
+#: 
+msgid "Width"
+msgstr "Breedte"
+
+#: 
+msgid "Height"
+msgstr "Hoogte"
+
+#: 
+msgid "Max Width"
+msgstr "Max Breedte"
+
+#: 
+msgid "Max Height"
+msgstr "Max Hoogte"
+
+#: 
+msgid "Type:"
+msgstr "Type:"
+
+#: 
+msgid "Hard cropped"
+msgstr "Harde uitsnede"
+
+#: 
+msgid "Resized"
+msgstr "Verkleind"
+
+#: 
+msgid "Hard cropped image"
+msgstr "Hard uitgesnede afbeelding"
+
+#: 
+msgid "this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped"
+msgstr "dit formaat afbeelding bevat slechts een deel van de originele afbeelding, het heeft een vaste breedte en hoogte verhouding en wordt bijvoorbeeld toegepast bij de thumbnail "
+
+#: 
+msgid "Resized image"
+msgstr "Uitgesnede afbeelding"
+
+#: 
+msgid "this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed"
+msgstr "dit formaat afbeelding is niet uitgesneden maar aangepast naar de maximale breedte en/of hoogte welke beschikbaar is, om die reden is de afbeeldingsverhouding niet vast"
+
+#: 
+msgid "doesn't define any additional image size using the standard Wordpress functions (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+msgstr "voeg geen extra afmetingen toe op basis van de standaard Wordpress functies (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+
+#: 
+msgid "Edit crop formats"
+msgstr "Uitsnedes afbeelding bewerken"
+
+#. Ma la spunta che abilita il crop praticamente abilita il plugin? cioè potrei usarlo solo per la parte SEO?
+#: 
+msgid "Crop settings"
+msgstr "Uitsnede instellingen"
+
+#: 
+msgid "Enable"
+msgstr "Activeer"
+
+#: 
+msgid "If checked cropping is active"
+msgstr "Indien aangevinkt is uitsnede actief"
+
+#: 
+msgid "Comma separated list of crop quality values (100 best to 50 medium)"
+msgstr "komma gescheiden lijst van uitsnede kwaliteiten (100 allerbest tot 50 gemiddeld)"
+
+#: 
+msgid "If checked title will be replaced with the expression here below"
+msgstr "Indien aangevinkt zal de titel vervangen worden door expressie hieronder"
+
+#: 
+msgid "expression used to replace the title, accepted values are:"
+msgstr "expressie om de titel te vervangen, beschikbare waardes zijn:"
+
+#: 
+msgid "If checked alt will be replaced with the expression here below"
+msgstr "Indien aangevinkt zal de ALT-tekst vervangen worden door expressie hieronder"
+
+#: 
+msgid "expression used to replace the alt, accepted values are:"
+msgstr "expressie om de ALT-tekst te vervangen, beschikbare waardes zijn:"
+
+#: 
+msgid "If checked the filename will be replaced with the expression here below"
+msgstr "Indien aangevinkt zal de bestandsnaam vervangen worden door expressie hieronder"
+
+#: 
+msgid "expression used to replace the filename, accepted values are:"
+msgstr "expressie om de bestandsnaam te vervangen, beschikbare waardes zijn:"
+
+#: 
+msgid "title expression is not valid, using default:"
+msgstr "titel expressie is ongeldig, standaardwaarde toegepast"
+
+#: 
+msgid "alt expression is not valid, using default:"
+msgstr "ALT-tekst expressie is ongeldig, standaardwaarde toegepast"
+
+#: 
+msgid "filename expression is not valid, using default:"
+msgstr "bestandsnaam expressie is ongeldig, standaardwaarde toegepast"
+
+#. context? non sono riuscita a trovarla..
+#: 
+msgid "Edit crop formats from full image"
+msgstr "Kies tabblad en bewerk uitsnede vanuit orginele afbeelding"
+
+#: 
+msgid "Image sizes are defined by the current theme"
+msgstr "Afmetingen van afbeeldingen zijn bepaald door huidige thema"
+
+#: 
+msgid "Retina cropping enabled"
+msgstr "Retina uitsnede ingeschakeld "
+
+#: 
+msgid "This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again."
+msgstr "Uitsnede kan niet worden gemaakt omdat originele afbeelding te klein is voor een Retina versie, Klik eventueel op de vervang-knop om de afbeelding te vervangen en opnieuw een uitsnede te maken. "
+
+#: 
+msgid "Retina friendly"
+msgstr "Retina kwaliteit "
+
+#: 
+msgid "Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>)"
+msgstr "Indien aangevinkt is Retina kwaliteit actief. Activeer deze optie alleen bij gebruik van een Retina plugin, zoals bijvoorbeeld:  <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>, welke gebruik maakt van @2x in de bestandsnaam. "
+
+#: 
+msgid "[author_username]"
+msgstr "[author_username]"
+
+#: 
+msgid "[author_firstname]"
+msgstr "[author_firstname]"
+
+#: 
+msgid "[author_lastname]"
+msgstr "[author_lastname]"
+
+#: 
+msgid "Free stock images search"
+msgstr "Gratis stock images zoeken"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+msgstr "Gratis stock images zoeken instellingen. <br/>Opmerking, er zal op basis van Engelse taal worden gezocht. Dus maak gebruik van Engelse zoekterm(en).<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, Kijk op Splashbase T&C voor meer informatie. "
+
+#: 
+msgid "If checked free stock images search is active"
+msgstr "Indien aangevinkt is zoeken naar stock images actief"
+
+#: 
+msgid "Search"
+msgstr "Zoeken"
+
+#: 
+msgid "Upload"
+msgstr "Upload"
+
+#: 
+msgid "Search free stock images from www.splashbase.co"
+msgstr "Zoek gratis stock images op www.splashbase.co"
+
+#: 
+msgid "No results for:"
+msgstr "Geen resultaten voor:"
+
+#: 
+msgid "An error has occurred, please try again later or check the console logs for further information"
+msgstr "Er is een fout ontstaan, probeer het later nogmaals. Blijft probleem bestaan, controleer dan de logbestanden voor meer informatie."
+
+#: 
+msgid "via"
+msgstr "via"
+
+#: 
+msgid "site"
+msgstr "webpagina"
+
+#: 
+msgid "copyright"
+msgstr "copyright"
+
+#: 
+msgid "author"
+msgstr "auteur"
+
+#: 
+msgid "source"
+msgstr "bron"
+
+#: 
+msgid "Cannot get results from:"
+msgstr "Geen resultaten gevonden van:"
+
+#: 
+msgid "Search free stock images from"
+msgstr "Zoek gratis stock afbeelding van:"
+
+#: 
+msgid "The uploaded file could not be moved to %s."
+msgstr "Het bestand kon niet worden verplaatst naar %s."
+
+#: 
+msgid "The uploaded file is not a valid image. Please try again."
+msgstr "Het bestand is geen geldige afbeelding. Probeer opnieuw."
+
+#: 
+msgid "Close crop panel"
+msgstr "Sluit uitsnede paneel"
+
+#: 
+msgid "see T&C for more info."
+msgstr "Zie de voorwaarde voor meer info."
+
+#: 
+msgid "Images sources:"
+msgstr "afbeeldingen bron:"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+msgstr "Instellingen, zoeken gratis Stock afbeeldingen. <br/>Gebruik uitsluitend Engelse zoektermen."
+
+#: 
+msgid "Unknown module"
+msgstr "Onbekende module"
+
+#: 
+msgid "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+msgstr "Deze YoImages module is niet actief of geïnstalleerd. Installeer of activeer de plugin."
+
+#: 
+msgid "You are trying to access a YoImages' module that has no settings page"
+msgstr "U probeert toegang te krijgen tot de YoImages module zonder instellingen pagina.  "
+
+#: 
+msgid "Settings"
+msgstr "Instellingen"
+
+#: 
+msgid "Page"
+msgstr "Pagina"
+
+#: 
+msgid "Cropping sizes"
+msgstr "Uitsnede afmetingen"
+
+#: 
+msgid "Size id"
+msgstr "Size id"
+
+#: 
+msgid "User-friendly name"
+msgstr "Gebruiksvriendelijke naam"
+
+#: 
+msgid "Active"
+msgstr "Actief"
+
+#: 
+msgid "There should be at least one manual crop activated. If you don't want any manual crop to be active, please disable the whole cropping using the first checkbox here below."
+msgstr "U dient ten minste één handmatige uitsnede te activeren. Wanneer u geen handmatige uitsnede wilt instellen, kunt u het beste de uitsnede functionaliteit in z'n geheel uitschakelen door bij deze optie het vinkje aan te klikken."
+

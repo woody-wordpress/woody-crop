@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: YoImages\n"
+"Language: en\n"
+
+#: 
+msgid "[title]"
+msgstr "[title]"
+
+#: 
+msgid "[post_type]"
+msgstr "[post_type]"
+
+#: 
+msgid "[site_name]"
+msgstr "[site_name]"
+
+#: 
+msgid "[tags]"
+msgstr "[tags]"
+
+#: 
+msgid "[categories]"
+msgstr "[categories]"
+
+#: 
+msgid "YoImages settings"
+msgstr "YoImages settings"
+
+#: 
+msgid "You do not have sufficient permissions to access this page."
+msgstr "You do not have sufficient permissions to access this page."
+
+#: 
+msgid "Crop qualities"
+msgstr "Crop qualities"
+
+#: 
+msgid "SEO for images"
+msgstr "SEO for images"
+
+#: 
+msgid "Change image title"
+msgstr "Change image title"
+
+#: 
+msgid "Image title expression"
+msgstr "Image title expression"
+
+#: 
+msgid "Change image alt attribute"
+msgstr "Change image alt attribute"
+
+#: 
+msgid "Image alt expression"
+msgstr "Image alt expression"
+
+#: 
+msgid "Change image file name"
+msgstr "Change image file name"
+
+#: 
+msgid "Image file name expression"
+msgstr "Image file name expression"
+
+#: 
+msgid "Enter your cropping settings here below"
+msgstr "Enter your cropping settings here below"
+
+#: 
+msgid "Enter your images SEO settings here below"
+msgstr "Enter your images SEO settings here below"
+
+#: 
+msgid "Supported expressions:"
+msgstr "Supported expressions:"
+
+#: 
+msgid "Crop qualities value is not valid, using default:"
+msgstr "Crop qualities value is not valid, using default:"
+
+#: 
+msgid "Close"
+msgstr "Close"
+
+#: 
+msgid "Current"
+msgstr "Current"
+
+#: 
+msgid "This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it"
+msgstr "This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it"
+
+#: 
+msgid "Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button on the left"
+msgstr "Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button on the left"
+
+#: 
+msgid "Crop not generated yet, use the crop button here below to generate it"
+msgstr "Crop not generated yet, use the crop button here below to generate it"
+
+#: 
+msgid "Crop preview"
+msgstr "Crop preview"
+
+#: 
+msgid "Replace image source for"
+msgstr "Replace image source for"
+
+#: 
+msgid "Replace"
+msgstr "Replace"
+
+#: 
+msgid "Restore original image source for"
+msgstr "Restore original image source for"
+
+#: 
+msgid "Restore"
+msgstr "Restore"
+
+#: 
+msgid "Crop quality"
+msgstr "Crop quality"
+
+#: 
+msgid "Crop"
+msgstr "Crop"
+
+#: 
+msgid "The sizes listed below are the crop and resize formats defined by "
+msgstr "The sizes listed below are the crop and resize formats defined by "
+
+#: 
+msgid "Width"
+msgstr "Width"
+
+#: 
+msgid "Height"
+msgstr "Height"
+
+#: 
+msgid "Max Width"
+msgstr "Max Width"
+
+#: 
+msgid "Max Height"
+msgstr "Max Height"
+
+#: 
+msgid "Type:"
+msgstr "Type:"
+
+#: 
+msgid "Hard cropped"
+msgstr "Hard cropped"
+
+#: 
+msgid "Resized"
+msgstr "Resized"
+
+#: 
+msgid "Hard cropped image"
+msgstr "Hard cropped image"
+
+#: 
+msgid "this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped"
+msgstr "this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped"
+
+#: 
+msgid "Resized image"
+msgstr "Resized image"
+
+#: 
+msgid "this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed"
+msgstr "this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed"
+
+#: 
+msgid "doesn't define any additional image size using the standard Wordpress functions (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+msgstr "doesn't define any additional image size using the standard Wordpress functions (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+
+#: 
+msgid "Edit crop formats"
+msgstr "Edit crop formats"
+
+#. Ma la spunta che abilita il crop praticamente abilita il plugin? cioè potrei usarlo solo per la parte SEO?
+#: 
+msgid "Crop settings"
+msgstr "Crop settings"
+
+#: 
+msgid "Enable"
+msgstr "Enable"
+
+#: 
+msgid "If checked cropping is active"
+msgstr "If checked cropping is active"
+
+#: 
+msgid "Comma separated list of crop quality values (100 best to 50 medium)"
+msgstr "Comma separated list of crop quality values (100 best to 50 medium)"
+
+#: 
+msgid "If checked title will be replaced with the expression here below"
+msgstr "If checked title will be replaced with the expression here below"
+
+#: 
+msgid "expression used to replace the title, accepted values are:"
+msgstr "expression used to replace the title, accepted values are:"
+
+#: 
+msgid "If checked alt will be replaced with the expression here below"
+msgstr "If checked alt will be replaced with the expression here below"
+
+#: 
+msgid "expression used to replace the alt, accepted values are:"
+msgstr "expression used to replace the alt, accepted values are:"
+
+#: 
+msgid "If checked the filename will be replaced with the expression here below"
+msgstr "If checked the filename will be replaced with the expression here below"
+
+#: 
+msgid "expression used to replace the filename, accepted values are:"
+msgstr "expression used to replace the filename, accepted values are:"
+
+#: 
+msgid "title expression is not valid, using default:"
+msgstr "title expression is not valid, using default:"
+
+#: 
+msgid "alt expression is not valid, using default:"
+msgstr "alt expression is not valid, using default:"
+
+#: 
+msgid "filename expression is not valid, using default:"
+msgstr "filename expression is not valid, using default:"
+
+#. context? non sono riuscita a trovarla..
+#: 
+msgid "Edit crop formats from full image"
+msgstr "Edit crop formats from full image"
+
+#: 
+msgid "Image sizes are defined by the current theme"
+msgstr "Image sizes are defined by the current theme"
+
+#: 
+msgid "Retina cropping enabled"
+msgstr "Retina cropping enabled "
+
+#: 
+msgid "This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again."
+msgstr "This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again. "
+
+#: 
+msgid "Retina friendly"
+msgstr "Retina friendly "
+
+#: 
+msgid "Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>)"
+msgstr "Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>) "
+
+#: 
+msgid "[author_username]"
+msgstr "[author_username]"
+
+#: 
+msgid "[author_firstname]"
+msgstr "[author_firstname]"
+
+#: 
+msgid "[author_lastname]"
+msgstr "[author_lastname]"
+
+#: 
+msgid "Free stock images search"
+msgstr "Free stock images search"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+msgstr "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+
+#: 
+msgid "If checked free stock images search is active"
+msgstr "If checked free stock images search is active"
+
+#: 
+msgid "Search"
+msgstr "Search"
+
+#: 
+msgid "Upload"
+msgstr "Upload"
+
+#: 
+msgid "Search free stock images from www.splashbase.co"
+msgstr "Search free stock images from www.splashbase.co"
+
+#: 
+msgid "No results for:"
+msgstr "No results for:"
+
+#: 
+msgid "An error has occurred, please try again later or check the console logs for further information"
+msgstr "An error has occurred, please try again later or check the console logs for further information"
+
+#: 
+msgid "via"
+msgstr "via"
+
+#: 
+msgid "site"
+msgstr "site"
+
+#: 
+msgid "copyright"
+msgstr "copyright"
+
+#: 
+msgid "author"
+msgstr "author"
+
+#: 
+msgid "source"
+msgstr "source"
+
+#: 
+msgid "Cannot get results from:"
+msgstr "Cannot get results from:"
+
+#: 
+msgid "Search free stock images from"
+msgstr "Search free stock images from"
+
+#: 
+msgid "The uploaded file could not be moved to %s."
+msgstr "The uploaded file could not be moved to %s."
+
+#: 
+msgid "The uploaded file is not a valid image. Please try again."
+msgstr "The uploaded file is not a valid image. Please try again."
+
+#: 
+msgid "Close crop panel"
+msgstr "Close crop panel"
+
+#: 
+msgid "see T&C for more info."
+msgstr "see T&C for more info."
+
+#: 
+msgid "Images sources:"
+msgstr "Images sources:"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+msgstr "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+
+#: 
+msgid "Unknown module"
+msgstr "Unknown module"
+
+#: 
+msgid "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+msgstr "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+
+#: 
+msgid "You are trying to access a YoImages' module that has no settings page"
+msgstr "You are trying to access a YoImages' module that has no settings page"
+
+#: 
+msgid "Settings"
+msgstr "Settings"
+
+#: 
+msgid "Page"
+msgstr "Page"
+
+#: 
+msgid "Cropping sizes"
+msgstr "Cropping sizes"
+
+#: 
+msgid "Size id"
+msgstr "Size ID"
+
+#: 
+msgid "User-friendly name"
+msgstr "User-friendly name"
+
+#: 
+msgid "Active"
+msgstr "Active"
+
+#: 
+msgid "There should be at least one manual crop activated. If you don't want any manual crop to be active, please disable the whole cropping using the first checkbox here below."
+msgstr "There should be at least one manual crop activated. If you don't want any manual crop to be active, please disable the whole cropping using the first checkbox here below."
+

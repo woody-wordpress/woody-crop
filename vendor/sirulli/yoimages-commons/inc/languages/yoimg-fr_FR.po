@@ -1,0 +1,383 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: YoImages\n"
+"Language: fr\n"
+
+#: 
+msgid "[title]"
+msgstr "[title]"
+
+#: 
+msgid "[post_type]"
+msgstr "[post_type]"
+
+#: 
+msgid "[site_name]"
+msgstr "[site_name]"
+
+#: 
+msgid "[tags]"
+msgstr "[tags]"
+
+#: 
+msgid "[categories]"
+msgstr "[categories]"
+
+#: 
+msgid "YoImages settings"
+msgstr "Configurations de YoImages"
+
+#: 
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Vous n'avez pas de persmissions suffisantes pour accéder à cette page."
+
+#: 
+msgid "Crop qualities"
+msgstr "Qualité du recadrage"
+
+#: 
+msgid "SEO for images"
+msgstr "SEO pour les images"
+
+#: 
+msgid "Change image title"
+msgstr "Changer le titre de l'image"
+
+#: 
+msgid "Image title expression"
+msgstr "Expression du titre de l'image"
+
+#: 
+msgid "Change image alt attribute"
+msgstr "Changer l'attribut alt de l'image"
+
+#: 
+msgid "Image alt expression"
+msgstr "Expression du alt de l'image"
+
+#: 
+msgid "Change image file name"
+msgstr "Changer le nom du fichier de l'image"
+
+#: 
+msgid "Image file name expression"
+msgstr "Expression du nom du fichier de l'image"
+
+#: 
+msgid "Enter your cropping settings here below"
+msgstr "Saisissez vos configurations de recadrage ci-dessous"
+
+#: 
+msgid "Enter your images SEO settings here below"
+msgstr "Saisissez vos configuration du SEO de vos images ci-dessous"
+
+#: 
+msgid "Supported expressions:"
+msgstr "Expressions supportées : "
+
+#: 
+msgid "Crop qualities value is not valid, using default:"
+msgstr "La qualité du recadrage n'est pas valide, utilisation du défault : "
+
+#: 
+msgid "Close"
+msgstr "Fermer"
+
+#: 
+msgid "Current"
+msgstr "Actuelle"
+
+#: 
+msgid "This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it"
+msgstr "Ce recadrage est plus petit que ce qui est attendu, vous pouvez remplacer l'image original pour ce format de recadrage en utilisant le bouton remplacer à gauche et ensuite la recadrer"
+
+#: 
+msgid "Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button on the left"
+msgstr "L'image recadré n'a pue être générée car l'image originale est trop petite, la taille de l'image actuelle sera utilisé, mais vous pourriez vouloir remplacer l'image originale pour ce format de cadrage en utilisant le bouton remplacer à gauche"
+
+#: 
+msgid "Crop not generated yet, use the crop button here below to generate it"
+msgstr "L'image recadrée n'est pas encore généré, utilisez le bouton recadrer ci-dessous pour la générer"
+
+#: 
+msgid "Crop preview"
+msgstr "Aperçu du recadrage"
+
+#: 
+msgid "Replace image source for"
+msgstr "Remplacer l'image source pour"
+
+#: 
+msgid "Replace"
+msgstr "Remplacer"
+
+#: 
+msgid "Restore original image source for"
+msgstr "Restorer l'image source originale pour"
+
+#: 
+msgid "Restore"
+msgstr "Restorer"
+
+#: 
+msgid "Crop quality"
+msgstr "Qualité du recadrage"
+
+#: 
+msgid "Crop"
+msgstr "Recadrage"
+
+#: 
+msgid "The sizes listed below are the crop and resize formats defined by "
+msgstr "Les tailles listées ci-dessous sont les formats de recadrage et de reformatage définis par "
+
+#: 
+msgid "Width"
+msgstr "Largeur"
+
+#: 
+msgid "Height"
+msgstr "Hauteur"
+
+#: 
+msgid "Max Width"
+msgstr "Largeur maximale"
+
+#: 
+msgid "Max Height"
+msgstr "Hauteur maximale"
+
+#: 
+msgid "Type:"
+msgstr "Type :"
+
+#: 
+msgid "Hard cropped"
+msgstr "Recadrage forcé"
+
+#: 
+msgid "Resized"
+msgstr "Redimensionné"
+
+#: 
+msgid "Hard cropped image"
+msgstr "Image avec recadrage forcé"
+
+#: 
+msgid "this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped"
+msgstr "Ce format d'image ne contient qu'une partie de l'image originale, il a une largeur et une hauteur fixe pour que le ratio de l'image soit fixe aussi, par exemple les miniatures dans les listes sont recadrées"
+
+#: 
+msgid "Resized image"
+msgstr "Image redimentionnée"
+
+#: 
+msgid "this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed"
+msgstr "ce format d'image n'est pas recadré mais est plutôt redimensionné pour remplir le maximum d'espace disponible, soit en largeur ou en hauteur, donc le ratio de cette image n'est pas fixe"
+
+#: 
+msgid "doesn't define any additional image size using the standard Wordpress functions (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+msgstr "ne défini aucun taille d'image additionnelle en utilisant les fonctions standard de Wordpress (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> et <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>) "
+
+#: 
+msgid "Edit crop formats"
+msgstr "Éditer les formats de recadrage"
+
+#. Ma la spunta che abilita il crop praticamente abilita il plugin? cioè potrei usarlo solo per la parte SEO?
+#: 
+msgid "Crop settings"
+msgstr "Configurations du recadrage"
+
+#: 
+msgid "Enable"
+msgstr "Activer"
+
+#: 
+msgid "If checked cropping is active"
+msgstr "Si coché, le recadrage est actif"
+
+#: 
+msgid "Comma separated list of crop quality values (100 best to 50 medium)"
+msgstr "Liste séparée par des vigules des valeurs de qualités des recadrage ( 100 meilleur à 50 médium ) "
+
+#: 
+msgid "If checked title will be replaced with the expression here below"
+msgstr "Si coché, le titre sera remplacer par l'expression ci-dessous"
+
+#: 
+msgid "expression used to replace the title, accepted values are:"
+msgstr "expression utilisé pour remplacer le titre, les valeurs acceptés sont : "
+
+#: 
+msgid "If checked alt will be replaced with the expression here below"
+msgstr "Si coché, le alt sera remplacé par l'expression ci-dessous"
+
+#: 
+msgid "expression used to replace the alt, accepted values are:"
+msgstr "expression utilisé pour remplacer le alt, les valeurs acceptés sont :"
+
+#: 
+msgid "If checked the filename will be replaced with the expression here below"
+msgstr "Si coché, le nom du fichier sera remplacer par l'expression ci-dessous"
+
+#: 
+msgid "expression used to replace the filename, accepted values are:"
+msgstr "expression utilisé pour remplacer le nom du fichier, les valeurs acceptés sont :"
+
+#: 
+msgid "title expression is not valid, using default:"
+msgstr "l'expression du titre n'est pas valide, utilisation du défaut :"
+
+#: 
+msgid "alt expression is not valid, using default:"
+msgstr "l'expression du alt n'est pas valide, utilisation du défaut :"
+
+#: 
+msgid "filename expression is not valid, using default:"
+msgstr "l'expression du nom de fichier n'est pas valide, utilisation du défaut :"
+
+#. context? non sono riuscita a trovarla..
+#: 
+msgid "Edit crop formats from full image"
+msgstr "Éditer les formats de recadrage depuis l'image complète"
+
+#: 
+msgid "Image sizes are defined by the current theme"
+msgstr "Les tailles d'image sont défini par le thème courant"
+
+#: 
+msgid "Retina cropping enabled"
+msgstr "Recadrage rétina activé "
+
+#: 
+msgid "This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again."
+msgstr "Ce recadrage est trop petit pour créer une version rétina de cette image, vous pouvez remplacer l'image originale pour ce format de recadrage en utilisant le pour remplacer à gauche et ensuite recadrer de nouveau. "
+
+#: 
+msgid "Retina friendly"
+msgstr "Permet le rétina "
+
+#: 
+msgid "Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>)"
+msgstr "Option pour activer (activer cette option si vous utilisez une extension rétina qui utilise @2x comme convention de nommage lors de la création d'image rétina depuis la source - par exemple, <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>) "
+
+#: 
+msgid "[author_username]"
+msgstr "[author_username]"
+
+#: 
+msgid "[author_firstname]"
+msgstr "[author_firstname]"
+
+#: 
+msgid "[author_lastname]"
+msgstr "[author_lastname]"
+
+#: 
+msgid "Free stock images search"
+msgstr "Free stock images search"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+msgstr "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+
+#: 
+msgid "If checked free stock images search is active"
+msgstr "If checked free stock images search is active"
+
+#: 
+msgid "Search"
+msgstr "Search"
+
+#: 
+msgid "Upload"
+msgstr "Upload"
+
+#: 
+msgid "Search free stock images from www.splashbase.co"
+msgstr "Search free stock images from www.splashbase.co"
+
+#: 
+msgid "No results for:"
+msgstr "No results for:"
+
+#: 
+msgid "An error has occurred, please try again later or check the console logs for further information"
+msgstr "An error has occurred, please try again later or check the console logs for further information"
+
+#: 
+msgid "via"
+msgstr "via"
+
+#: 
+msgid "site"
+msgstr "site"
+
+#: 
+msgid "copyright"
+msgstr "copyright"
+
+#: 
+msgid "author"
+msgstr "author"
+
+#: 
+msgid "source"
+msgstr "source"
+
+#: 
+msgid "Cannot get results from:"
+msgstr "Cannot get results from:"
+
+#: 
+msgid "Search free stock images from"
+msgstr "Search free stock images from"
+
+#: 
+msgid "The uploaded file could not be moved to %s."
+msgstr "The uploaded file could not be moved to %s."
+
+#: 
+msgid "The uploaded file is not a valid image. Please try again."
+msgstr "The uploaded file is not a valid image. Please try again."
+
+#: 
+msgid "Close crop panel"
+msgstr "Close crop panel"
+
+#: 
+msgid "see T&C for more info."
+msgstr "see T&C for more info."
+
+#: 
+msgid "Images sources:"
+msgstr "Images sources:"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+msgstr "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+
+#: 
+msgid "Unknown module"
+msgstr "Unknown module"
+
+#: 
+msgid "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+msgstr "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+
+#: 
+msgid "You are trying to access a YoImages' module that has no settings page"
+msgstr "You are trying to access a YoImages' module that has no settings page"
+
+#: 
+msgid "Settings"
+msgstr "Settings"
+
+#: 
+msgid "Page"
+msgstr "Page"
+

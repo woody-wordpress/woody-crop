@@ -1,0 +1,388 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: YoImages\n"
+"Language: de\n"
+
+#. @Thomas we have to revert this change because it's likely possible that some active installations of the plugin is already using the previous version of the shortcode and changing it would require that the plugin users update their own SEO settings
+#: 
+msgid "[title]"
+msgstr "[Titel]"
+
+#. @Thomas we have to revert this change because it's likely possible that some active installations of the plugin is already using the previous version of the shortcode and changing it would require that the plugin users update their own SEO settings
+#: 
+msgid "[post_type]"
+msgstr "[Typ]"
+
+#. @Thomas we have to revert this change because it's likely possible that some active installations of the plugin is already using the previous version of the shortcode and changing it would require that the plugin users update their own SEO settings
+#: 
+msgid "[site_name]"
+msgstr "[web_site_Name]"
+
+#. @Thomas we have to revert this change because it's likely possible that some active installations of the plugin is already using the previous version of the shortcode and changing it would require that the plugin users update their own SEO settings
+#: 
+msgid "[tags]"
+msgstr "[Tags]"
+
+#. @Thomas we have to revert this change because it's likely possible that some active installations of the plugin is already using the previous version of the shortcode and changing it would require that the plugin users update their own SEO settings
+#: 
+msgid "[categories]"
+msgstr "[Kategorien]"
+
+#: 
+msgid "YoImages settings"
+msgstr "YoImages Einstellungen"
+
+#: 
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Du hast nicht die erforderlichen Rechte, um auf diese Seite zuzugreifen."
+
+#: 
+msgid "Crop qualities"
+msgstr "Qualität"
+
+#: 
+msgid "SEO for images"
+msgstr "SEO für Bilder"
+
+#: 
+msgid "Change image title"
+msgstr "Titel für Bild ändern"
+
+#: 
+msgid "Image title expression"
+msgstr "Titel Ausdruck"
+
+#: 
+msgid "Change image alt attribute"
+msgstr "ALT-Attribut für Bild ändern"
+
+#: 
+msgid "Image alt expression"
+msgstr "ALT-Attribut Ausdruck"
+
+#: 
+msgid "Change image file name"
+msgstr "Dateiname für Bild ändern"
+
+#: 
+msgid "Image file name expression"
+msgstr "Dateiname Ausdruck"
+
+#: 
+msgid "Enter your cropping settings here below"
+msgstr "Beschneiden-Einstellungen definieren"
+
+#: 
+msgid "Enter your images SEO settings here below"
+msgstr "SEO Einstellungen für Bilder definieren"
+
+#: 
+msgid "Supported expressions:"
+msgstr "Verfügbare Parameter:"
+
+#: 
+msgid "Crop qualities value is not valid, using default:"
+msgstr "Der Wert zum Beschneiden ist nicht gültig. Standardwerte werden verwendet:"
+
+#: 
+msgid "Close"
+msgstr "Schließen"
+
+#: 
+msgid "Current"
+msgstr "Aktuell"
+
+#: 
+msgid "This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it"
+msgstr "Der Beschnitt ist kleiner als erwartet. Das Originalbild für diesen Beschnitt kann über Ersetzen ausgetauscht werden und anschließend beschnitten werden."
+
+#: 
+msgid "Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button on the left"
+msgstr "Ein Fehler ist aufgetreten. Original-Bild ist zu klein für guten Bildzuschnitt. Bitte hinstelle das originelles Bild  mit hinstelle Button nach links wieder"
+
+#: 
+msgid "Crop not generated yet, use the crop button here below to generate it"
+msgstr "Beschnittenes Bild ist noch nicht erstellt; über den Beschnitt-Button bitte das Bild erstellen"
+
+#: 
+msgid "Crop preview"
+msgstr "Beschneiden Vorschau"
+
+#: 
+msgid "Replace image source for"
+msgstr "Bild ersetzen für"
+
+#: 
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: 
+msgid "Restore original image source for"
+msgstr "Originalbild wiederherstellen für"
+
+#: 
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: 
+msgid "Crop quality"
+msgstr "Qualität"
+
+#: 
+msgid "Crop"
+msgstr "Beschneiden"
+
+#: 
+msgid "The sizes listed below are the crop and resize formats defined by "
+msgstr "Die folgende Übersicht zeigt die beschnittenen/geänderten Bildgrößen definiert durch das Theme "
+
+#: 
+msgid "Width"
+msgstr "Breite"
+
+#: 
+msgid "Height"
+msgstr "Höhe"
+
+#: 
+msgid "Max Width"
+msgstr "Max. Breite"
+
+#: 
+msgid "Max Height"
+msgstr "Max. Höhe"
+
+#: 
+msgid "Type:"
+msgstr "Typ:"
+
+#: 
+msgid "Hard cropped"
+msgstr "Beschnitten"
+
+#: 
+msgid "Resized"
+msgstr "angepasste Größe"
+
+#: 
+msgid "Hard cropped image"
+msgstr "Beschnittenes Bild"
+
+#: 
+msgid "this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped"
+msgstr "Dieses Bildformat enthält eventl. nur einen Teil des Bildes und hat eine feste Breite und Höhe, so dass das Seitenverhältnis ebenfalls festgeschrieben ist."
+
+#: 
+msgid "Resized image"
+msgstr "Bild mit angepasster Größe"
+
+#: 
+msgid "this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed"
+msgstr "Dieses Bildformat ist nicht beschnitten, aber in der Größe angepasst, um eine bestimmte Bildgröße zur Verfügung zu stellen; entweder in der Breite oder in der Höhe. Dadurch ist das Seitenverhältnis nicht fixiert."
+
+#: 
+msgid "doesn't define any additional image size using the standard Wordpress functions (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+msgstr "hat keine zusätzlichen Bildgrößen über die WordPress Funktionen <a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> oder <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a> definiert."
+
+#: 
+msgid "Edit crop formats"
+msgstr "Bild beschneiden"
+
+#. Ma la spunta che abilita il crop praticamente abilita il plugin? cioè potrei usarlo solo per la parte SEO?
+#: 
+msgid "Crop settings"
+msgstr "Beschneiden Einstellungen"
+
+#: 
+msgid "Enable"
+msgstr "Aktivieren"
+
+#: 
+msgid "If checked cropping is active"
+msgstr "Wenn aktiviert, steht die Beschneiden-Funktion zur Verfügung"
+
+#: 
+msgid "Comma separated list of crop quality values (100 best to 50 medium)"
+msgstr "Kommaseparierte Liste der Bildqualitäten für beschnittene Bilder (100 am besten / 50 mittel)"
+
+#: 
+msgid "If checked title will be replaced with the expression here below"
+msgstr "Wenn aktiviert, wird der Titel für das Bild durch den folgenden Ausdruck ersetzt"
+
+#: 
+msgid "expression used to replace the title, accepted values are:"
+msgstr "Dieser Ausdruck wird für den Titel des Bildes verwendet, erlaubte Parameter:"
+
+#: 
+msgid "If checked alt will be replaced with the expression here below"
+msgstr "Wenn aktiviert, wird das alt-Attribut für das Bild durch den folgenden Ausdruck ersetzt"
+
+#: 
+msgid "expression used to replace the alt, accepted values are:"
+msgstr "Dieser Ausdruck wird für das ALT-Attribut des Bildes verwendet, erlaubte Parameter:"
+
+#: 
+msgid "If checked the filename will be replaced with the expression here below"
+msgstr "Wenn aktiviert, wird der Bildname durch den folgenden Ausdruck ersetzt"
+
+#: 
+msgid "expression used to replace the filename, accepted values are:"
+msgstr "Dieser Ausdruck wird für den Dateinamen des Bildes verwendet, erlaubte Parameter:"
+
+#: 
+msgid "title expression is not valid, using default:"
+msgstr "Parameter für Titel nicht erlaubt, Standardwerte werden verwendet:"
+
+#: 
+msgid "alt expression is not valid, using default:"
+msgstr "Parameter für ALT-Attribut nicht erlaubt, Standardwerte werden verwendet:"
+
+#: 
+msgid "filename expression is not valid, using default:"
+msgstr "Parameter für Dateiname nicht erlaubt, Standardwerte werden verwendet:"
+
+#. context? non sono riuscita a trovarla..
+#: 
+msgid "Edit crop formats from full image"
+msgstr "Beschneiden des Bilds aus vollständiger Größe"
+
+#: 
+msgid "Image sizes are defined by the current theme"
+msgstr "Bildgrößen, die durch das aktuelle Theme definiert sind"
+
+#: 
+msgid "Retina cropping enabled"
+msgstr "Retina Ausschnitt einschalten"
+
+#: 
+msgid "This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again."
+msgstr "Dieser Beschnitt ist zu klein, um eine Retina Version des Bildes zu erstellen. Das Bild kann über Ersetzen ausgetauscht werden und anschließend beschnitten werden."
+
+#: 
+msgid "Retina friendly"
+msgstr "Retina unterstützen"
+
+#: 
+msgid "Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>)"
+msgstr "Aktivieren, wenn ein Retina Plugin verwendet wird, das @2x als Dateierweiterung bei der Erstellung von Retina Bilder verwendet - z.B. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>"
+
+#: 
+msgid "[author_username]"
+msgstr "[Autor_Benutzername]"
+
+#: 
+msgid "[author_firstname]"
+msgstr "[Autor_Name]"
+
+#: 
+msgid "[author_lastname]"
+msgstr "[Autor_Familienname]"
+
+#: 
+msgid "Free stock images search"
+msgstr "Kostenlose Lizenzfreie Bilder Suche"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+msgstr "Kostenlose Lizenzfreie Bilder Suche einstellungen.<br/>Bitte notieren dass Suchen sind auf Englisch, deshalb benutzen Sie Suchbegriff auf Englisch.<br/>Die Quelle von die Bilder ist:<a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, lesen Sie Splashbase Nutzungsbedingungen für weitere info. "
+
+#: 
+msgid "If checked free stock images search is active"
+msgstr "Wenn aktiviert, steht die Bildersuche-Funktion zur Verfügung"
+
+#: 
+msgid "Search"
+msgstr "Suche"
+
+#: 
+msgid "Upload"
+msgstr "Hochladen"
+
+#: 
+msgid "Search free stock images from www.splashbase.co"
+msgstr "Kostenlose Lizenzfreie Bilder Suche von www.splashbase.co"
+
+#: 
+msgid "No results for:"
+msgstr "Leider keine Treffer"
+
+#: 
+msgid "An error has occurred, please try again later or check the console logs for further information"
+msgstr "Hier ist ein Fehler aufgetreten, bitte versuch es noch einmal oder checken Sie auf die Console Log hin"
+
+#: 
+msgid "via"
+msgstr "via"
+
+#: 
+msgid "site"
+msgstr "Website"
+
+#: 
+msgid "copyright"
+msgstr "Copyright"
+
+#: 
+msgid "author"
+msgstr "Autor"
+
+#: 
+msgid "source"
+msgstr "Quelle"
+
+#: 
+msgid "Cannot get results from:"
+msgstr "Kann nicht Treffer schauen"
+
+#: 
+msgid "Search free stock images from"
+msgstr "Suche Kostenlose Lizenzfreie Bildern"
+
+#: 
+msgid "The uploaded file could not be moved to %s."
+msgstr "Die hochgeladene Datei konnte nicht verschoben werden zu %s"
+
+#: 
+msgid "The uploaded file is not a valid image. Please try again."
+msgstr "Die hochgeladene Datei ist keine gültige Bilder. Bitte versuche es noch einmal. "
+
+#: 
+msgid "Close crop panel"
+msgstr "Schließe Beschnitt Fenster"
+
+#: 
+msgid "see T&C for more info."
+msgstr "Bitte lese AGB für weitere Informationen"
+
+#: 
+msgid "Images sources:"
+msgstr "Quelle von die Bilder"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+msgstr "Kostenlose Lizenzfreie Bilder Suche Einstellungen. </br>Bitte bemerkt dass Suche sind auf Englisch daher benutze englische Wörter"
+
+#: 
+msgid "Unknown module"
+msgstr "Unbekannte Modul"
+
+#: 
+msgid "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+msgstr "Dieser YoImages Modul ist nicht aktiv oder einsetzt. Bitte aktivieren Sie in dem Einstellungen Seite der Plugin oder einsetzte es von hier:"
+
+#: 
+msgid "You are trying to access a YoImages' module that has no settings page"
+msgstr "Der YoImages Modul dass du zugreifen möchetest hat keine Einstellung Seite"
+
+#: 
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: 
+msgid "Page"
+msgstr "Seite"
+

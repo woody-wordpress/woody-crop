@@ -1,0 +1,383 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: YoImages\n"
+"Language: pl\n"
+
+#: 
+msgid "[title]"
+msgstr "[tytul]"
+
+#: 
+msgid "[post_type]"
+msgstr "[rodzaj_wpisu]"
+
+#: 
+msgid "[site_name]"
+msgstr "[nazwa_strony]"
+
+#: 
+msgid "[tags]"
+msgstr "[tagi]"
+
+#: 
+msgid "[categories]"
+msgstr "[kategorie]"
+
+#: 
+msgid "YoImages settings"
+msgstr "Ustawienia YoImages"
+
+#: 
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Nie posiadasz uprawnień wymaganych dla dostępu do tej strony."
+
+#: 
+msgid "Crop qualities"
+msgstr "Jakości kadrowania"
+
+#: 
+msgid "SEO for images"
+msgstr "SEO obrazków"
+
+#: 
+msgid "Change image title"
+msgstr "Zmieniaj tytuł obrazka"
+
+#: 
+msgid "Image title expression"
+msgstr "Wzorzec tytułu obrazka"
+
+#: 
+msgid "Change image alt attribute"
+msgstr "Zmieniaj atrybut alt obrazka"
+
+#: 
+msgid "Image alt expression"
+msgstr "Wzorzec alternatywy obrazka"
+
+#: 
+msgid "Change image file name"
+msgstr "Zmieniaj nazwę pliku obrazka"
+
+#: 
+msgid "Image file name expression"
+msgstr "Wzorzec nazwy pliku obrazka"
+
+#: 
+msgid "Enter your cropping settings here below"
+msgstr "Poniżej możesz zmodyfikować swoje ustawienia kadrowania."
+
+#: 
+msgid "Enter your images SEO settings here below"
+msgstr "Poniżej możesz zmodyfikować swoje ustawienia SEO obrazków."
+
+#: 
+msgid "Supported expressions:"
+msgstr "Dostępne formuły:"
+
+#: 
+msgid "Crop qualities value is not valid, using default:"
+msgstr "Jakość kadrowania jest nieprawidłowa. Przywrócono domyślną:"
+
+#: 
+msgid "Close"
+msgstr "Zamknij"
+
+#: 
+msgid "Current"
+msgstr "Aktualny"
+
+#: 
+msgid "This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it"
+msgstr "Kadrowany obszar jest w rzeczywistości mniejszy od wymaganego. Możesz zastąpić oryginalny obrazek na potrzeby kadrowania tego formatu za pomocą przycisku po lewej stronie."
+
+#: 
+msgid "Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button on the left"
+msgstr "Nie można dokonać kadrowania, ponieważ oryginalny obrazek jest za mały. Zostanie użyty aktualny rozmiar obrazka. Możesz zastąpić oryginalny obrazek na potrzeby kadrowania tego formatu za pomocą przycisku po lewej stronie."
+
+#: 
+msgid "Crop not generated yet, use the crop button here below to generate it"
+msgstr "Nie dokonano jeszcze kadrowania. Użyj przycisku poniżej, aby to zrobić."
+
+#: 
+msgid "Crop preview"
+msgstr "Podgląd kadrowania"
+
+#: 
+msgid "Replace image source for"
+msgstr "Zastąp obrazek dla"
+
+#: 
+msgid "Replace"
+msgstr "Zastąp"
+
+#: 
+msgid "Restore original image source for"
+msgstr "Zastąp oryginalny obrazek dla"
+
+#: 
+msgid "Restore"
+msgstr "Przywróć"
+
+#: 
+msgid "Crop quality"
+msgstr "Jakość kadrowania"
+
+#: 
+msgid "Crop"
+msgstr "Kadruj"
+
+#: 
+msgid "The sizes listed below are the crop and resize formats defined by "
+msgstr "Wyświetlane poniżej rozmiary kadrowania i zmiany rozmiaru dla formatów zostały określone w "
+
+#: 
+msgid "Width"
+msgstr "Szerokość"
+
+#: 
+msgid "Height"
+msgstr "Wysokość"
+
+#: 
+msgid "Max Width"
+msgstr "Maks. szerokość"
+
+#: 
+msgid "Max Height"
+msgstr "Maks. wysokość"
+
+#: 
+msgid "Type:"
+msgstr "Rodzaj:"
+
+#: 
+msgid "Hard cropped"
+msgstr "Kadrowanie twarde"
+
+#: 
+msgid "Resized"
+msgstr "Zmiana rozmiaru"
+
+#: 
+msgid "Hard cropped image"
+msgstr "Twardo wykadrowany obrazek"
+
+#: 
+msgid "this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped"
+msgstr "Ten rodzaj rozmiaru obrazka zawiera tylko fragment oryginalnego obrazka. Posiada on stałą wysokość oraz szerokość, a więc również stosunek wymiarów. Kadrowane są przykładowo miniaturki."
+
+#: 
+msgid "Resized image"
+msgstr "Obrazek ze zmienionym rozmiarem"
+
+#: 
+msgid "this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed"
+msgstr "Ten rodzaj rozmiaru obrazka nie jest kadrowany. Natomiast jest skalowany w celu wypełnienia całej maksymalnej przestrzeni na wysokość bądź szerokość, a więc jego stosunek wymiarów nie jest stały."
+
+#: 
+msgid "doesn't define any additional image size using the standard Wordpress functions (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> and <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)"
+msgstr "Nie określono dodatkowych rozmiarów obrazków za pomocą funkcji WordPress'a (<a href=\"http://codex.wordpress.org/Function_Reference/add_image_size\" target=\"_blank\">add_image_size</a> oraz <a href=\"http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size\" target=\"_blank\">set_post_thumbnail_size</a>)."
+
+#: 
+msgid "Edit crop formats"
+msgstr "Kadrowanie formatów"
+
+#. Ma la spunta che abilita il crop praticamente abilita il plugin? cioè potrei usarlo solo per la parte SEO?
+#: 
+msgid "Crop settings"
+msgstr "Ustawienia kadrowania"
+
+#: 
+msgid "Enable"
+msgstr "Aktywne"
+
+#: 
+msgid "If checked cropping is active"
+msgstr "Określa, czy kadrowanie jest aktywne."
+
+#: 
+msgid "Comma separated list of crop quality values (100 best to 50 medium)"
+msgstr "Lista wartości jakości kadrowania rozdzielona przecinkami (100 - najlepsza, 50 - średnia itd.)."
+
+#: 
+msgid "If checked title will be replaced with the expression here below"
+msgstr "Określa, czy tytuł ma być zastępowany według poniższego wzorca."
+
+#: 
+msgid "expression used to replace the title, accepted values are:"
+msgstr "Wzorzec wykorzystywany do zastępowania tytułu. Dostępne formuły:"
+
+#: 
+msgid "If checked alt will be replaced with the expression here below"
+msgstr "Określa, czy alternatywa ma być zastępowana według poniższego wzorca."
+
+#: 
+msgid "expression used to replace the alt, accepted values are:"
+msgstr "Wzorzec wykorzystywany do zastępowania alternatywy. Dostępne formuły:"
+
+#: 
+msgid "If checked the filename will be replaced with the expression here below"
+msgstr "Określa, czy nazwa pliku ma być zastępowana według poniższego wzorca."
+
+#: 
+msgid "expression used to replace the filename, accepted values are:"
+msgstr "Wzorzec wykorzystywany do zastępowania nazwy pliku. Dostępne formuły:"
+
+#: 
+msgid "title expression is not valid, using default:"
+msgstr "Wzorzec tytułu jest nieprawidłowy. Przywrócono domyślny:"
+
+#: 
+msgid "alt expression is not valid, using default:"
+msgstr "Wzorzec alternatywy jest nieprawidłowy. Przywrócono domyślny:"
+
+#: 
+msgid "filename expression is not valid, using default:"
+msgstr "Wzorzec nazwy pliku jest nieprawidłowy. Przywrócono domyślny:"
+
+#. context? non sono riuscita a trovarla..
+#: 
+msgid "Edit crop formats from full image"
+msgstr "Kadrowanie formatów z pełnego rozmiaru obrazka"
+
+#: 
+msgid "Image sizes are defined by the current theme"
+msgstr "Rozmiary obrazków określone przez aktywny motyw"
+
+#: 
+msgid "Retina cropping enabled"
+msgstr "Kadrowanie Retina aktywne."
+
+#: 
+msgid "This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again."
+msgstr "Kadrowanie jest zbyt małe, by móc stworzyć wersję Retina tego obrazka. Możesz zastąpić oryginalny obrazek na potrzeby kadrowania tego formatu za pomocą przycisku po lewej stronie, a następnie ponownie go wykadrować."
+
+#: 
+msgid "Retina friendly"
+msgstr "Wsparcie Retina"
+
+#: 
+msgid "Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>)"
+msgstr "Aktywuj oflagowanie (użyj tej opcji, jeżeli korzystasz z wtyczki tworzącej obrazki Retina według wzorca @2x w nazewnictwie pliku - przykładowo <a href=\"https://wordpress.org/plugins/wp-retina-2x/\" target=\"_blank\">WP Retina 2x</a>)."
+
+#: 
+msgid "[author_username]"
+msgstr "[login_autora]"
+
+#: 
+msgid "[author_firstname]"
+msgstr "[imie_autora]"
+
+#: 
+msgid "[author_lastname]"
+msgstr "[nazwisko_autora]"
+
+#: 
+msgid "Free stock images search"
+msgstr "Baza darmowych obrazków"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms.<br/>Images source: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, see Splashbase T&C for more info."
+msgstr "Ustawienia bazy darmowych obrazków.<br/>Proszę pamiętać, by podczas wyszukiwania używać angielskich zwrotów.<br/>Źródło obrazków: <a href=\"http://www.splashbase.co/\" target=\"_blank\">www.splashbase.co</a>, dowiedz się więcej na Splashbase T&C."
+
+#: 
+msgid "If checked free stock images search is active"
+msgstr "Określa, czy baza darmowych obrazków jest aktywna."
+
+#: 
+msgid "Search"
+msgstr "Szukaj"
+
+#: 
+msgid "Upload"
+msgstr "Prześlij"
+
+#: 
+msgid "Search free stock images from www.splashbase.co"
+msgstr "Baza darmowych obrazków z www.splashbase.co "
+
+#: 
+msgid "No results for:"
+msgstr "Brak wyników dla:"
+
+#: 
+msgid "An error has occurred, please try again later or check the console logs for further information"
+msgstr "Wystąpił błąd, proszę spróbować ponownie później lub sprawdzić konsolę błędów, aby uzyskać dodatkowe informacje."
+
+#: 
+msgid "via"
+msgstr "poprzez"
+
+#: 
+msgid "site"
+msgstr "strona"
+
+#: 
+msgid "copyright"
+msgstr "prawa autorskie"
+
+#: 
+msgid "author"
+msgstr "autor"
+
+#: 
+msgid "source"
+msgstr "źródło"
+
+#: 
+msgid "Cannot get results from:"
+msgstr "Nie można uzyskać wyników z:"
+
+#: 
+msgid "Search free stock images from"
+msgstr "Szukaj darmowych obrazków na"
+
+#: 
+msgid "The uploaded file could not be moved to %s."
+msgstr "Przesłany plik nie mógł zostać przeniesiony do %s."
+
+#: 
+msgid "The uploaded file is not a valid image. Please try again."
+msgstr "Przesłany plik nie jest poprawnym obrazkiem. Proszę spróbować ponownie."
+
+#: 
+msgid "Close crop panel"
+msgstr "Zamknij panel kadrowania"
+
+#: 
+msgid "see T&C for more info."
+msgstr " dowiedz się więcej na T&C."
+
+#: 
+msgid "Images sources:"
+msgstr "Źródła obrazków:"
+
+#: 
+msgid "Free stock images search settings.<br/>Please note that searches are performed in english therefore use english search terms."
+msgstr "Ustawienia wyszukiwania w bazie darmowych obrazków.<br/>Proszę pamiętać, by podczas wyszukiwania używać angielskich zwrotów."
+
+#: 
+msgid "Unknown module"
+msgstr "Nieznany moduł"
+
+#: 
+msgid "This YoImages' module is not active or installed, please activate it in the plugins administration page or install it from here:"
+msgstr "Ten moduł YoImages nie jest aktywny bądź zainstalowany, proszę go włączyć na stronie administracyjnej wtyczek lub doinstalować stąd:"
+
+#: 
+msgid "You are trying to access a YoImages' module that has no settings page"
+msgstr "Próbujesz uzyskać dostęp do modułu YoImages, który nie posiada strony ustawień"
+
+#: 
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: 
+msgid "Page"
+msgstr "Strony"
+
