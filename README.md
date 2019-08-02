@@ -49,6 +49,9 @@ Special thank to Sirulli (email : team@sirulli.org) for the basics of this plugi
 
 For future contributors, please read our [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md)
 
+Header photo by [John Lee on Unsplash](https://unsplash.com/@john_artifexfilms?utm_medium=referral&utm_campaign=photographer-credit&utm_content=creditBadge)<br/>
+[![Header photo by John Lee on Unsplash](https://img.shields.io/badge/John%20Lee-black.svg?style=flat-square&logo=unsplash&logoWidth=10)](https://unsplash.com/@john_artifexfilms?utm_medium=referral&utm_campaign=photographer-credit&utm_content=creditBadge)
+
 ## 🆓 License
 
 Woody Crop is open-sourced software licensed under the [GPL2](LICENSE).
