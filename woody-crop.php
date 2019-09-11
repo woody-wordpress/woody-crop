@@ -3,7 +3,6 @@
 /**
  * Plugin Name: Woody Crop
  * Plugin URI: https://github.com/woody-wordpress/woody-crop
- * Version: 1.1.2
  * Description: Optimized fork of the YoImages plugin to manage the image crop of the same ratio
  * Author: Raccourci Agency
  * Author URI: https://www.raccourci.fr
