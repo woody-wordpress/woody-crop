@@ -33,6 +33,7 @@ if (is_admin() || php_sapi_name() == 'cli') {
     require_once(YOIMG_CROP_PATH . '/utils.php');
     if (YOIMG_CROP_ENABLED) {
         require_once(YOIMG_CROP_PATH . '/image-editor.php');
+        require_once(YOIMG_CROP_PATH . '/image-crop-command.php');
         require_once(YOIMG_CROP_PATH . '/extend-admin-media.php');
         require_once(YOIMG_CROP_PATH . '/extend-admin-media-lightbox.php');
         require_once(YOIMG_CROP_PATH . '/extend-admin-post.php');
