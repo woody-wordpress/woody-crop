@@ -1,29 +1,35 @@
 <?php
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     die('No script kiddies please!');
 }
 
+define('YOIMG_CROP_PATH', dirname(__FILE__));
+define('YOIMG_DEFAULT_CROP_ENABLED', true);
+define('YOIMG_DEFAULT_CROP_QUALITIES', serialize(array(
+    100,
+    80,
+    60
+)));
+$yoimg_crop_settings = get_option('yoimg_crop_settings');
+
+define('YOIMG_CROP_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings['cropping_is_active']) ? $yoimg_crop_settings['cropping_is_active'] : YOIMG_DEFAULT_CROP_ENABLED);
+define('YOIMG_WEBP_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings['webp_is_active']) ? $yoimg_crop_settings['webp_is_active'] : false);
+define('YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails');
+define('YOIMG_DEFAULT_CROP_RETINA_ENABLED', false);
+define('YOIMG_DEFAULT_CROP_SAMERATIO_ENABLED', false);
+define('YOIMG_DEFAULT_CACHEBUSTER_ENABLED', false);
+define('YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings['retina_cropping_is_active']) ? $yoimg_crop_settings['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED);
+define('YOIMG_CROP_SAMERATIO_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings['sameratio_cropping_is_active']) ? $yoimg_crop_settings['sameratio_cropping_is_active'] : YOIMG_DEFAULT_CROP_SAMERATIO_ENABLED);
+define('YOIMG_CACHEBUSTER_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings['cachebuster_is_active']) ? $yoimg_crop_settings['cachebuster_is_active'] : YOIMG_DEFAULT_CACHEBUSTER_ENABLED);
+define('YOIMG_CROP_URL', plugins_url(plugin_basename(YOIMG_CROP_PATH)));
+
+// Enable public API
+if (YOIMG_CROP_ENABLED) {
+    require_once(YOIMG_CROP_PATH . '/image-crop-api.php');
+}
+
+// Backend methods
 if (is_admin() || php_sapi_name() == 'cli') {
-    define('YOIMG_CROP_PATH', dirname(__FILE__));
-
-    define('YOIMG_DEFAULT_CROP_ENABLED', true);
-    define('YOIMG_DEFAULT_CROP_QUALITIES', serialize(array(
-            100,
-            80,
-            60
-    )));
-    $yoimg_crop_settings = get_option('yoimg_crop_settings');
-
-    define('YOIMG_CROP_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings ['cropping_is_active']) ? $yoimg_crop_settings ['cropping_is_active'] : YOIMG_DEFAULT_CROP_ENABLED);
-    define('YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails');
-    define('YOIMG_DEFAULT_CROP_RETINA_ENABLED', false);
-    define('YOIMG_DEFAULT_CROP_SAMERATIO_ENABLED', false);
-    define('YOIMG_DEFAULT_CACHEBUSTER_ENABLED', false);
-    define('YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings ['retina_cropping_is_active']) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED);
-    define('YOIMG_CROP_SAMERATIO_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings ['sameratio_cropping_is_active']) ? $yoimg_crop_settings ['sameratio_cropping_is_active'] : YOIMG_DEFAULT_CROP_SAMERATIO_ENABLED);
-    define('YOIMG_CACHEBUSTER_ENABLED', $yoimg_crop_settings && isset($yoimg_crop_settings ['cachebuster_is_active']) ? $yoimg_crop_settings ['cachebuster_is_active'] : YOIMG_DEFAULT_CACHEBUSTER_ENABLED);
-    define('YOIMG_CROP_URL', plugins_url(plugin_basename(YOIMG_CROP_PATH)));
-
     require_once(YOIMG_CROP_PATH . '/utils.php');
     if (YOIMG_CROP_ENABLED) {
         require_once(YOIMG_CROP_PATH . '/image-editor.php');
@@ -44,11 +50,11 @@ function yoimg_crop_load_styles_and_scripts($hook)
             // issue http://stackoverflow.com/questions/25884434/wordpress-wp-enqueue-media-causes-javascript-error-from-wp-admin-upload-phpmo
             $mode = get_user_option('media_library_mode', get_current_user_id()) ? get_user_option('media_library_mode', get_current_user_id()) : 'grid';
             $modes = array(
-                    'grid',
-                    'list'
+                'grid',
+                'list'
             );
-            if (isset($_GET ['mode']) && in_array($_GET ['mode'], $modes)) {
-                $mode = $_GET ['mode'];
+            if (isset($_GET['mode']) && in_array($_GET['mode'], $modes)) {
+                $mode = $_GET['mode'];
                 update_user_option(get_current_user_id(), 'media_library_mode', $mode);
             }
             if ('list' === $mode) {
@@ -67,10 +73,10 @@ function yoimg_crop_load_styles_and_scripts($hook)
         wp_enqueue_style('yoimg-cropper-css', YOIMG_CROP_URL . '/js/cropper/cropper.min.css');
         wp_enqueue_script('wp-pointer');
         wp_enqueue_script('yoimg-cropper-js', YOIMG_CROP_URL . '/js/cropper/cropper.min.js', array(
-                'jquery'
+            'jquery'
         ), false, true);
         wp_enqueue_script('yoimg-cropping-js', YOIMG_CROP_URL . '/js/yoimg-cropping.min.js', array(
-                'yoimg-cropper-js'
+            'yoimg-cropper-js'
         ), false, true);
     }
 }
@@ -80,9 +86,23 @@ add_action('admin_enqueue_scripts', 'yoimg_crop_load_styles_and_scripts');
 function action_delete_attachment($post_id)
 {
     $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($post_id));
+
+    // Remove WebP files
+    if (!empty($attachment_metadata) && !empty($attachment_metadata['sizes'])) {
+        foreach ($attachment_metadata['sizes'] as $ratio) {
+            if (strpos($ratio['file'], 'wp-json') !== false && file_exists($ratio['file'] . '.webp')) {
+                wp_delete_file($ratio['file'] . '.webp');
+            }
+        }
+    }
+
     if (!empty($attachment_metadata) && !empty($attachment_metadata['yoimg_attachment_metadata']['history'])) {
         foreach ($attachment_metadata['yoimg_attachment_metadata']['history'] as $file) {
             wp_delete_file($file);
+
+            if (file_exists($file . '.webp')) {
+                wp_delete_file($file . '.webp');
+            }
         }
     }
 };
