@@ -53,23 +53,44 @@ function yoimg_api(WP_REST_Request $request)
     $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
 
     if (!empty($_wp_additional_image_sizes[$ratio_name])) {
-        $size = $_wp_additional_image_sizes[$ratio_name];
+        // Get metadata
+        $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($attachment_id));
+
+        // Define size from crop OR from default
+        if (!empty($attachment_metadata['yoimg_attachment_metadata']['crop'][$ratio_name])) {
+            $size = $attachment_metadata['yoimg_attachment_metadata']['crop'][$ratio_name];
+            $size['req_width'] = $size['width'];
+            $size['req_height'] = $size['height'];
+            $size['width'] = $_wp_additional_image_sizes[$ratio_name]['width'];
+            $size['height'] = $_wp_additional_image_sizes[$ratio_name]['height'];
+        } else {
+            $size = $_wp_additional_image_sizes[$ratio_name];
+        }
 
         // Default 404
         $image_url = 'https://api.tourism-system.com/resize/clip/' . $size['width'] . '/' . $size['height'] . '/70/aHR0cHM6Ly9hcGkudG91cmlzbS1zeXN0ZW0uY29tL3N0YXRpYy9hc3NldHMvaW1hZ2VzL3Jlc2l6ZXIvaW1nXzQwNC5qcGc=/404.jpg';
 
-        // Get metadata
-        $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($attachment_id));
+        // Crop image OR return image url
         if (!empty($attachment_metadata['file'])) {
             $img_path = WP_UPLOAD_DIR . '/' . $attachment_metadata['file'];
+
+            // Get infos from original image
+            $img_path_parts = pathinfo($img_path);
+
             if (file_exists($img_path) && exif_imagetype($img_path)) {
-                if ($force || empty($attachment_metadata['sizes'][$ratio_name]) || strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
+                if (
+                    $force ||
+                    empty($attachment_metadata['sizes'][$ratio_name]) ||
+                    empty($attachment_metadata['sizes'][$ratio_name]['file']) ||
+                    strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false ||
+                    !file_exists($img_path_parts['dirname'] . '/' . $attachment_metadata['sizes'][$ratio_name]['file'])
+                ) {
                     $cropped_image_path = yoimg_api_crop_from_size($img_path, $size, $force);
 
                     // Get Image cropped data
                     if (file_exists($cropped_image_path)) {
                         $img_cropped_parts = pathinfo($cropped_image_path);
-                        $image_crop = $img_cropped_parts['basename'];
+                        $image_crop = 'thumbs/' . $img_cropped_parts['basename'];
 
                         // Save History for cleaning
                         $attachment_metadata['yoimg_attachment_metadata']['history'][] = $cropped_image_path;
@@ -92,6 +113,9 @@ function yoimg_api(WP_REST_Request $request)
     }
 
     if (!empty($image_url)) {
+        // header('Content-type: text/html');
+        // print $image_url . '<br><br>';
+        // print '<img src="' . $image_url . '">';
         wp_redirect($image_url, 301);
     } else {
         header('HTTP/1.0 404 Not Found');
@@ -123,7 +147,7 @@ function yoimg_api_debug(WP_REST_Request $request)
                 continue;
             }
             print '<h2>' . $ratio . '</h2>';
-            print '<p><img style="max-width:50%" src="/wp-json/woody/crop/' . $attachment_id . '/' . $ratio . '_force" title="' . $ratio . '" alt="' . $ratio . '"></p>';
+            print '<p><img style="max-width:50%" src="/wp-json/woody/crop/' . $attachment_id . '/' . $ratio . '" title="' . $ratio . '" alt="' . $ratio . '"></p>';
         }
     }
     print '</body></html>';
@@ -135,48 +159,69 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     // Get infos from original image
     $img_path_parts = pathinfo($img_path);
 
+    // Set filename
+    $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';
+
     // get the size of the image
     list($width_orig, $height_orig) = @getimagesize($img_path);
+
     if (!empty($width_orig) && !empty($height_orig)) {
-        $ratio_orig = (float) $height_orig / $width_orig;
+        if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
+            // Crop already set
+            $req_x = $size['x'];
+            $req_y = $size['y'];
+            $req_width = $size['req_width'];
+            $req_height = $size['req_height'];
 
-        // Ratio Free
-        if ($size['height'] == 0) {
-            $req_width = $width_orig;
-            $req_height = $height_orig;
+            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height']  . '-crop-' . time() . '.' . $img_path_parts['extension'];
+            $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
+        } else {
 
-            if ($ratio_orig == 1) {
-                $size['height'] = $size['width'];
-            } else {
-                $size['height'] = round($size['width'] * $ratio_orig);
+            $ratio_orig = (float) $height_orig / $width_orig;
+
+            // Ratio Free
+            if ($size['height'] == 0) {
+                $req_width = $width_orig;
+                $req_height = $height_orig;
+
+                if ($ratio_orig == 1) {
+                    $size['height'] = $size['width'];
+                } else {
+                    $size['height'] = round($size['width'] * $ratio_orig);
+                }
             }
+
+            // Get ratio diff
+            $ratio_expect = (float) $size['height'] / $size['width'];
+            $ratio_diff = $ratio_orig - $ratio_expect;
+
+            // Calcul du crop size
+            if ($ratio_diff > 0) {
+                $req_width = $width_orig;
+                $req_height = round($width_orig * $ratio_expect);
+                $req_x = 0;
+                $req_y = round(($height_orig - $req_height) / 2);
+            } elseif ($ratio_diff < 0) {
+                $req_width = round($height_orig / $ratio_expect);
+                $req_height = $height_orig;
+                $req_x = round(($width_orig - $req_width) / 2);
+                $req_y = 0;
+            } elseif ($ratio_diff == 0) {
+                $req_width = $width_orig;
+                $req_height = $height_orig;
+                $req_x = 0;
+                $req_y = 0;
+            }
+
+            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height'] . '.' . $img_path_parts['extension'];
+            $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
         }
 
-        // Get ratio diff
-        $ratio_expect = (float) $size['height'] / $size['width'];
-        $ratio_diff = $ratio_orig - $ratio_expect;
-
-        // Calcul du crop size
-        if ($ratio_diff > 0) {
-            $req_width = $width_orig;
-            $req_height = round($width_orig * $ratio_expect);
-            $req_x = 0;
-            $req_y = round(($height_orig - $req_height) / 2);
-        } elseif ($ratio_diff < 0) {
-            $req_width = round($height_orig / $ratio_expect);
-            $req_height = $height_orig;
-            $req_x = round(($width_orig - $req_width) / 2);
-            $req_y = 0;
-        } elseif ($ratio_diff == 0) {
-            $req_width = $width_orig;
-            $req_height = $height_orig;
-            $req_x = 0;
-            $req_y = 0;
+        // Create thumbs dir if not exists
+        if (!file_exists($cropped_image_dirname)) {
+            mkdir($cropped_image_dirname);
         }
 
-        // Set filename
-        $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height'] . '.' . $img_path_parts['extension'];
-        $cropped_image_path = $img_path_parts['dirname'] . '/' . $cropped_image_filename;
         if (file_exists($cropped_image_path)) {
             if ($force) {
                 // Remove image before recreate

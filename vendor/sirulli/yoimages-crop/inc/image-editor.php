@@ -117,22 +117,28 @@ function yoimg_save_this_image($vars)
 {
     extract($vars);
     $img_path_parts = pathinfo($img_path);
+    $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';
+
+    // Create thumbs dir if not exists
+    if (!file_exists($cropped_image_dirname)) {
+        mkdir($cropped_image_dirname);
+    }
 
     // Retina Save
     if ($yoimg_retina_crop_enabled) {
         $cropped_retina_image_filename = yoimg_get_cropped_image_filename($img_path_parts['filename'], $crop_width, $crop_height, $img_path_parts['extension'], true);
-        $cropped_retina_image_path = $img_path_parts['dirname'] . '/' . $cropped_retina_image_filename;
+        $cropped_retina_image_path = $cropped_image_dirname . '/' . $cropped_retina_image_filename;
         yoimg_api_crop($img_path, $cropped_retina_image_path, $req_x, $req_y, $req_width, $req_height, $crop_width * 2, $crop_height * 2);
     }
 
     // Orginal Save
     $cropped_image_filename = yoimg_get_cropped_image_filename($img_path_parts['filename'], $crop_width, $crop_height, $img_path_parts['extension']);
-    $cropped_image_path = $img_path_parts['dirname'] . '/' . $cropped_image_filename;
+    $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
     yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $crop_width, $crop_height);
 
     // Updated attachment_metadata
     $attachment_metadata['sizes'][$req_size] = array(
-        'file' => $cropped_image_filename,
+        'file' => 'thumbs/' . $cropped_image_filename,
         'width' => $crop_width,
         'height' => $crop_height,
         'mime-type' => $attachment_metadata['sizes']['thumbnail']['mime-type']
@@ -151,9 +157,9 @@ function yoimg_save_this_image($vars)
     }
 
     // Save History for cleaning
-    $attachment_metadata['yoimg_attachment_metadata']['history'][] = $img_path_parts['dirname'] . '/' . $cropped_image_filename;
+    $attachment_metadata['yoimg_attachment_metadata']['history'][] = $cropped_image_dirname . '/' . $cropped_image_filename;
     if (!empty($pre_crop_filename)) {
-        $attachment_metadata['yoimg_attachment_metadata']['history'][] = $img_path_parts['dirname'] . '/' . $pre_crop_filename;
+        $attachment_metadata['yoimg_attachment_metadata']['history'][] = $cropped_image_dirname . '/' . $pre_crop_filename;
     }
 
     wp_update_attachment_metadata($req_post, $attachment_metadata);
