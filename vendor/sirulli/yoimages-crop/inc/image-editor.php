@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     die('No script kiddies please!');
 }
 
@@ -17,7 +17,7 @@ function yoimg_crop_image()
     );
     $_args          = array();
     foreach ($_required_args as $_key) {
-        $_args[ $_key ] = esc_html($_POST[ $_key ]);
+        $_args[$_key] = esc_html($_POST[$_key]);
     }
     do_action('yoimg_pre_crop_image');
     $result = yoimg_crop_this_image($_args);
@@ -29,12 +29,12 @@ function yoimg_crop_this_image($args)
 {
     $req_post = esc_html($args['post']);
     if (current_user_can('edit_post', $req_post)) {
-        $req_size                  = esc_html($args[ 'size' ]);
-        $req_width                 = esc_html($args[ 'width' ]);
-        $req_height                = esc_html($args[ 'height' ]);
-        $req_x                     = esc_html($args[ 'x' ]);
-        $req_y                     = esc_html($args[ 'y' ]);
-        $req_quality               = esc_html($args[ 'quality' ]);
+        $req_size                  = esc_html($args['size']);
+        $req_width                 = esc_html($args['width']);
+        $req_height                = esc_html($args['height']);
+        $req_x                     = esc_html($args['x']);
+        $req_y                     = esc_html($args['y']);
+        $req_quality               = esc_html($args['quality']);
         $yoimg_retina_crop_enabled = yoimg_is_retina_crop_enabled_for_size($req_size);
         $attachment_metadata       = maybe_unserialize(wp_get_attachment_metadata($req_post));
         $pre_crop_filename         = $attachment_metadata['sizes'][$req_size]['file'];
@@ -117,32 +117,28 @@ function yoimg_save_this_image($vars)
 {
     extract($vars);
     $img_path_parts = pathinfo($img_path);
+    $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';
+
+    // Create thumbs dir if not exists
+    if (!file_exists($cropped_image_dirname)) {
+        mkdir($cropped_image_dirname);
+    }
 
     // Retina Save
     if ($yoimg_retina_crop_enabled) {
         $cropped_retina_image_filename = yoimg_get_cropped_image_filename($img_path_parts['filename'], $crop_width, $crop_height, $img_path_parts['extension'], true);
-        $cropped_retina_image_path = $img_path_parts['dirname'] . '/' . $cropped_retina_image_filename;
-
-        $img_editor = wp_get_image_editor($img_path);
-        $img_editor->crop($req_x, $req_y, $req_width, $req_height, $crop_width * 2, $crop_height * 2, false);
-        $img_editor->set_quality($req_quality);
-        $img_editor->save($cropped_retina_image_path);
-        unset($img_editor);
+        $cropped_retina_image_path = $cropped_image_dirname . '/' . $cropped_retina_image_filename;
+        yoimg_api_crop($img_path, $cropped_retina_image_path, $req_x, $req_y, $req_width, $req_height, $crop_width * 2, $crop_height * 2);
     }
 
     // Orginal Save
     $cropped_image_filename = yoimg_get_cropped_image_filename($img_path_parts['filename'], $crop_width, $crop_height, $img_path_parts['extension']);
-    $cropped_image_path = $img_path_parts['dirname'] . '/' . $cropped_image_filename;
-
-    $img_editor = wp_get_image_editor($img_path);
-    $img_editor->crop($req_x, $req_y, $req_width, $req_height, $crop_width, $crop_height, false);
-    $img_editor->set_quality($req_quality);
-    $img_editor->save($cropped_image_path);
-    unset($img_editor);
+    $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
+    yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $crop_width, $crop_height);
 
     // Updated attachment_metadata
     $attachment_metadata['sizes'][$req_size] = array(
-        'file' => $cropped_image_filename,
+        'file' => 'thumbs/' . $cropped_image_filename,
         'width' => $crop_width,
         'height' => $crop_height,
         'mime-type' => $attachment_metadata['sizes']['thumbnail']['mime-type']
@@ -161,9 +157,9 @@ function yoimg_save_this_image($vars)
     }
 
     // Save History for cleaning
-    $attachment_metadata['yoimg_attachment_metadata']['history'][] = $img_path_parts['dirname'] . '/' . $cropped_image_filename;
+    $attachment_metadata['yoimg_attachment_metadata']['history'][] = $cropped_image_dirname . '/' . $cropped_image_filename;
     if (!empty($pre_crop_filename)) {
-        $attachment_metadata['yoimg_attachment_metadata']['history'][] = $img_path_parts['dirname'] . '/' . $pre_crop_filename;
+        $attachment_metadata['yoimg_attachment_metadata']['history'][] = $cropped_image_dirname . '/' . $pre_crop_filename;
     }
 
     wp_update_attachment_metadata($req_post, $attachment_metadata);
@@ -175,8 +171,8 @@ function yoimg_edit_thumbnails_page()
 {
     global $yoimg_image_id;
     global $yoimg_image_size;
-    $yoimg_image_id = esc_html($_GET ['post']);
-    $yoimg_image_size = esc_html($_GET ['size']);
+    $yoimg_image_id = esc_html($_GET['post']);
+    $yoimg_image_size = esc_html($_GET['size']);
 
     $sizes = yoimg_get_image_sizes();
     $sizes = yoimg_get_sameratio_sizes($sizes);
@@ -187,7 +183,7 @@ function yoimg_edit_thumbnails_page()
             if ($size_key == $yoimg_image_size) {
                 $size = $size_key;
                 break;
-            } elseif (! $size) {
+            } elseif (!$size) {
                 $size = $size_key;
             }
         }
