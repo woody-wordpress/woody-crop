@@ -112,9 +112,6 @@ function yoimg_api(WP_REST_Request $request)
     }
 
     if (!empty($image_url)) {
-        // header('Content-type: text/html');
-        // print $image_url . '<br><br>';
-        // print '<img src="' . $image_url . '">';
         wp_redirect($image_url, 301);
     } else {
         header('HTTP/1.0 404 Not Found');
@@ -146,7 +143,7 @@ function yoimg_api_debug(WP_REST_Request $request)
                 continue;
             }
             print '<h2>' . $ratio . '</h2>';
-            print '<p><img style="max-width:50%" src="/wp-json/woody/crop/' . $attachment_id . '/' . $ratio . '" title="' . $ratio . '" alt="' . $ratio . '"></p>';
+            print '<p><img style="max-width:50%" src="/wp-json/woody/crop/' . $attachment_id . '/' . $ratio . '_force" title="' . $ratio . '" alt="' . $ratio . '"></p>';
         }
     }
     print '</body></html>';
