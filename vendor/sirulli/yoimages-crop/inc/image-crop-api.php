@@ -218,8 +218,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
 
         // Create thumbs dir if not exists
         if (!file_exists($cropped_image_dirname)) {
-            mkdir($cropped_image_dirname, 775);
-            chmod($cropped_image_dirname, 775);
+            mkdir($cropped_image_dirname, 0775);
         }
 
         if (file_exists($cropped_image_path)) {
