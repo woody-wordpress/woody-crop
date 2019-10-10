@@ -121,7 +121,7 @@ function yoimg_save_this_image($vars)
 
     // Create thumbs dir if not exists
     if (!file_exists($cropped_image_dirname)) {
-        mkdir($cropped_image_dirname);
+        mkdir($cropped_image_dirname, 0775);
     }
 
     // Retina Save
