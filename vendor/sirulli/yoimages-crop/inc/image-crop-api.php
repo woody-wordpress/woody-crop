@@ -107,6 +107,9 @@ function yoimg_api(WP_REST_Request $request)
                 }
 
                 $image_url = wp_get_attachment_image_url($attachment_id, $ratio_name);
+                if (strpos($image_url, 'wp-json') !== false) {
+                    $image_url = '';
+                }
             }
         }
     }
@@ -215,7 +218,8 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
 
         // Create thumbs dir if not exists
         if (!file_exists($cropped_image_dirname)) {
-            mkdir($cropped_image_dirname);
+            mkdir($cropped_image_dirname, 775);
+            chmod($cropped_image_dirname, 775);
         }
 
         if (file_exists($cropped_image_path)) {
