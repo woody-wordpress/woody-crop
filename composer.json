@@ -1,7 +1,7 @@
 {
     "name": "woody-wordpress/woody-crop",
     "type": "wordpress-plugin",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "Optimized fork of the YoImages plugin to manage the image crop of the same ratio",
     "license": "GPL-2.0",
     "authors": [

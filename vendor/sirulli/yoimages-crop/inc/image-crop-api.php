@@ -67,7 +67,7 @@ function yoimg_api(WP_REST_Request $request)
         }
 
         // Default 404
-        $image_url = 'https://api.tourism-system.com/resize/clip/' . $size['width'] . '/' . $size['height'] . '/70/aHR0cHM6Ly9hcGkudG91cmlzbS1zeXN0ZW0uY29tL3N0YXRpYy9hc3NldHMvaW1hZ2VzL3Jlc2l6ZXIvaW1nXzQwNC5qcGc=/404.jpg';
+        $image_url = '';
 
         // Crop image OR return image url
         if (!empty($attachment_metadata['file'])) {
@@ -107,17 +107,16 @@ function yoimg_api(WP_REST_Request $request)
                 }
 
                 $image_url = wp_get_attachment_image_url($attachment_id, $ratio_name);
-                if (strpos($image_url, 'wp-json') !== false) {
-                    $image_url = '';
-                }
             }
         }
     }
 
-    if (!empty($image_url)) {
+    if (!empty($image_url) && strpos($image_url, 'wp-json') == false) {
         wp_redirect($image_url, 301);
     } else {
-        header('HTTP/1.0 404 Not Found');
+        // Default 404
+        $image_url = 'https://api.tourism-system.com/resize/clip/' . $size['width'] . '/' . $size['height'] . '/70/aHR0cHM6Ly9hcGkudG91cmlzbS1zeXN0ZW0uY29tL3N0YXRpYy9hc3NldHMvaW1hZ2VzL3Jlc2l6ZXIvaW1nXzQwNC5qcGc=/404.jpg';
+        wp_redirect($image_url, 302);
     }
     exit;
 }
@@ -221,14 +220,9 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
             mkdir($cropped_image_dirname, 0775);
         }
 
-        if (file_exists($cropped_image_path)) {
-            if ($force) {
-                // Remove image before recreate
-                unlink($cropped_image_path);
-            } else {
-                $img_cropped_parts = pathinfo($cropped_image_path);
-                return $img_cropped_parts['basename'];
-            }
+        if (file_exists($cropped_image_path) && $force) {
+            // Remove image before recreate
+            unlink($cropped_image_path);
         }
 
         // Set webp filename
@@ -238,13 +232,13 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
             unlink($cropped_webp_path);
         }
 
-        yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $size['width'], $size['height'], $force);
+        yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $size['width'], $size['height']);
 
         return $cropped_image_path;
     }
 }
 
-function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $width, $height, $force = false)
+function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $width, $height)
 {
     // get the size of the image
     list($width_orig, $height_orig, $image_type) = @getimagesize($img_path);
