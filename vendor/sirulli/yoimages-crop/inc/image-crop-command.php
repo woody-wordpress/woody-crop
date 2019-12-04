@@ -29,29 +29,32 @@ function woodyRemoveCrops()
     foreach ($posts as $post) {
         // Get Mime-Type
         $attachment_metadata = $post['metadata'];
-        $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['metadata']['file']);
+        
+        if (file_exists(WP_UPLOAD_DIR . '/' . $post['metadata']['file'])) {
+            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['metadata']['file']);
 
-        foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
-            if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
-                continue;
-            }
+            foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
+                if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
+                    continue;
+                }
 
-            // Remplacer ou remplir la ligne par la crop API dans les metadatas
-            $attachment_metadata['sizes'][$ratio_name] = [
+                // Remplacer ou remplir la ligne par la crop API dans les metadatas
+                $attachment_metadata['sizes'][$ratio_name] = [
                 'file' => '../../../../../wp-json/woody/crop/' . $post['id'] . '/' . $ratio_name,
                 'height' => $data['height'],
                 'width' => $data['width'],
                 'mime-type' => $mime_type,
             ];
-        }
+            }
 
-        $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
+            $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
 
-        wp_update_attachment_metadata($post['id'], $attachment_metadata);
-        do_action('save_attachment', $post['id']);
+            wp_update_attachment_metadata($post['id'], $attachment_metadata);
+            do_action('save_attachment', $post['id']);
 
-        if (array_key_exists($post['file'], $medias_filesystem)) {
-            unset($medias_filesystem[$post['file']]);
+            if (array_key_exists($post['file'], $medias_filesystem)) {
+                unset($medias_filesystem[$post['file']]);
+            }
         }
 
         print sprintf('%s/%s : %s (%s)', $i, $total, $post['title'], $post['file']) . "\n";
