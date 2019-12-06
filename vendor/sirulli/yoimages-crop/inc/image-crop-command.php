@@ -29,9 +29,9 @@ function woodyRemoveCrops()
     foreach ($posts as $post) {
         // Get Mime-Type
         $attachment_metadata = $post['metadata'];
-        
-        if (file_exists(WP_UPLOAD_DIR . '/' . $post['metadata']['file'])) {
-            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['metadata']['file']);
+
+        if (file_exists(WP_UPLOAD_DIR . '/' . $post['file'])) {
+            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['file']);
 
             foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
                 if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
@@ -49,15 +49,19 @@ function woodyRemoveCrops()
 
             $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
 
-            wp_update_attachment_metadata($post['id'], $attachment_metadata);
-            do_action('save_attachment', $post['id']);
+            //wp_update_attachment_metadata($post['id'], $attachment_metadata);
+            //do_action('save_attachment', $post['id']);
 
-            if (array_key_exists($post['file'], $medias_filesystem)) {
-                unset($medias_filesystem[$post['file']]);
-            }
+            $action = 'Mise à jour';
+        } else {
+            $action = 'Ignoré';
         }
 
-        print sprintf('%s/%s : %s (%s)', $i, $total, $post['title'], $post['file']) . "\n";
+        if (array_key_exists($post['file'], $medias_filesystem)) {
+            unset($medias_filesystem[$post['file']]);
+        }
+
+        print sprintf('%s/%s : %s (%s)', $i, $total, $post['file'], $action) . "\n";
         $i++;
     }
 
