@@ -7,11 +7,12 @@ if (!defined('ABSPATH')) {
 }
 
 \WP_CLI::add_command('woody:remove_crops', 'woodyRemoveCrops');
+\WP_CLI::add_command('woody:debug_crops', 'woodyDebugCrops');
 
-function woodyRemoveCrops()
+
+function woodyDebugCrops()
 {
     $posts = woodyRemoveCrops_getPosts();
-    $medias_filesystem = woodyRemoveCrops_getMediasFileSystem();
 
     global $_wp_additional_image_sizes;
 
@@ -20,9 +21,86 @@ function woodyRemoveCrops()
     $_wp_additional_image_sizes['medium'] = ['height' => 300, 'width' => 300, 'crop' => true];
     $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
 
+
+    $total = count($posts);
+    $i = 1;
+    foreach ($posts as $post) {
+        // Get Mime-Type
+        $attachment_metadata = $post['metadata'];
+
+        if (empty($attachment_metadata['sizes'])) {
+            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['metadata']['file']);
+
+            foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
+                if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
+                    continue;
+                }
+
+                // Remplacer ou remplir la ligne par la crop API dans les metadatas
+                $attachment_metadata['sizes'][$ratio_name] = [
+                'file' => '../../../../../wp-json/woody/crop/' . $post['id'] . '/' . $ratio_name,
+                'height' => $data['height'],
+                'width' => $data['width'],
+                'mime-type' => $mime_type,
+            ];
+            }
+
+            $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
+
+            wp_update_attachment_metadata($post['id'], $attachment_metadata);
+            do_action('save_attachment', $post['id']);
+
+            print sprintf('%s/%s : %s (%s)', $i, $total, $post['title'], $post['file']) . "\n";
+        } else {
+            print sprintf('%s/%s - ', $i, $total) . "\n";
+        }
+        $i++;
+    }
+}
+
+function woodyRemoveCrops()
+{
+    $posts = woodyRemoveCrops_getPosts();
+    $medias_filesystem = woodyRemoveCrops_getMediasFileSystem();
+
+    $total = count($medias_filesystem);
+    if (!empty($total)) {
+        print '-------------------------------' . "\n";
+        print 'SUPPRESSION DES IMAGES CROPEES' . "\n";
+        print '-------------------------------' . "\n";
+
+        foreach ($posts as $post) {
+            if (array_key_exists($post['file'], $medias_filesystem)) {
+                unset($medias_filesystem[$post['file']]);
+            }
+        }
+
+        $i = 1;
+        $total_filesize = 0;
+        foreach ($medias_filesystem as $file => $path) {
+            $filesize = filesize($path);
+            print sprintf('%s/%s : %s (%s)', $i, $total, $file, human_filesize($filesize)) . "\n";
+            unlink($path);
+
+            $i++;
+            $total_filesize += $filesize;
+        }
+
+        print '****************' . "\n";
+        print 'Free Space : ' . human_filesize($total_filesize);
+    }
+
     print '---------------------------' . "\n";
     print 'REECRITURE DES METADONNEES' . "\n";
     print '---------------------------' . "\n";
+
+    global $_wp_additional_image_sizes;
+
+    // Added default sizes
+    $_wp_additional_image_sizes['thumbnail'] = ['height' => 150, 'width' => 150, 'crop' => true];
+    $_wp_additional_image_sizes['medium'] = ['height' => 300, 'width' => 300, 'crop' => true];
+    $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
+
 
     $total = count($posts);
     $i = 1;
@@ -48,35 +126,12 @@ function woodyRemoveCrops()
         $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
 
         wp_update_attachment_metadata($post['id'], $attachment_metadata);
+        
+        // Launch sync with every post languages
         do_action('save_attachment', $post['id']);
-
-        if (array_key_exists($post['file'], $medias_filesystem)) {
-            unset($medias_filesystem[$post['file']]);
-        }
 
         print sprintf('%s/%s : %s (%s)', $i, $total, $post['title'], $post['file']) . "\n";
         $i++;
-    }
-
-    $total = count($medias_filesystem);
-    if (!empty($total)) {
-        print '-------------------------------' . "\n";
-        print 'SUPPRESSION DES IMAGES CROPEES' . "\n";
-        print '-------------------------------' . "\n";
-
-        $i = 1;
-        $total_filesize = 0;
-        foreach ($medias_filesystem as $file => $path) {
-            $filesize = filesize($path);
-            print sprintf('%s/%s : %s (%s)', $i, $total, $file, human_filesize($filesize)) . "\n";
-            unlink($path);
-
-            $i++;
-            $total_filesize += $filesize;
-        }
-
-        print '****************' . "\n";
-        print 'Free Space : ' . human_filesize($total_filesize);
     }
 }
 
