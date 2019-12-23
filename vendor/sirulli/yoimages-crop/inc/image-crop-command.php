@@ -141,7 +141,7 @@ function woodyRemoveCrops()
 function woodyRemoveCrops_getPosts()
 {
     $args = [
-        'lang' => PLL_DEFAULT_LANG, // request all languages
+        'lang' => '', // request all languages
         'posts_per_page' => -1,
         //'posts_per_page' => 5,
         'post_status' => 'inherit',
