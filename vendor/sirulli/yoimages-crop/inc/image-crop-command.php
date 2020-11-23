@@ -245,7 +245,7 @@ function woodyCrop_removeOrphans($existing_original_files = [], $force = false)
     $finder = new Finder();
     $finder->files()->in(WP_UPLOAD_DIR)->name(['*.jpeg', '*.jpg', '*.gif', '*.bmp', '*.png', '*.svg', '*.webp']);
     foreach ($finder as $file) {
-        $real_path = str_replace('/shared/', '/current', $file->getRealPath());
+        $real_path = str_replace('/shared/', '/current/', $file->getRealPath());
         if (in_array($real_path, $existing_original_files)) {
             \WP_CLI::log(sprintf('KEEP : %s', $real_path));
             $keep_imgs++;
