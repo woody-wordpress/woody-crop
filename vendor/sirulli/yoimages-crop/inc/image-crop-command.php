@@ -6,13 +6,43 @@ if (!defined('ABSPATH')) {
     die('No script kiddies please!');
 }
 
-\WP_CLI::add_command('woody:remove_crops', 'woodyRemoveCrops');
-\WP_CLI::add_command('woody:debug_crops', 'woodyDebugCrops');
+\WP_CLI::add_command('woody:debug_crops', 'woodyCrop_debug');
+\WP_CLI::add_command('woody:reset_crops', 'woodyCrop_reset');
 
-
-function woodyDebugCrops()
+function woodyCrop_debug($args = [], $assoc_args = [])
 {
-    $posts = woodyRemoveCrops_getPosts();
+    if (!empty($assoc_args) && !empty($assoc_args['force'])) {
+        $force = true;
+        \WP_CLI::warning(sprintf('FORCE'));
+    } else {
+        $force = false;
+        \WP_CLI::warning(sprintf('SIMULATION'));
+    }
+
+    woodyCrop_debugMetas($force);
+}
+
+function woodyCrop_reset($args = [], $assoc_args = [])
+{
+    if (!empty($assoc_args) && !empty($assoc_args['force'])) {
+        $force = true;
+        \WP_CLI::warning(sprintf('FORCE'));
+    } else {
+        $force = false;
+        \WP_CLI::warning(sprintf('SIMULATION'));
+    }
+
+    $existing_original_files = woodyCrop_resetMetas($force);
+    woodyCrop_removeOrphans($existing_original_files, $force);
+}
+
+function woodyCrop_debugMetas($force = false)
+{
+    /* -------------------------------------------------------------------------------- */
+    /* ATTENTION cette fonction supprime les images misent directement dans les Wysiwyg */
+    /* -------------------------------------------------------------------------------- */
+
+    $posts = woodyCrop_getPosts();
 
     global $_wp_additional_image_sizes;
 
@@ -21,124 +51,213 @@ function woodyDebugCrops()
     $_wp_additional_image_sizes['medium'] = ['height' => 300, 'width' => 300, 'crop' => true];
     $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
 
-
-    $total = count($posts);
-    $i = 1;
     foreach ($posts as $post) {
-        // Get Mime-Type
-        $attachment_metadata = $post['metadata'];
+        $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($post['id']));
+        if (!empty($attachment_metadata['file'])) {
+            $img_path = WP_UPLOAD_DIR . '/' . $attachment_metadata['file'];
+            $img_path_parts = pathinfo($img_path);
+            $cropped_image_path = $img_path_parts['dirname'] . '/';
 
-        if (empty($attachment_metadata['sizes']) && file_exists(WP_UPLOAD_DIR . '/' . $post['file'])) {
-            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['file']);
+            // Get Mime-Type
+            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $attachment_metadata['file']);
+
+            foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
+                $update_metadata = false;
+
+                if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
+                    continue;
+                }
+
+                // Supprimer le fichier sur le filer
+                if (!empty($attachment_metadata['sizes'][$ratio_name])) {
+                    $deleted_image_path = $cropped_image_path . $attachment_metadata['sizes'][$ratio_name]['file'];
+                    if (!file_exists($deleted_image_path)) {
+                        // Remplacer ou remplir la ligne par la crop API dans les metadatas
+                        $attachment_metadata['sizes'][$ratio_name] = [
+                            'file' => '../../../../../wp-json/woody/crop/' . $post['id'] . '/' . $ratio_name,
+                            'height' => $data['height'],
+                            'width' => $data['width'],
+                            'mime-type' => $mime_type,
+                        ];
+
+                        $update_metadata = true;
+                        \WP_CLI::log(sprintf('Image manquante (%s) : %s', $ratio_name, $deleted_image_path));
+                    }
+                }
+            }
+
+            // Added full size
+            $filename = explode('/', $attachment_metadata['file']);
+            $filename = end($filename);
+            $attachment_metadata['sizes']['full'] = [
+                'file' => $filename,
+                'height' => $attachment_metadata['height'],
+                'width' => $attachment_metadata['width'],
+                'mime-type' => $mime_type,
+            ];
+
+            if ($update_metadata) {
+                if ($force) {
+                    wp_update_attachment_metadata($post['id'], $attachment_metadata);
+                    do_action('save_attachment', $post['id']);
+                }
+
+                \WP_CLI::log(sprintf('Image nettoyée : %s (%s)', $post['title'], $post['id']));
+            }
+        }
+    }
+
+    // Total filesize
+    \WP_CLI::success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
+
+    return $existing_original_files;
+}
+
+function woodyCrop_resetMetas($force = false)
+{
+    /* -------------------------------------------------------------------------------- */
+    /* ATTENTION cette fonction supprime les images misent directement dans les Wysiwyg */
+    /* -------------------------------------------------------------------------------- */
+
+    $posts = woodyCrop_getPosts();
+
+    global $_wp_additional_image_sizes;
+    $cleaning_filesize = 0;
+    $existing_original_files = [];
+
+    // Added default sizes
+    $_wp_additional_image_sizes['thumbnail'] = ['height' => 150, 'width' => 150, 'crop' => true];
+    $_wp_additional_image_sizes['medium'] = ['height' => 300, 'width' => 300, 'crop' => true];
+    $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
+
+    foreach ($posts as $post) {
+        $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($post['id']));
+        if (!empty($attachment_metadata['file'])) {
+            $img_path = WP_UPLOAD_DIR . '/' . $attachment_metadata['file'];
+            $img_path_parts = pathinfo($img_path);
+            $cropped_image_path = $img_path_parts['dirname'] . '/';
+            $filesize = 0;
+
+            // Get Mime-Type
+            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $attachment_metadata['file']);
 
             foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
                 if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
                     continue;
                 }
 
+                // Supprimer le fichier sur le filer
+                if (!empty($attachment_metadata['sizes'][$ratio_name])) {
+                    $deleted_image_path = $cropped_image_path . $attachment_metadata['sizes'][$ratio_name]['file'];
+                    if (file_exists($deleted_image_path)) {
+                        $filesize += filesize($deleted_image_path);
+
+                        if ($force) {
+                            unlink($deleted_image_path);
+                        }
+                    }
+
+                    if (file_exists($deleted_image_path . '.webp')) {
+                        $filesize += filesize($deleted_image_path . '.webp');
+
+                        if ($force) {
+                            unlink($deleted_image_path . '.webp');
+                        }
+                    }
+                }
+
                 // Remplacer ou remplir la ligne par la crop API dans les metadatas
                 $attachment_metadata['sizes'][$ratio_name] = [
-                'file' => '../../../../../wp-json/woody/crop/' . $post['id'] . '/' . $ratio_name,
-                'height' => $data['height'],
-                'width' => $data['width'],
-                'mime-type' => $mime_type,
-            ];
+                    'file' => '../../../../../wp-json/woody/crop/' . $post['id'] . '/' . $ratio_name,
+                    'height' => $data['height'],
+                    'width' => $data['width'],
+                    'mime-type' => $mime_type,
+                ];
             }
 
-            $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
+            // Delete history
+            if (!empty($attachment_metadata['yoimg_attachment_metadata']['history'])) {
+                foreach ($attachment_metadata['yoimg_attachment_metadata']['history'] as $key => $file) {
+                    if (file_exists($file)) {
+                        $filesize += filesize($file);
 
-            wp_update_attachment_metadata($post['id'], $attachment_metadata);
-            do_action('save_attachment', $post['id']);
+                        if ($force) {
+                            unlink($file);
+                        }
+                    }
 
-            print sprintf('%s/%s : %s (%s)', $i, $total, $post['title'], $post['file']) . "\n";
+                    if (file_exists($file . '.webp')) {
+                        $filesize += filesize($file . '.webp');
+
+                        if ($force) {
+                            unlink($file . '.webp');
+                        }
+                    }
+
+                    if ($force) {
+                        unset($attachment_metadata['yoimg_attachment_metadata']['history'][$key]);
+                    }
+                }
+            }
+
+            // Added full size
+            $filename = explode('/', $attachment_metadata['file']);
+            $filename = end($filename);
+            $attachment_metadata['sizes']['full'] = [
+                'file' => $filename,
+                'height' => $attachment_metadata['height'],
+                'width' => $attachment_metadata['width'],
+                'mime-type' => $mime_type,
+            ];
+
+            if ($force) {
+                wp_update_attachment_metadata($post['id'], $attachment_metadata);
+                do_action('save_attachment', $post['id']);
+            }
+
+            $existing_original_files[] = $img_path;
+            $cleaning_filesize += $filesize;
+            \WP_CLI::log(sprintf('Image nettoyée (%s) : %s (%s)', woodyCrop_HumanFileSize($filesize), $post['title'], $post['id']));
+        }
+    }
+
+    // Total filesize
+    \WP_CLI::success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
+
+    return $existing_original_files;
+}
+
+function woodyCrop_removeOrphans($existing_original_files = [], $force = false)
+{
+    $imgs_inside_upload_dir = [];
+    $keep_imgs = 0;
+    $delete_imgs = 0;
+    $cleaning_filesize = 0;
+
+    // Search all images inside WP_UPLOAD_DIR
+    $finder = new Finder();
+    $finder->files()->in(WP_UPLOAD_DIR)->name(['*.jpeg', '*.jpg', '*.gif', '*.bmp', '*.png', '*.svg', '*.webp']);
+    foreach ($finder as $file) {
+        $real_path = str_replace('/shared/', '/current', $file->getRealPath());
+        if (in_array($real_path, $existing_original_files)) {
+            \WP_CLI::log(sprintf('KEEP : %s', $real_path));
+            $keep_imgs++;
         } else {
-            print sprintf('%s/%s - ', $i, $total) . "\n";
-        }
-        $i++;
-    }
-}
+            \WP_CLI::log(sprintf('DELETE : %s', $real_path));
+            $delete_imgs++;
+            $cleaning_filesize += filesize($real_path);
 
-function woodyRemoveCrops()
-{
-    $posts = woodyRemoveCrops_getPosts();
-    $medias_filesystem = woodyRemoveCrops_getMediasFileSystem();
-
-    $total = count($medias_filesystem);
-    if (!empty($total)) {
-        print '-------------------------------' . "\n";
-        print 'SUPPRESSION DES IMAGES CROPEES' . "\n";
-        print '-------------------------------' . "\n";
-
-        foreach ($posts as $post) {
-            if (array_key_exists($post['file'], $medias_filesystem)) {
-                unset($medias_filesystem[$post['file']]);
+            if ($force) {
+                unlink($file);
             }
         }
-
-        $i = 1;
-        $total_filesize = 0;
-        foreach ($medias_filesystem as $file => $path) {
-            $filesize = filesize($path);
-            print sprintf('%s/%s : %s (%s)', $i, $total, $file, human_filesize($filesize)) . "\n";
-            unlink($path);
-
-            $i++;
-            $total_filesize += $filesize;
-        }
-
-        print '****************' . "\n";
-        print 'Free Space : ' . human_filesize($total_filesize);
     }
 
-    print '---------------------------' . "\n";
-    print 'REECRITURE DES METADONNEES' . "\n";
-    print '---------------------------' . "\n";
-
-    global $_wp_additional_image_sizes;
-
-    // Added default sizes
-    $_wp_additional_image_sizes['thumbnail'] = ['height' => 150, 'width' => 150, 'crop' => true];
-    $_wp_additional_image_sizes['medium'] = ['height' => 300, 'width' => 300, 'crop' => true];
-    $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
-
-
-    $total = count($posts);
-    $i = 1;
-    foreach ($posts as $post) {
-        // Get Mime-Type
-        $attachment_metadata = $post['metadata'];
-
-        if (file_exists(WP_UPLOAD_DIR . '/' . $post['file'])) {
-            $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $post['file']);
-
-            foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
-                if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
-                    continue;
-                }
-
-                // Remplacer ou remplir la ligne par la crop API dans les metadatas
-                $attachment_metadata['sizes'][$ratio_name] = [
-                'file' => '../../../../../wp-json/woody/crop/' . $post['id'] . '/' . $ratio_name,
-                'height' => $data['height'],
-                'width' => $data['width'],
-                'mime-type' => $mime_type,
-            ];
-            }
-
-            $attachment_metadata['yoimg_attachment_metadata']['history'] = [];
-
-            wp_update_attachment_metadata($post['id'], $attachment_metadata);
-        
-            // Launch sync with every post languages
-            do_action('save_attachment', $post['id']);
-        }
-
-        print sprintf('%s/%s : %s (%s)', $i, $total, $post['title'], $post['file']) . "\n";
-        $i++;
-    }
+    \WP_CLI::success(sprintf('Images %s supprimées / %s conservées', $delete_imgs, $keep_imgs));
+    \WP_CLI::success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
 }
 
-function woodyRemoveCrops_getPosts()
+function woodyCrop_getPosts()
 {
     $args = [
         'lang' => '', // request all languages
@@ -158,7 +277,7 @@ function woodyRemoveCrops_getPosts()
                     $posts[] = [
                         'id' => $result->ID,
                         'title' => $result->post_title,
-                        //'file' => pathinfo($attachment_metadata['file'])
+                        //'file' => pathinfo($attachment_metadata['file']),
                         'file' => $attachment_metadata['file'],
                         'metadata' => $attachment_metadata
                     ];
@@ -170,23 +289,7 @@ function woodyRemoveCrops_getPosts()
     return $posts;
 }
 
-function woodyRemoveCrops_getMediasFileSystem()
-{
-    $finder = new Finder();
-    $finder->in(WP_UPLOAD_DIR)->files()->name('*.jpg')->name('*.jpeg')->name('*.png')->name('*.gif')->name('*.webp')->followLinks();
-
-    // check if there are any search results
-    $medias_filesystem = [];
-    if ($finder->hasResults()) {
-        foreach ($finder as $file) {
-            $medias_filesystem[$file->getRelativePathname()] = $file->getRealPath();
-        }
-    }
-
-    return $medias_filesystem;
-}
-
-function human_filesize($bytes, $decimals = 2)
+function woodyCrop_HumanFileSize($bytes, $decimals = 2)
 {
     $factor = floor((strlen($bytes) - 1) / 3);
     if ($factor > 0) {
