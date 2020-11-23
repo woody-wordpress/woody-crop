@@ -52,6 +52,7 @@ function woodyCrop_debugMetas($force = false)
     $_wp_additional_image_sizes['large'] = ['height' => 1024, 'width' => 1024, 'crop' => true];
 
     foreach ($posts as $post) {
+        $update_metadata = false;
         $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($post['id']));
         if (!empty($attachment_metadata['file'])) {
             $img_path = WP_UPLOAD_DIR . '/' . $attachment_metadata['file'];
@@ -62,8 +63,6 @@ function woodyCrop_debugMetas($force = false)
             $mime_type = mime_content_type(WP_UPLOAD_DIR . '/' . $attachment_metadata['file']);
 
             foreach ($_wp_additional_image_sizes as $ratio_name => $data) {
-                $update_metadata = false;
-
                 if (!empty($attachment_metadata['sizes'][$ratio_name]) && strpos($attachment_metadata['sizes'][$ratio_name]['file'], 'wp-json') !== false) {
                     continue;
                 }
@@ -102,7 +101,7 @@ function woodyCrop_debugMetas($force = false)
                     do_action('save_attachment', $post['id']);
                 }
 
-                \WP_CLI::log(sprintf('Image nettoyée : %s (%s)', $post['title'], $post['id']));
+                \WP_CLI::log(sprintf('Image nettoyée : %s - %s (%s)', $post['lang'], $post['title'], $post['id']));
             }
         }
     }
@@ -155,6 +154,8 @@ function woodyCrop_resetMetas($force = false)
                         if ($force) {
                             unlink($deleted_image_path);
                         }
+
+                        \WP_CLI::log(sprintf('DELETE : %s', $deleted_image_path));
                     }
 
                     if (file_exists($deleted_image_path . '.webp')) {
@@ -163,6 +164,8 @@ function woodyCrop_resetMetas($force = false)
                         if ($force) {
                             unlink($deleted_image_path . '.webp');
                         }
+
+                        \WP_CLI::log(sprintf('DELETE : %s', $deleted_image_path . '.webp'));
                     }
                 }
 
@@ -184,6 +187,8 @@ function woodyCrop_resetMetas($force = false)
                         if ($force) {
                             unlink($file);
                         }
+
+                        \WP_CLI::log(sprintf('DELETE : %s', $file));
                     }
 
                     if (file_exists($file . '.webp')) {
@@ -192,6 +197,8 @@ function woodyCrop_resetMetas($force = false)
                         if ($force) {
                             unlink($file . '.webp');
                         }
+
+                        \WP_CLI::log(sprintf('DELETE : %s', $file . '.webp'));
                     }
 
                     if ($force) {
@@ -217,7 +224,7 @@ function woodyCrop_resetMetas($force = false)
 
             $existing_original_files[] = $img_path;
             $cleaning_filesize += $filesize;
-            \WP_CLI::log(sprintf('Image nettoyée (%s) : %s (%s)', woodyCrop_HumanFileSize($filesize), $post['title'], $post['id']));
+            \WP_CLI::log(sprintf('Image nettoyée (%s) : %s - %s (%s)', woodyCrop_HumanFileSize($filesize), $post['lang'], $post['title'], $post['id']));
         }
     }
 
@@ -277,7 +284,7 @@ function woodyCrop_getPosts()
                     $posts[] = [
                         'id' => $result->ID,
                         'title' => $result->post_title,
-                        //'file' => pathinfo($attachment_metadata['file']),
+                        'lang' => pll_get_post_language($result->ID),
                         'file' => $attachment_metadata['file'],
                         'metadata' => $attachment_metadata
                     ];
