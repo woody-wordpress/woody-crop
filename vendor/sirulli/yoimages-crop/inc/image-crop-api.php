@@ -19,6 +19,13 @@ add_action('rest_api_init', function () {
     ));
 });
 
+add_action('rest_api_init', function () {
+    register_rest_route('woody', '/crop-url/(?P<attachment_id>[0-9]{1,10})/(?P<ratio>\S+)', array(
+        'methods' => 'GET',
+        'callback' => 'yoimg_api_crop_url'
+    ));
+});
+
 /* ------------------------ */
 /* CROP API                 */
 /* ------------------------ */
@@ -174,7 +181,6 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
             $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height']  . '-crop-' . time() . '.' . $img_path_parts['extension'];
             $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
         } else {
-
             $ratio_orig = (float) $height_orig / $width_orig;
 
             // Ratio Free
@@ -341,4 +347,14 @@ function yoimg_api_resampled_image($img, $src_x, $src_y, $src_w, $src_h, $dst_w 
     }
 
     return new WP_Error('image_crop_error', __('Image crop failed.'));
+}
+
+function yoimg_api_crop_url(WP_REST_Request $request)
+{
+    $params = $request->get_params();
+    $ratio_name = $params['ratio'];
+    $attachment_id = $params['attachment_id'];
+
+    $url = wp_get_attachment_image_src($attachment_id, $ratio_name);
+    return (!empty($url) && is_array($url)) ? $url[0] : false;
 }
