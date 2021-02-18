@@ -4,12 +4,10 @@
     "version": "1.3.5",
     "description": "Optimized fork of the YoImages plugin to manage the image crop of the same ratio",
     "license": "GPL-2.0",
-    "authors": [
-        {
-            "name": "Léo POIROUX",
-            "email": "leo@raccourci.fr"
-        }
-    ],
+    "authors": [{
+        "name": "Léo POIROUX",
+        "email": "leo@raccourci.fr"
+    }],
     "require": {
         "php": "^7.0",
         "symfony/finder": "^5.1"
