@@ -21,7 +21,7 @@ function yoimg_crop_image()
     }
     do_action('yoimg_pre_crop_image');
     $result = yoimg_crop_this_image($_args);
-    do_action('yoimg_post_crop_image');
+    do_action('yoimg_post_crop_image', $_args['post']);
     wp_send_json($result);
 }
 
