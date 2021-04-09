@@ -13,10 +13,10 @@ function woodyCrop_debug($args = [], $assoc_args = [])
 {
     if (!empty($assoc_args) && !empty($assoc_args['force'])) {
         $force = true;
-        \WP_CLI::warning(sprintf('FORCE'));
+        output_warning(sprintf('FORCE'));
     } else {
         $force = false;
-        \WP_CLI::warning(sprintf('SIMULATION'));
+        output_warning(sprintf('SIMULATION'));
     }
 
     woodyCrop_debugMetas($force);
@@ -26,10 +26,10 @@ function woodyCrop_reset($args = [], $assoc_args = [])
 {
     if (!empty($assoc_args) && !empty($assoc_args['force'])) {
         $force = true;
-        \WP_CLI::warning(sprintf('FORCE'));
+        output_warning(sprintf('FORCE'));
     } else {
         $force = false;
-        \WP_CLI::warning(sprintf('SIMULATION'));
+        output_warning(sprintf('SIMULATION'));
     }
 
     $existing_original_files = woodyCrop_resetMetas($force);
@@ -80,7 +80,7 @@ function woodyCrop_debugMetas($force = false)
                         ];
 
                         $update_metadata = true;
-                        \WP_CLI::log(sprintf('Image manquante (%s) : %s', $ratio_name, $deleted_image_path));
+                        output_log(sprintf('Image manquante (%s) : %s', $ratio_name, $deleted_image_path));
                     }
                 }
             }
@@ -101,13 +101,13 @@ function woodyCrop_debugMetas($force = false)
                     do_action('save_attachment', $post['id']);
                 }
 
-                \WP_CLI::log(sprintf('Image nettoyée : %s - %s (%s)', $post['lang'], $post['title'], $post['id']));
+                output_log(sprintf('Image nettoyée : %s - %s (%s)', $post['lang'], $post['title'], $post['id']));
             }
         }
     }
 
     // Total filesize
-    \WP_CLI::success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
+    output_success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
 
     return $existing_original_files;
 }
@@ -155,7 +155,7 @@ function woodyCrop_resetMetas($force = false)
                             unlink($deleted_image_path);
                         }
 
-                        \WP_CLI::log(sprintf('DELETE : %s', $deleted_image_path));
+                        output_log(sprintf('DELETE : %s', $deleted_image_path));
                     }
 
                     if (file_exists($deleted_image_path . '.webp')) {
@@ -165,7 +165,7 @@ function woodyCrop_resetMetas($force = false)
                             unlink($deleted_image_path . '.webp');
                         }
 
-                        \WP_CLI::log(sprintf('DELETE : %s', $deleted_image_path . '.webp'));
+                        output_log(sprintf('DELETE : %s', $deleted_image_path . '.webp'));
                     }
                 }
 
@@ -188,7 +188,7 @@ function woodyCrop_resetMetas($force = false)
                             unlink($file);
                         }
 
-                        \WP_CLI::log(sprintf('DELETE : %s', $file));
+                        output_log(sprintf('DELETE : %s', $file));
                     }
 
                     if (file_exists($file . '.webp')) {
@@ -198,7 +198,7 @@ function woodyCrop_resetMetas($force = false)
                             unlink($file . '.webp');
                         }
 
-                        \WP_CLI::log(sprintf('DELETE : %s', $file . '.webp'));
+                        output_log(sprintf('DELETE : %s', $file . '.webp'));
                     }
 
                     if ($force) {
@@ -224,12 +224,12 @@ function woodyCrop_resetMetas($force = false)
 
             $existing_original_files[] = $img_path;
             $cleaning_filesize += $filesize;
-            \WP_CLI::log(sprintf('Image nettoyée (%s) : %s - %s (%s)', woodyCrop_HumanFileSize($filesize), $post['lang'], $post['title'], $post['id']));
+            output_log(sprintf('Image nettoyée (%s) : %s - %s (%s)', woodyCrop_HumanFileSize($filesize), $post['lang'], $post['title'], $post['id']));
         }
     }
 
     // Total filesize
-    \WP_CLI::success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
+    output_success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
 
     return $existing_original_files;
 }
@@ -247,10 +247,10 @@ function woodyCrop_removeOrphans($existing_original_files = [], $force = false)
     foreach ($finder as $file) {
         $real_path = str_replace('/shared/', '/current/', $file->getRealPath());
         if (in_array($real_path, $existing_original_files)) {
-            \WP_CLI::log(sprintf('KEEP : %s', $real_path));
+            output_log(sprintf('KEEP : %s', $real_path));
             $keep_imgs++;
         } else {
-            \WP_CLI::log(sprintf('DELETE : %s', $real_path));
+            output_log(sprintf('DELETE : %s', $real_path));
             $delete_imgs++;
             $cleaning_filesize += filesize($real_path);
 
@@ -260,8 +260,8 @@ function woodyCrop_removeOrphans($existing_original_files = [], $force = false)
         }
     }
 
-    \WP_CLI::success(sprintf('Images %s supprimées / %s conservées', $delete_imgs, $keep_imgs));
-    \WP_CLI::success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
+    output_success(sprintf('Images %s supprimées / %s conservées', $delete_imgs, $keep_imgs));
+    output_success(sprintf('Poids de la suppression (%s)', woodyCrop_HumanFileSize($cleaning_filesize)));
 }
 
 function woodyCrop_getPosts()
