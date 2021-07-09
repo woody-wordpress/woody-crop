@@ -30,7 +30,6 @@ add_action('rest_api_init', function () {
 function yoimg_flush_cropUrl_varnish($post)
 {
     do_action('woody_flush_varnish', '/wp-json/woody/crop-url/' . $post . '/*', 'regex');
-    error_log('/wp-json/woody/crop-url/' . $post . '.*');
 }
 add_action('yoimg_post_crop_image', 'yoimg_flush_cropUrl_varnish');
 
