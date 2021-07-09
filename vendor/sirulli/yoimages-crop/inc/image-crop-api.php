@@ -20,7 +20,7 @@ add_action('rest_api_init', function () {
 });
 
 add_action('rest_api_init', function () {
-    register_rest_route('woody', '/crop-url/(?P<attachment_id>[0-9]{1,10})/(?P<ratio>\S+)', array(
+    register_rest_route('woody', '/crop-url/(?P<attachment_id>[0-9]{1,10})', array(
         'methods' => 'GET',
         'callback' => 'yoimg_api_crop_url'
     ));
