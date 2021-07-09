@@ -359,9 +359,18 @@ function yoimg_api_resampled_image($img, $src_x, $src_y, $src_w, $src_h, $dst_w 
 function yoimg_api_crop_url(WP_REST_Request $request)
 {
     $params = $request->get_params();
-    $ratio_name = $params['ratio'];
     $attachment_id = $params['attachment_id'];
+    $attachment_metadata = acf_get_attachment($attachment_id, true);
 
-    $url = wp_get_attachment_image_src($attachment_id, $ratio_name);
-    return (!empty($url) && is_array($url)) ? $url[0] : false;
+    $return = [];
+    if (!empty($attachment_metadata) && !empty($attachment_metadata['sizes'])) {
+        foreach ($attachment_metadata['sizes'] as $size => $file) {
+            if (strpos($file, 'http') !== false) {
+                $return[$size] = $file;
+            }
+        }
+    }
+
+    header('X-VC-TTL: ' . WOODY_VARNISH_CACHING_TTL);
+    return $return;
 }
