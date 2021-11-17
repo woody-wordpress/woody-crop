@@ -27,11 +27,11 @@ add_action('rest_api_init', function () {
 });
 
 
+add_action('yoimg_post_crop_image', 'yoimg_flush_cropUrl_varnish');
 function yoimg_flush_cropUrl_varnish($post)
 {
-    do_action('woody_flush_varnish', '/wp-json/woody/crop-url/' . $post . '/*', 'regex');
+    do_action('woody_flush_varnish', $post);
 }
-add_action('yoimg_post_crop_image', 'yoimg_flush_cropUrl_varnish');
 
 /* ------------------------ */
 /* CROP API                 */
@@ -125,12 +125,17 @@ function yoimg_api(WP_REST_Request $request)
         }
     }
 
+    // Added Headers for varnish purge
+    header('xkey: ' . WP_SITE_KEY, false);
+    header('xkey: ' . WP_SITE_KEY . '_' . $attachment_id, false);
+    header('X-VC-TTL: ' . WOODY_VARNISH_CACHING_TTL, true);
+
     if (!empty($image_url) && strpos($image_url, 'wp-json') == false) {
-        wp_redirect($image_url, 301);
+        wp_redirect($image_url, 301, 'Woody Crop');
     } else {
         // Default 404
         $image_url = 'https://api.tourism-system.com/resize/clip/' . $size['width'] . '/' . $size['height'] . '/70/aHR0cHM6Ly9hcGkudG91cmlzbS1zeXN0ZW0uY29tL3N0YXRpYy9hc3NldHMvaW1hZ2VzL3Jlc2l6ZXIvaW1nXzQwNC5qcGc=/404.jpg';
-        wp_redirect($image_url, 302);
+        wp_redirect($image_url, 302, 'Woody Crop');
     }
     exit;
 }
@@ -145,6 +150,12 @@ function yoimg_api_debug(WP_REST_Request $request)
     $params = $request->get_params();
     $attachment_id = $params['attachment_id'];
 
+    // Added Headers for varnish purge
+    header('xkey: ' . WP_SITE_KEY, false);
+    header('xkey: ' . WP_SITE_KEY . '_' . $attachment_id, false);
+    header('X-VC-TTL: ' . WOODY_VARNISH_CACHING_TTL, true);
+
+    // Return
     header('Content-type: text/html');
     print '<html><body style="font-family:sans-serif;">';
     foreach ($_wp_additional_image_sizes as $ratio => $size) {
@@ -371,6 +382,9 @@ function yoimg_api_crop_url(WP_REST_Request $request)
         }
     }
 
-    header('X-VC-TTL: ' . WOODY_VARNISH_CACHING_TTL);
+    // Added Headers for varnish purge
+    header('xkey: ' . WP_SITE_KEY, false);
+    header('xkey: ' . WP_SITE_KEY . '_' . $attachment_id, false);
+    header('X-VC-TTL: ' . WOODY_VARNISH_CACHING_TTL, true);
     return $return;
 }
