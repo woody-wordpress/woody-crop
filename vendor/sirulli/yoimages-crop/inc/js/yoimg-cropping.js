@@ -225,8 +225,8 @@ function yoimgInitCropImage(doImmediateCrop) {
                 }
             }
         }
-        initScrollingMediaFrameRouter();
-        jQuery(window).resize(initScrollingMediaFrameRouter);
+        // initScrollingMediaFrameRouter();
+        // jQuery(window).resize(initScrollingMediaFrameRouter);
     }
 }
 
