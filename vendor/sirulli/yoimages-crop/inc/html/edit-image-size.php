@@ -118,12 +118,10 @@ if ($has_replacement) {
                             <div id="yoimg-cropper-container" style="max-width: <?php echo $full_image_attributes[1]; ?>px;max-height: <?php echo $full_image_attributes[2]; ?>px;">
                                 <img id="yoimg-cropper" src="<?php echo $full_image_attributes[0] . '?' . mt_rand(1000, 9999); ?>" style="max-width: 100%;" />
                                 <div id="yoimg-replace-restore-wrapper">
-                                    <div id="yoimg-replace-img-btn" style="display:none;" title="<?php _e('Replace image source for', YOIMG_DOMAIN); ?> <?php echo $yoimg_image_size; ?>" class="button button-primary button-large"><?php _e('Replace', YOIMG_DOMAIN); ?></div>
-                                    <?php if ($has_replacement) {
-                            ?>
+                                    <!--<div id="yoimg-replace-img-btn" style="display:none;" title="<?php _e('Replace image source for', YOIMG_DOMAIN); ?> <?php echo $yoimg_image_size; ?>" class="button button-primary button-large"><?php _e('Replace', YOIMG_DOMAIN); ?></div> -->
+                                    <?php if ($has_replacement) { ?>
                                         <div id="yoimg-restore-img-btn" title="<?php _e('Restore original image source for', YOIMG_DOMAIN); ?> <?php echo $yoimg_image_size; ?>" class="button button-large"><?php _e('Restore', YOIMG_DOMAIN); ?></div>
-                                    <?php
-                        } ?>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -144,20 +142,27 @@ if ($has_replacement) {
                                 <?php
                                 }
                                 $image_attributes = wp_get_attachment_image_src($yoimg_image_id, $yoimg_image_size);
+
+                                // Trouver l'url de base
+                                $img_url_parts = parse_url($image_attributes[0]);
+                                $img_path_parts = pathinfo($img_url_parts['path']);
+                                $base_url = $img_path_parts['dirname'];
+                                $base_url = explode('/', $base_url);
+                                $base_url = array_slice($base_url, 0, 6);
+                                $base_url = implode('/', $base_url);
+
                                 if ($this_crop_exists) {
                                     ?>
-                                    <img src="<?php echo $image_attributes[0] . '?' . mt_rand(1000, 9999); ?>" style="max-width: 100%;" />
+                                    <img src="<?php echo $image_attributes[0] . '?' . mt_rand(1000, 9999); ?>" data-baseurl="<?php echo $base_url; ?>" class="preview_<?php echo $yoimg_image_id; ?>" style="max-width: 100%;" />
                                     <?php
                                     $is_crop_smaller = $full_image_attributes[1] < $curr_size_width || $full_image_attributes[2] < $curr_size_height;
                                     $is_crop_retina_smaller = $yoimg_retina_crop_enabled && ($full_image_attributes[1] < ($curr_size_width * 2) || $full_image_attributes[2] < ($curr_size_height * 2));
                                 } else {
-                                    $img_url_parts = parse_url($image_attributes[0]);
-                                    $img_path_parts = pathinfo($img_url_parts['path']);
                                     $expected_crop_width = $cropped_image_sizes['width'];
                                     $expected_crop_height = $cropped_image_sizes['height'];
-                                    $expected_url = $img_path_parts['dirname'] . '/' . yoimg_get_cropped_image_filename($img_path_parts['filename'], $expected_crop_width, $expected_crop_height, $img_path_parts['extension']); ?>
+                                    $expected_url = $base_url . '/' . yoimg_get_cropped_image_filename($img_path_parts['filename'], $expected_crop_width, $expected_crop_height, $img_path_parts['extension']); ?>
                                     <div class="yoimg-not-existing-crop">
-                                        <img src="<?php echo $expected_url; ?>" style="max-width: 100%;" />
+                                        <img src="<?php echo $expected_url; ?>" data-baseurl="<?php echo $base_url; ?>" class="preview_<?php echo $yoimg_image_id; ?>" style="max-width: 100%;" />
                                         <div class="message error">
                                                 <p><?php _e('Crop not generated yet, use the crop button here below to generate it', YOIMG_DOMAIN); ?></p>
                                         </div>
@@ -167,7 +172,7 @@ if ($has_replacement) {
 
                                 <div class="message error yoimg-crop-smaller" style="display:<?php echo $is_crop_smaller ? 'block' : 'none'; ?>;">
                                     <?php //TODO?>
-                                    <p><?php _e('This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it', YOIMG_DOMAIN); ?></p>
+                                    <p><?php _e('This crop is smaller than expected, the image will potentially be stretched', YOIMG_DOMAIN);?></p>
                                 </div>
 
                                 <div class="message error yoimg-crop-retina-smaller" style="display:<?php echo $is_crop_retina_smaller ? 'block' : 'none'; ?>;">

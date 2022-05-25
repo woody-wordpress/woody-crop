@@ -164,7 +164,7 @@ function yoimg_save_this_image($vars)
 
     wp_update_attachment_metadata($req_post, $attachment_metadata);
 
-    return $cropped_image_filename;
+    return 'thumbs/' . $cropped_image_filename;
 }
 
 function yoimg_edit_thumbnails_page()
