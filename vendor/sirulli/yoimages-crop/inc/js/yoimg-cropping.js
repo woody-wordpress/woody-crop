@@ -1,7 +1,7 @@
 var yoimgMediaUploader;
 
 function yoimgLoadCropThickbox(href, partial) {
-    jQuery.get(href, function(data) {
+    jQuery.get(href, function (data) {
         if (partial) {
             jQuery('#yoimg-cropper-wrapper .media-modal-content').empty().append(data);
         } else {
@@ -11,9 +11,9 @@ function yoimgLoadCropThickbox(href, partial) {
 }
 
 function yoimgAddEditImageAnchors() {
-    setInterval(function() {
+    setInterval(function () {
         if (jQuery('#media-items .edit-attachment').length) {
-            jQuery('#media-items .edit-attachment').each(function(i, k) {
+            jQuery('#media-items .edit-attachment').each(function (i, k) {
                 try {
                     var currEl = jQuery(this);
                     var mRegexp = /\?post=([0-9]+)/;
@@ -23,7 +23,7 @@ function yoimgAddEditImageAnchors() {
                             'action': 'yoimg_get_edit_image_anchor',
                             'post': match[1]
                         };
-                        jQuery.post(ajaxurl, data, function(response) {
+                        jQuery.post(ajaxurl, data, function (response) {
                             currEl.after(response);
                         });
                     }
@@ -74,7 +74,7 @@ function yoimgInitCropImage(doImmediateCrop) {
             'max-width': jQuery('#yoimg-cropper-wrapper .attachments').width() + 'px',
             'max-height': jQuery('#yoimg-cropper-wrapper .attachments').height() + 'px'
         });
-        jQuery('#yoimg-cropper').on('built.cropper', function() {
+        jQuery('#yoimg-cropper').on('built.cropper', function () {
             if (doImmediateCrop) {
                 yoimgCropImage();
             }
@@ -91,12 +91,12 @@ function yoimgInitCropImage(doImmediateCrop) {
         function positionReplaceRestoreWrapper() {
             jQuery('#yoimg-replace-restore-wrapper').appendTo('#yoimg-cropper-wrapper .cropper-container');
         }
-        jQuery(window).on('built.cropper', function() {
+        jQuery(window).on('built.cropper', function () {
             setTimeout(positionReplaceRestoreWrapper, 100);
         });
 
         if (wp.media) {
-            jQuery('#yoimg-replace-img-btn').show().click(function() {
+            jQuery('#yoimg-replace-img-btn').show().click(function () {
                 if (yoimgMediaUploader) {
                     // TODO find "the backbone way" solution for dynamic title
                     jQuery('#yoimg-replace-media-uploader .media-frame-title h1').text(jQuery(this).attr('title'));
@@ -115,7 +115,7 @@ function yoimgInitCropImage(doImmediateCrop) {
                         type: 'image'
                     }
                 });
-                yoimgMediaUploader.on('select', function() {
+                yoimgMediaUploader.on('select', function () {
                     attachment = yoimgMediaUploader.state().get('selection').first().toJSON();
                     var data = {
                         'action': 'yoimg_replace_image_for_size',
@@ -123,7 +123,7 @@ function yoimgInitCropImage(doImmediateCrop) {
                         'size': yoimg_image_size,
                         'replacement': attachment.id
                     };
-                    jQuery.post(ajaxurl, data, function(response) {
+                    jQuery.post(ajaxurl, data, function (response) {
                         var currEl = jQuery('#yoimg-cropper-wrapper .yoimg-thickbox-partial.active');
                         yoimgLoadCropThickbox(currEl.attr('href') + '&immediatecrop=1', true);
                     });
@@ -133,13 +133,13 @@ function yoimgInitCropImage(doImmediateCrop) {
                 jQuery('#yoimg-replace-media-uploader').parents('.media-modal.wp-core-ui').css('z-index', '17000002');
             });
         }
-        jQuery('#yoimg-restore-img-btn').click(function() {
+        jQuery('#yoimg-restore-img-btn').click(function () {
             var data = {
                 'action': 'yoimg_restore_original_image_for_size',
                 'image': yoimg_image_id,
                 'size': yoimg_image_size
             };
-            jQuery.post(ajaxurl, data, function(response) {
+            jQuery.post(ajaxurl, data, function (response) {
                 var currEl = jQuery('#yoimg-cropper-wrapper .yoimg-thickbox-partial.active');
                 yoimgLoadCropThickbox(currEl.attr('href') + '&immediatecrop=1', true);
             });
@@ -155,7 +155,7 @@ function yoimgInitCropImage(doImmediateCrop) {
             var activeIndex = 0;
             var scrollLeft = 0;
             var mediaRouterAnchors = mediaRouter.find('a');
-            mediaRouterAnchors.each(function(index) {
+            mediaRouterAnchors.each(function (index) {
                 var currEl = jQuery(this);
                 mediaRouterWidth += parseInt(currEl.outerWidth(true), 10);
                 if (currEl.hasClass('active')) {
@@ -237,16 +237,20 @@ function yoimgCancelCropImage() {
 function yoimgCropImage() {
     jQuery('#yoimg-cropper-wrapper .spinner').addClass('is-active');
     var data = jQuery('#yoimg-cropper').cropper('getData');
+    var $img_preview = jQuery('img.preview_' + yoimg_image_id);
+    $img_preview.css('opacity', '.1');
+
     data['action'] = 'yoimg_crop_image';
     data['post'] = yoimg_image_id;
     data['size'] = yoimg_image_size;
     data['quality'] = jQuery('#yoimg-cropper-quality').val();
-    jQuery.post(ajaxurl, data, function(response) {
+    jQuery.post(ajaxurl, data, function (response) {
         // Use the existing filename and replace with the new filename
-        jQuery('img[src*=\'' + response.previous_filename + '\']').each(function() {
+        $img_preview.each(function () {
             // Define the image object and current file name and path
             var img = jQuery(this);
             var imgSrc = img.attr('src');
+            var baseurl = img.data('baseurl');
             // Check if cachebusting is enabled or not.
             if (response.previous_filename === response.filename) {
                 // If cachebusting isn't enabled then do frontend cachebust
@@ -254,13 +258,14 @@ function yoimgCropImage() {
             } else {
                 // With cachebusting enabled we can use the new filename as the thumbnail
                 // replacing the existing filename with the new one in the file path.
-                imgSrc = imgSrc.replace(response.previous_filename, response.filename);
+                imgSrc = baseurl + '/' + response.filename;
             }
             // Update the image tag src attribute to show the new image
             img.attr('src', imgSrc);
             if (img.parents('.yoimg-not-existing-crop').length) {
                 img.parents('.yoimg-not-existing-crop').removeClass('yoimg-not-existing-crop').find('.message.error').hide();
             }
+            img.css('opacity', '1');
         });
         if (response.smaller) {
             jQuery('.message.yoimg-crop-smaller').show();
@@ -289,7 +294,7 @@ function yoimgGetUrlVars() {
     return vars;
 }
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
     if ($('body.post-type-attachment').length) {
         var currPostId = yoimgGetUrlVars()['post'];
@@ -300,7 +305,7 @@ jQuery(document).ready(function($) {
                 'post': currPostId,
                 'classes': 'button'
             };
-            jQuery.post(ajaxurl, data, function(response) {
+            jQuery.post(ajaxurl, data, function (response) {
                 editImageBtn.after(response);
             });
         }
@@ -308,18 +313,18 @@ jQuery(document).ready(function($) {
 
     yoimgAddEditImageAnchors();
 
-    $(document).on('click', 'a.yoimg-thickbox', function(e) {
+    $(document).on('click', 'a.yoimg-thickbox', function (e) {
         e.preventDefault();
         var currEl = $(this);
         yoimgLoadCropThickbox(currEl.attr('href'), currEl.hasClass('yoimg-thickbox-partial'));
         return false;
     });
-    $(document).on('click', '#yoimg-cropper-bckgr', function(e) {
+    $(document).on('click', '#yoimg-cropper-bckgr', function (e) {
         e.preventDefault();
         yoimgCancelCropImage();
         return false;
     });
-    $(document).on('keydown', function(e) {
+    $(document).on('keydown', function (e) {
         if (e.keyCode === 27) {
             yoimgCancelCropImage();
             return false;
@@ -330,7 +335,7 @@ jQuery(document).ready(function($) {
         var data = {
             'action': 'yoimg_get_custom_sizes_table_rows'
         };
-        $.post(ajaxurl, data, function(response) {
+        $.post(ajaxurl, data, function (response) {
             $('input#large_size_h').parents('table.form-table').after(response);
         });
     }
