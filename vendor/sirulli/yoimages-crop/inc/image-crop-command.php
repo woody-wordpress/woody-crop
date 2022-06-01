@@ -133,6 +133,13 @@ function woodyCrop_resetMetas($force = false)
         $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($post['id']));
         if (!empty($attachment_metadata['file'])) {
             $img_path = WP_UPLOAD_DIR . '/' . $attachment_metadata['file'];
+
+            if (!file_exists($img_path)) {
+                wp_delete_post($post['id'], true);
+                output_log(sprintf('DELETE (empty img) : %s', $img_path));
+                continue;
+            }
+
             $img_path_parts = pathinfo($img_path);
             $cropped_image_path = $img_path_parts['dirname'] . '/';
             $filesize = 0;
