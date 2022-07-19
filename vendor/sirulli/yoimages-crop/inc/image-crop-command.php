@@ -112,13 +112,15 @@ function woodyCrop_debugMetas($force = false)
     return $existing_original_files;
 }
 
-function woodyCrop_resetMetas($force = false)
+function woodyCrop_resetMetas($force = false, $posts = [])
 {
     /* -------------------------------------------------------------------------------- */
     /* ATTENTION cette fonction supprime les images misent directement dans les Wysiwyg */
     /* -------------------------------------------------------------------------------- */
 
-    $posts = woodyCrop_getPosts();
+    if (empty($posts)) {
+        $posts = woodyCrop_getPosts();
+    }
 
     global $_wp_additional_image_sizes;
     $cleaning_filesize = 0;
