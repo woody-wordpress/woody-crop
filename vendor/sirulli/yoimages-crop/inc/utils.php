@@ -14,7 +14,7 @@ function yoimg_get_cropped_image_filename($filename, $width, $height, $extension
 {
     $crop_options = get_option('yoimg_crop_settings');
     if (isset($crop_options['cachebusting_is_active']) && $crop_options['cachebusting_is_active']) {
-        return $filename . '-' . $width . 'x' . $height . '-crop-' . time() . ($retina ? '@2x': '') . '.' . $extension;
+        return $filename . '-' . $width . 'x' . $height . '-crop-' . time() . ($retina ? '@2x' : '') . '.' . $extension;
     } else {
         return $filename . '-' . $width . 'x' . $height . ($retina ? '@2x' : '') . '.' . $extension;
     }
@@ -76,6 +76,7 @@ function yoimg_get_image_sizes($size = '')
                     'active' => true
                 );
             }
+
             $sizes[$size_key]['width'] = $size_value['width'];
             $sizes[$size_key]['height'] = $size_value['height'];
             $sizes[$size_key]['crop'] = $size_value['crop'];
@@ -89,6 +90,7 @@ function yoimg_get_image_sizes($size = '')
             return false;
         }
     }
+
     return $sizes;
 }
 
@@ -109,17 +111,14 @@ function yoimg_get_sameratio_sizes($sizes, $size = null)
                 $ratio = ceil(($size_value['width'] / $size_value['height']) * 100);
             }
 
-            if ($size_value['width'] >= $size_value['height']) {
-                $max_size = $size_value['width'];
-            } else {
-                $max_size = $size_value['height'];
-            }
+            $max_size = $size_value['width'] >= $size_value['height'] ? $size_value['width'] : $size_value['height'];
+
             $ratio_sizes[$ratio][$max_size] = $size_key;
             krsort($ratio_sizes[$ratio]);
         }
 
         // Delete all images with the same ratio
-        foreach ($ratio_sizes as $ratio => $size_keys) {
+        foreach ($ratio_sizes as $size_keys) {
             $primary_size = array_shift($size_keys);
             foreach ($size_keys as $size_key) {
                 $sizes[$primary_size]['sameratio'][$size_key] = $sizes[$size_key];

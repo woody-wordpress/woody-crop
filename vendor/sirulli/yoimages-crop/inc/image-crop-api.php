@@ -37,14 +37,15 @@ function yoimg_flush_cropUrl_varnish($post)
 /* CROP API                 */
 /* ------------------------ */
 
-function yoimg_api(WP_REST_Request $request)
+function yoimg_api(WP_REST_Request $wprestRequest)
 {
+    $size = [];
     /**
      * Exemple : http://www.superot.wp.rc-dev.com/wp-json/woody/crop/382/ratio_square
      */
     global $_wp_additional_image_sizes;
 
-    $params = $request->get_params();
+    $params = $wprestRequest->get_params();
     $ratio_name = $params['ratio'];
     $attachment_id = $params['attachment_id'];
 
@@ -57,7 +58,7 @@ function yoimg_api(WP_REST_Request $request)
     // Woody constants
     if (empty(WP_UPLOAD_DIR)) {
         $upload_path = get_option('upload_path');
-        define(WP_UPLOAD_DIR, $upload_path);
+        define('WP_UPLOAD_DIR', $upload_path);
     }
 
     // Added default sizes
@@ -137,17 +138,18 @@ function yoimg_api(WP_REST_Request $request)
         $image_url = 'https://api.tourism-system.com/resize/clip/' . $size['width'] . '/' . $size['height'] . '/70/aHR0cHM6Ly9hcGkudG91cmlzbS1zeXN0ZW0uY29tL3N0YXRpYy9hc3NldHMvaW1hZ2VzL3Jlc2l6ZXIvaW1nXzQwNC5qcGc=/404.jpg';
         wp_redirect($image_url, 302, 'Woody Crop');
     }
+
     exit;
 }
 
-function yoimg_api_debug(WP_REST_Request $request)
+function yoimg_api_debug(WP_REST_Request $wprestRequest)
 {
     /**
      * Exemple : http://www.superot.wp.rc-dev.com/wp-json/woody/crop_debug/6013
      */
     global $_wp_additional_image_sizes;
 
-    $params = $request->get_params();
+    $params = $wprestRequest->get_params();
     $attachment_id = $params['attachment_id'];
 
     // Added Headers for varnish purge
@@ -163,22 +165,30 @@ function yoimg_api_debug(WP_REST_Request $request)
             if (strpos($ratio, 'small') !== false) {
                 continue;
             }
+
             if (strpos($ratio, 'medium') !== false) {
                 continue;
             }
+
             if (strpos($ratio, 'large') !== false) {
                 continue;
             }
+
             print '<h2>' . $ratio . '</h2>';
             print '<p><img style="max-width:50%" src="/wp-json/woody/crop/' . $attachment_id . '/' . $ratio . '_force" title="' . $ratio . '" alt="' . $ratio . '"></p>';
         }
     }
+
     print '</body></html>';
     exit();
 }
 
 function yoimg_api_crop_from_size($img_path, $size, $force = false)
 {
+    $req_x = null;
+    $req_y = null;
+    $req_width = null;
+    $req_height = null;
     // Get infos from original image
     $img_path_parts = pathinfo($img_path);
 
@@ -186,7 +196,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';
 
     // get the size of the image
-    list($width_orig, $height_orig) = @getimagesize($img_path);
+    [$width_orig, $height_orig] = @getimagesize($img_path);
 
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
@@ -206,11 +216,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
                 $req_width = $width_orig;
                 $req_height = $height_orig;
 
-                if ($ratio_orig == 1) {
-                    $size['height'] = $size['width'];
-                } else {
-                    $size['height'] = round($size['width'] * $ratio_orig);
-                }
+                $size['height'] = $ratio_orig == 1 ? $size['width'] : round($size['width'] * $ratio_orig);
             }
 
             // Get ratio diff
@@ -265,7 +271,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
 function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $width, $height)
 {
     // get the size of the image
-    list($width_orig, $height_orig, $image_type) = @getimagesize($img_path);
+    [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
 
     // Set webp filename
     $cropped_webp_path = $cropped_image_path . '.webp';
@@ -320,7 +326,7 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
 
 function yoimg_api_load_image($img_path)
 {
-    if (!is_file($img_path) && !preg_match('|^https?://|', $img_path)) {
+    if (!is_file($img_path) && !preg_match('#^https?://#', $img_path)) {
         return new WP_Error('error_loading_image', __('File doesn&#8217;t exist?'), $img_path);
     }
 
@@ -367,19 +373,15 @@ function yoimg_api_resampled_image($img, $src_x, $src_y, $src_w, $src_h, $dst_w 
     return new WP_Error('image_crop_error', __('Image crop failed.'));
 }
 
-function yoimg_api_crop_url(WP_REST_Request $request)
+function yoimg_api_crop_url(WP_REST_Request $wprestRequest)
 {
-    $params = $request->get_params();
+    $params = $wprestRequest->get_params();
     $attachment_id = $params['attachment_id'];
     $attachment_metadata = acf_get_attachment($attachment_id, true);
 
     $return = [];
     if (!empty($attachment_metadata) && !empty($attachment_metadata['sizes'])) {
-        foreach ($attachment_metadata['sizes'] as $size => $file) {
-            if (strpos($file, 'http') !== false) {
-                $return[$size] = $file;
-            }
-        }
+        $return = array_filter($attachment_metadata['sizes'], fn($file) => strpos($file, 'http') !== false);
     }
 
     // Added Headers for varnish purge

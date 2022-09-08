@@ -19,6 +19,7 @@ function yoimg_crop_image()
     foreach ($_required_args as $_key) {
         $_args[$_key] = esc_html($_POST[$_key]);
     }
+
     do_action('yoimg_pre_crop_image');
     $result = yoimg_crop_this_image($_args);
     do_action('yoimg_post_crop_image', $_args['post']);
@@ -45,6 +46,7 @@ function yoimg_crop_this_image($args)
         } else {
             $replacement = null;
         }
+
         $has_replacement = !empty($replacement) && get_post($replacement);
         if ($has_replacement) {
             $img_path = _load_image_to_edit_path($replacement);
@@ -76,7 +78,7 @@ function yoimg_crop_this_image($args)
             'replacement' => $replacement,
             'has_replacement' => $has_replacement,
             'img_path' => $img_path,
-            'yoimg_retina_crop_enabled' => ($yoimg_retina_crop_enabled && !$is_crop_retina_smaller) ? true : false
+            'yoimg_retina_crop_enabled' => $yoimg_retina_crop_enabled && !$is_crop_retina_smaller
         ];
 
         $cropped_image_filename = yoimg_save_this_image($vars);
@@ -115,6 +117,19 @@ function yoimg_crop_this_image($args)
 
 function yoimg_save_this_image($vars)
 {
+    $img_path = null;
+    $yoimg_retina_crop_enabled = null;
+    $crop_width = null;
+    $crop_height = null;
+    $req_x = null;
+    $req_y = null;
+    $req_width = null;
+    $req_height = null;
+    $attachment_metadata = [];
+    $req_size = null;
+    $has_replacement = null;
+    $req_post = null;
+
     extract($vars);
     $img_path_parts = pathinfo($img_path);
     $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';
@@ -188,6 +203,7 @@ function yoimg_edit_thumbnails_page()
             }
         }
     }
+
     $yoimg_image_size = $size;
 
     if (current_user_can('edit_post', $yoimg_image_id)) {
@@ -206,6 +222,7 @@ function yoimg_replace_image_for_size()
         $attachment_metadata['yoimg_attachment_metadata']['crop'][$size]['replacement'] = esc_html($_POST['replacement']);
         wp_update_attachment_metadata($id, $attachment_metadata);
     }
+
     die();
 }
 
@@ -218,6 +235,7 @@ function yoimg_restore_original_image_for_size()
         unset($attachment_metadata['yoimg_attachment_metadata']['crop'][$size]['replacement']);
         wp_update_attachment_metadata($id, $attachment_metadata);
     }
+
     die();
 }
 

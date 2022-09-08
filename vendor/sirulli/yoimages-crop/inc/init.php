@@ -1,9 +1,10 @@
 <?php
+
 if (!defined('ABSPATH')) {
     die('No script kiddies please!');
 }
 
-define('YOIMG_CROP_PATH', dirname(__FILE__));
+define('YOIMG_CROP_PATH', __DIR__);
 define('YOIMG_DEFAULT_CROP_ENABLED', true);
 define('YOIMG_DEFAULT_CROP_QUALITIES', serialize(array(
     100,
@@ -29,7 +30,7 @@ if (YOIMG_CROP_ENABLED) {
 }
 
 // Backend methods
-if (is_admin() || php_sapi_name() == 'cli') {
+if (is_admin() || PHP_SAPI == 'cli') {
     require_once(YOIMG_CROP_PATH . '/utils.php');
     if (YOIMG_CROP_ENABLED) {
         require_once(YOIMG_CROP_PATH . '/image-editor.php');
@@ -40,8 +41,10 @@ if (is_admin() || php_sapi_name() == 'cli') {
         require_once(YOIMG_CROP_PATH . '/extend-admin-options-media.php');
         require_once(YOIMG_CROP_PATH . '/extend-attachment-update.php');
     }
+
     require_once(YOIMG_CROP_PATH . '/extend-yoimg-settings.php');
 }
+
 function yoimg_crop_load_styles_and_scripts($hook)
 {
     if (YOIMG_CROP_ENABLED) {
@@ -49,7 +52,7 @@ function yoimg_crop_load_styles_and_scripts($hook)
             wp_enqueue_media();
         } elseif ($hook == 'upload.php') {
             // issue http://stackoverflow.com/questions/25884434/wordpress-wp-enqueue-media-causes-javascript-error-from-wp-admin-upload-phpmo
-            $mode = get_user_option('media_library_mode', get_current_user_id()) ? get_user_option('media_library_mode', get_current_user_id()) : 'grid';
+            $mode = get_user_option('media_library_mode', get_current_user_id()) ?: 'grid';
             $modes = array(
                 'grid',
                 'list'
@@ -58,17 +61,20 @@ function yoimg_crop_load_styles_and_scripts($hook)
                 $mode = $_GET['mode'];
                 update_user_option(get_current_user_id(), 'media_library_mode', $mode);
             }
+
             if ('list' === $mode) {
                 $version = get_bloginfo('version');
                 // issue https://wordpress.org/support/topic/findposts-is-not-defined
                 if (version_compare($version, '4.2.2') < 0) {
                     wp_dequeue_script('media');
                 }
+
                 wp_enqueue_media();
             }
         } else {
             wp_enqueue_style('media-views');
         }
+
         wp_enqueue_style('wp-pointer');
         wp_enqueue_style('yoimg-cropping-css', YOIMG_CROP_URL . '/css/yoimg-cropping.css');
         wp_enqueue_style('yoimg-cropper-css', YOIMG_CROP_URL . '/js/cropper/cropper.min.css');
@@ -81,6 +87,7 @@ function yoimg_crop_load_styles_and_scripts($hook)
         ), false, true);
     }
 }
+
 add_action('admin_enqueue_scripts', 'yoimg_crop_load_styles_and_scripts');
 
 // define the delete_attachment callback

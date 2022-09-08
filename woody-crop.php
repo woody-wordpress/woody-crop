@@ -21,6 +21,6 @@ if (!defined('ABSPATH')) {
     die('No script kiddies please!');
 }
 
-define('YOIMG_PATH', dirname(__FILE__));
+define('YOIMG_PATH', __DIR__);
 require_once(YOIMG_PATH . '/vendor/sirulli/yoimages-commons/inc/init.php');
 yoimg_register_module('yoimages-crop', YOIMG_PATH, true);

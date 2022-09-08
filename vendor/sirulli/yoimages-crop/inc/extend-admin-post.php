@@ -13,16 +13,16 @@ function yoimg_admin_post_thumbnail_html($content, $id, $thumb_id = null)
         } else {
             return $content;
         }
+    } elseif (has_post_thumbnail($id)) {
+        $image_id = get_post_thumbnail_id($id);
     } else {
-        if (has_post_thumbnail($id)) {
-            $image_id = get_post_thumbnail_id($id);
-        } else {
-            return $content;
-        }
+        return $content;
     }
+
     if (! current_user_can('edit_post', $image_id)) {
         return $content;
     }
+
     $edit_crops_content = '<p>' . yoimg_get_edit_image_anchor($image_id) . '</p>';
     return $content . $edit_crops_content;
 }
