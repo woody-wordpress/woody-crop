@@ -50,13 +50,13 @@ if (! defined('YOIMG_COMMONS_PATH')) {
         $plugin_slug = $plugin_slug[0];
 
         $is_yoimg_module_w_settings = isset($yoimg_modules[$file_base_dir]['has-settings']) && $yoimg_modules[$file_base_dir]['has-settings'];
-        if ($file_base_dir == $plugin_slug || $is_yoimg_module_w_settings) {
+        if ($file_base_dir === $plugin_slug || $is_yoimg_module_w_settings) {
             $plugin_settings_link = 'options-general.php?page=yoimg-settings';
             if ($is_yoimg_module_w_settings) {
                 $plugin_settings_link .= '&tab=' . $file_base_dir;
             }
 
-            array_push($links, '<a href="' . $plugin_settings_link . '">'. __('Settings') .'</a>');
+            $links[] = '<a href="' . $plugin_settings_link . '">'. __('Settings') .'</a>';
         }
 
         return $links;

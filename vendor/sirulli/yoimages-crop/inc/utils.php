@@ -111,11 +111,7 @@ function yoimg_get_sameratio_sizes($sizes, $size = null)
                 $ratio = ceil(($size_value['width'] / $size_value['height']) * 100);
             }
 
-            if ($size_value['width'] >= $size_value['height']) {
-                $max_size = $size_value['width'];
-            } else {
-                $max_size = $size_value['height'];
-            }
+            $max_size = $size_value['width'] >= $size_value['height'] ? $size_value['width'] : $size_value['height'];
 
             $ratio_sizes[$ratio][$max_size] = $size_key;
             krsort($ratio_sizes[$ratio]);

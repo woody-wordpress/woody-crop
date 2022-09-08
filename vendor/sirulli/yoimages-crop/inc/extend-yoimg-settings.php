@@ -54,7 +54,7 @@ function yoimg_crop_extend_settings($settings)
                     )
             )
     );
-    array_push($settings, $crop_settings);
+    $settings[] = $crop_settings;
     return $settings;
 }
 
@@ -70,7 +70,7 @@ function yoimg_crop_settings_crop_qualities_callback()
 {
     $crop_options = get_option('yoimg_crop_settings');
     printf('<input type="text" id="crop_qualities" name="yoimg_crop_settings[crop_qualities]" value="%s" class="cropping_is_active-dep" />
-                <p class="description">' . __('Comma separated list of crop quality values (100 best to 50 medium)', YOIMG_DOMAIN) . '</p>', ! empty($crop_options ['crop_qualities']) ? esc_attr(implode(',', $crop_options ['crop_qualities'])) : implode(',', unserialize(YOIMG_DEFAULT_CROP_QUALITIES)));
+                <p class="description">' . __('Comma separated list of crop quality values (100 best to 50 medium)', YOIMG_DOMAIN) . '</p>', empty($crop_options ['crop_qualities']) ? implode(',', unserialize(YOIMG_DEFAULT_CROP_QUALITIES)) : esc_attr(implode(',', $crop_options ['crop_qualities'])));
 }
 
 function yoimg_crop_settings_retina_cropping_is_active_callback()

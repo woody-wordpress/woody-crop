@@ -216,11 +216,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
                 $req_width = $width_orig;
                 $req_height = $height_orig;
 
-                if ($ratio_orig == 1) {
-                    $size['height'] = $size['width'];
-                } else {
-                    $size['height'] = round($size['width'] * $ratio_orig);
-                }
+                $size['height'] = $ratio_orig == 1 ? $size['width'] : round($size['width'] * $ratio_orig);
             }
 
             // Get ratio diff
@@ -385,11 +381,7 @@ function yoimg_api_crop_url(WP_REST_Request $request)
 
     $return = [];
     if (!empty($attachment_metadata) && !empty($attachment_metadata['sizes'])) {
-        foreach ($attachment_metadata['sizes'] as $size => $file) {
-            if (strpos($file, 'http') !== false) {
-                $return[$size] = $file;
-            }
-        }
+        $return = array_filter($attachment_metadata['sizes'], fn($file) => strpos($file, 'http') !== false);
     }
 
     // Added Headers for varnish purge

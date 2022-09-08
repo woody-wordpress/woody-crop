@@ -78,7 +78,7 @@ function yoimg_crop_this_image($args)
             'replacement' => $replacement,
             'has_replacement' => $has_replacement,
             'img_path' => $img_path,
-            'yoimg_retina_crop_enabled' => ($yoimg_retina_crop_enabled && !$is_crop_retina_smaller) ? true : false
+            'yoimg_retina_crop_enabled' => $yoimg_retina_crop_enabled && !$is_crop_retina_smaller
         ];
 
         $cropped_image_filename = yoimg_save_this_image($vars);

@@ -13,10 +13,10 @@ function woodyCrop_debug($args = [], $assoc_args = [])
 {
     if (!empty($assoc_args) && !empty($assoc_args['force'])) {
         $force = true;
-        output_warning(sprintf('FORCE'));
+        output_warning('FORCE');
     } else {
         $force = false;
-        output_warning(sprintf('SIMULATION'));
+        output_warning('SIMULATION');
     }
 
     woodyCrop_debugMetas($force);
@@ -26,10 +26,10 @@ function woodyCrop_reset($args = [], $assoc_args = [])
 {
     if (!empty($assoc_args) && !empty($assoc_args['force'])) {
         $force = true;
-        output_warning(sprintf('FORCE'));
+        output_warning('FORCE');
     } else {
         $force = false;
-        output_warning(sprintf('SIMULATION'));
+        output_warning('SIMULATION');
     }
 
     $existing_original_files = woodyCrop_resetMetas($force);
