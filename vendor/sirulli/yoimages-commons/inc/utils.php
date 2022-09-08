@@ -3,6 +3,7 @@
 if (! defined('ABSPATH')) {
     die('No script kiddies please!');
 }
+
 if (! function_exists('yoimg_log')) {
     function yoimg_log($message)
     {
@@ -15,6 +16,7 @@ if (! function_exists('yoimg_log')) {
         }
     }
 }
+
 if (! function_exists('yoimg_register_module')) {
     function yoimg_register_module($module_id, $module_path, $has_settings = false)
     {
@@ -22,6 +24,7 @@ if (! function_exists('yoimg_register_module')) {
         if (! isset($yoimg_modules)) {
             $yoimg_modules = array();
         }
+
         if (! isset($yoimg_modules [$module_id])) {
             $module_loaded = false;
             $module_init_file = $module_path . '/vendor/sirulli/' . $module_id . '/inc/init.php';
@@ -35,6 +38,7 @@ if (! function_exists('yoimg_register_module')) {
                     $module_loaded = true;
                 }
             }
+
             if ($module_loaded) {
                 $yoimg_modules [$module_id] = array(
                         'has-settings' => $has_settings

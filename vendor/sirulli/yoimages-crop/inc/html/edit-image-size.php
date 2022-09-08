@@ -22,6 +22,7 @@ if (isset($attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image
 } else {
     $replacement = null;
 }
+
 $has_replacement = ! empty($replacement) && get_post($replacement);
 if ($has_replacement) {
     $full_image_attributes = wp_get_attachment_image_src($replacement, 'full');
@@ -54,6 +55,7 @@ if ($has_replacement) {
     } else {
         $crop_x = null;
     }
+
     if (is_numeric($crop_x) && $crop_x >= 0 && (! $is_immediate_cropping)) {
         ?>
         yoimg_prev_crop_x = <?php echo $crop_x; ?>;
@@ -82,7 +84,8 @@ if ($has_replacement) {
         </button>
         <div class="media-modal-content">
 <?php
-    } ?>
+    }
+     ?>
             <div class="media-frame wp-core-ui">
                 <div class="media-frame-title"><h1><?php _e('Edit crop formats from full image', YOIMG_DOMAIN); ?> (<?php echo $full_image_attributes[1]; ?>x<?php echo $full_image_attributes[2]; ?>)</h1></div>
                 <div class="media-frame-router">
@@ -100,10 +103,11 @@ if ($has_replacement) {
                                     $curr_size_width = $size_value['width'];
                                     $curr_size_height = $size_value['height'];
                                 }
+
                                 $anchor_class = $is_current_size ? 'active' : '';
                                 $anchor_href = yoimg_get_edit_image_url($yoimg_image_id, $size_key) . '&partial=1'; ?>
                                 <a href="<?php echo $anchor_href; ?>" class="media-menu-item yoimg-thickbox yoimg-thickbox-partial <?php echo $anchor_class; ?>"><?php echo $size_value['name']; ?></a>
-                        <?php
+<?php
                             }
                         }
                         ?>
@@ -121,7 +125,8 @@ if ($has_replacement) {
                                     <!--<div id="yoimg-replace-img-btn" style="display:none;" title="<?php _e('Replace image source for', YOIMG_DOMAIN); ?> <?php echo $yoimg_image_size; ?>" class="button button-primary button-large"><?php _e('Replace', YOIMG_DOMAIN); ?></div> -->
                                     <?php if ($has_replacement) { ?>
                                         <div id="yoimg-restore-img-btn" title="<?php _e('Restore original image source for', YOIMG_DOMAIN); ?> <?php echo $yoimg_image_size; ?>" class="button button-large"><?php _e('Restore', YOIMG_DOMAIN); ?></div>
-                                    <?php } ?>
+                                    <?php }
+                         ?>
                                 </div>
                             </div>
                         </div>
@@ -141,6 +146,7 @@ if ($has_replacement) {
                                     <h3><?php _e('Current', YOIMG_DOMAIN); ?> <?php echo $cropped_image_sizes['name']; ?> (<?php echo $curr_size_width; ?>x<?php echo $curr_size_height; ?>)</h3>
                                 <?php
                                 }
+
                                 $image_attributes = wp_get_attachment_image_src($yoimg_image_id, $yoimg_image_size);
 
                                 // Trouver l'url de base
@@ -168,7 +174,8 @@ if ($has_replacement) {
                                         </div>
                                     </div>
                                 <?php
-                                } ?>
+                                }
+                                 ?>
 
                                 <div class="message error yoimg-crop-smaller" style="display:<?php echo $is_crop_smaller ? 'block' : 'none'; ?>;">
                                     <?php //TODO?>
@@ -216,6 +223,7 @@ if ($has_replacement) {
 </div>
 <?php
                                         }
+
 if ($is_immediate_cropping) {
     ?>
     <script>yoimgInitCropImage(true);</script>
@@ -225,4 +233,5 @@ if ($is_immediate_cropping) {
     <script>yoimgInitCropImage();</script>
 <?php
     }
+
 exit();

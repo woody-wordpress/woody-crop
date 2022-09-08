@@ -12,6 +12,7 @@ function yoimg_generate_attachment_metadata($metadata, $id)
             $metadata['yoimg_attachment_metadata'] = $yoimg_meta_data['yoimg_attachment_metadata'];
         }
     }
+
     return $metadata;
 }
 

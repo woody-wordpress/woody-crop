@@ -138,6 +138,7 @@ function yoimg_api(WP_REST_Request $request)
         $image_url = 'https://api.tourism-system.com/resize/clip/' . $size['width'] . '/' . $size['height'] . '/70/aHR0cHM6Ly9hcGkudG91cmlzbS1zeXN0ZW0uY29tL3N0YXRpYy9hc3NldHMvaW1hZ2VzL3Jlc2l6ZXIvaW1nXzQwNC5qcGc=/404.jpg';
         wp_redirect($image_url, 302, 'Woody Crop');
     }
+
     exit;
 }
 
@@ -164,16 +165,20 @@ function yoimg_api_debug(WP_REST_Request $request)
             if (strpos($ratio, 'small') !== false) {
                 continue;
             }
+
             if (strpos($ratio, 'medium') !== false) {
                 continue;
             }
+
             if (strpos($ratio, 'large') !== false) {
                 continue;
             }
+
             print '<h2>' . $ratio . '</h2>';
             print '<p><img style="max-width:50%" src="/wp-json/woody/crop/' . $attachment_id . '/' . $ratio . '_force" title="' . $ratio . '" alt="' . $ratio . '"></p>';
         }
     }
+
     print '</body></html>';
     exit();
 }
@@ -325,7 +330,7 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
 
 function yoimg_api_load_image($img_path)
 {
-    if (!is_file($img_path) && !preg_match('|^https?://|', $img_path)) {
+    if (!is_file($img_path) && !preg_match('#^https?://#', $img_path)) {
         return new WP_Error('error_loading_image', __('File doesn&#8217;t exist?'), $img_path);
     }
 

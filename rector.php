@@ -40,7 +40,7 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_74,
         // SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
-        // SetList::CODING_STYLE,
+        SetList::CODING_STYLE,
         // SetList::NAMING,
 
         // PHP 8 Migration

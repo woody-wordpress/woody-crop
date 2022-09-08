@@ -76,6 +76,7 @@ function yoimg_get_image_sizes($size = '')
                     'active' => true
                 );
             }
+
             $sizes[$size_key]['width'] = $size_value['width'];
             $sizes[$size_key]['height'] = $size_value['height'];
             $sizes[$size_key]['crop'] = $size_value['crop'];
@@ -89,6 +90,7 @@ function yoimg_get_image_sizes($size = '')
             return false;
         }
     }
+
     return $sizes;
 }
 
@@ -114,6 +116,7 @@ function yoimg_get_sameratio_sizes($sizes, $size = null)
             } else {
                 $max_size = $size_value['height'];
             }
+
             $ratio_sizes[$ratio][$max_size] = $size_key;
             krsort($ratio_sizes[$ratio]);
         }

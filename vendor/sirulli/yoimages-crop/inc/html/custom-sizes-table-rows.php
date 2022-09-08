@@ -39,7 +39,8 @@ foreach ($sizes as $size_key => $size_value) {
 			<label class="yoimg-first"><?php _e('Max Width', YOIMG_DOMAIN); ?>: <?php echo $size_value['width']; ?></label>
 			<label><?php _e('Max Height', YOIMG_DOMAIN); ?>: <?php echo $size_value['height']; ?></label>
 		<?php
-            } ?>
+            }
+             ?>
 	</td>
 </tr>
 
@@ -58,13 +59,15 @@ foreach ($sizes as $size_key => $size_value) {
 				<a class="dashicons dashicons-editor-help yoimg-resize-help" data-code="f223" href="javascript:;"></a>
 			</label>
 		<?php
-            } ?>
+            }
+                 ?>
 	</td>
 </tr>
 
 <?php
         }
-    } ?>
+    }
+     ?>
 </tbody>
 </table>
 <script>

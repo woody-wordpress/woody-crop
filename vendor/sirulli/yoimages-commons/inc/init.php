@@ -10,7 +10,7 @@ if (! defined('YOIMG_COMMONS_PATH')) {
 
     require_once(YOIMG_COMMONS_PATH . '/utils.php');
 
-    if (is_admin() || php_sapi_name() == 'cli') {
+    if (is_admin() || PHP_SAPI == 'cli') {
         define('YOIMG_COMMONS_URL', plugins_url(plugin_basename(YOIMG_COMMONS_PATH)));
 
         global $yoimg_plugins_url;
@@ -26,6 +26,7 @@ if (! defined('YOIMG_COMMONS_PATH')) {
 
         require_once(YOIMG_COMMONS_PATH . '/settings.php');
     }
+
     if (! function_exists('yoimg_settings_load_styles_and_scripts')) {
         function yoimg_settings_load_styles_and_scripts($hook)
         {
@@ -35,6 +36,7 @@ if (! defined('YOIMG_COMMONS_PATH')) {
                 ), false, true);
             }
         }
+
         add_action('admin_enqueue_scripts', 'yoimg_settings_load_styles_and_scripts');
     }
 
@@ -43,21 +45,27 @@ if (! defined('YOIMG_COMMONS_PATH')) {
         global $yoimg_modules;
         $file_base_dir = explode('/', plugin_dir_path($file));
         $file_base_dir = $file_base_dir[0];
+
         $plugin_slug = explode('/', plugin_basename(YOIMG_COMMONS_PATH));
         $plugin_slug = $plugin_slug[0];
+
         $is_yoimg_module_w_settings = isset($yoimg_modules[$file_base_dir]['has-settings']) && $yoimg_modules[$file_base_dir]['has-settings'];
         if ($file_base_dir == $plugin_slug || $is_yoimg_module_w_settings) {
             $plugin_settings_link = 'options-general.php?page=yoimg-settings';
             if ($is_yoimg_module_w_settings) {
                 $plugin_settings_link .= '&tab=' . $file_base_dir;
             }
+
             array_push($links, '<a href="' . $plugin_settings_link . '">'. __('Settings') .'</a>');
         }
+
         return $links;
     }
+
     global $wp_version;
     if (version_compare($wp_version, '2.8alpha', '>')) {
         add_filter('plugin_row_meta', 'filter_yoimg_meta', 10, 2);
     }
+
     add_filter('plugin_action_links', 'filter_yoimg_meta', 10, 2);
 }

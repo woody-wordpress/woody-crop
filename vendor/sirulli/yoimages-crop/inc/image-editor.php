@@ -19,6 +19,7 @@ function yoimg_crop_image()
     foreach ($_required_args as $_key) {
         $_args[$_key] = esc_html($_POST[$_key]);
     }
+
     do_action('yoimg_pre_crop_image');
     $result = yoimg_crop_this_image($_args);
     do_action('yoimg_post_crop_image', $_args['post']);
@@ -45,6 +46,7 @@ function yoimg_crop_this_image($args)
         } else {
             $replacement = null;
         }
+
         $has_replacement = !empty($replacement) && get_post($replacement);
         if ($has_replacement) {
             $img_path = _load_image_to_edit_path($replacement);
@@ -201,6 +203,7 @@ function yoimg_edit_thumbnails_page()
             }
         }
     }
+
     $yoimg_image_size = $size;
 
     if (current_user_can('edit_post', $yoimg_image_id)) {
@@ -219,6 +222,7 @@ function yoimg_replace_image_for_size()
         $attachment_metadata['yoimg_attachment_metadata']['crop'][$size]['replacement'] = esc_html($_POST['replacement']);
         wp_update_attachment_metadata($id, $attachment_metadata);
     }
+
     die();
 }
 
@@ -231,6 +235,7 @@ function yoimg_restore_original_image_for_size()
         unset($attachment_metadata['yoimg_attachment_metadata']['crop'][$size]['replacement']);
         wp_update_attachment_metadata($id, $attachment_metadata);
     }
+
     die();
 }
 

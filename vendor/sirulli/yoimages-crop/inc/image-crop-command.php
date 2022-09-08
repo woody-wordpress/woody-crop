@@ -260,10 +260,10 @@ function woodyCrop_removeOrphans($existing_original_files = [], $force = false)
         $real_path = str_replace('/shared/', '/current/', $file->getRealPath());
         if (in_array($real_path, $existing_original_files)) {
             output_log(sprintf('KEEP : %s', $real_path));
-            $keep_imgs++;
+            ++$keep_imgs;
         } else {
             output_log(sprintf('DELETE : %s', $real_path));
-            $delete_imgs++;
+            ++$delete_imgs;
             $cleaning_filesize += filesize($real_path);
 
             if ($force) {
@@ -315,5 +315,6 @@ function woodyCrop_HumanFileSize($bytes, $decimals = 2)
     if ($factor > 0) {
         $sz = 'KMGT';
     }
+
     return sprintf("%.{$decimals}f", $bytes / 1024 ** $factor) . @$sz[$factor - 1] . 'B';
 }
