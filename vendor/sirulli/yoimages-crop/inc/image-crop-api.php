@@ -37,7 +37,7 @@ function yoimg_flush_cropUrl_varnish($post)
 /* CROP API                 */
 /* ------------------------ */
 
-function yoimg_api(WP_REST_Request $request)
+function yoimg_api(WP_REST_Request $wprestRequest)
 {
     $size = [];
     /**
@@ -45,7 +45,7 @@ function yoimg_api(WP_REST_Request $request)
      */
     global $_wp_additional_image_sizes;
 
-    $params = $request->get_params();
+    $params = $wprestRequest->get_params();
     $ratio_name = $params['ratio'];
     $attachment_id = $params['attachment_id'];
 
@@ -142,14 +142,14 @@ function yoimg_api(WP_REST_Request $request)
     exit;
 }
 
-function yoimg_api_debug(WP_REST_Request $request)
+function yoimg_api_debug(WP_REST_Request $wprestRequest)
 {
     /**
      * Exemple : http://www.superot.wp.rc-dev.com/wp-json/woody/crop_debug/6013
      */
     global $_wp_additional_image_sizes;
 
-    $params = $request->get_params();
+    $params = $wprestRequest->get_params();
     $attachment_id = $params['attachment_id'];
 
     // Added Headers for varnish purge
@@ -373,9 +373,9 @@ function yoimg_api_resampled_image($img, $src_x, $src_y, $src_w, $src_h, $dst_w 
     return new WP_Error('image_crop_error', __('Image crop failed.'));
 }
 
-function yoimg_api_crop_url(WP_REST_Request $request)
+function yoimg_api_crop_url(WP_REST_Request $wprestRequest)
 {
-    $params = $request->get_params();
+    $params = $wprestRequest->get_params();
     $attachment_id = $params['attachment_id'];
     $attachment_metadata = acf_get_attachment($attachment_id, true);
 
