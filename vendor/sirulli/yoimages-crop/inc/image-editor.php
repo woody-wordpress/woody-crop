@@ -115,6 +115,19 @@ function yoimg_crop_this_image($args)
 
 function yoimg_save_this_image($vars)
 {
+    $img_path = null;
+    $yoimg_retina_crop_enabled = null;
+    $crop_width = null;
+    $crop_height = null;
+    $req_x = null;
+    $req_y = null;
+    $req_width = null;
+    $req_height = null;
+    $attachment_metadata = [];
+    $req_size = null;
+    $has_replacement = null;
+    $req_post = null;
+
     extract($vars);
     $img_path_parts = pathinfo($img_path);
     $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';

@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     die('No script kiddies please!');
 }
 
-define('YOIMG_CROP_PATH', dirname(__FILE__));
+define('YOIMG_CROP_PATH', __DIR__);
 define('YOIMG_DEFAULT_CROP_ENABLED', true);
 define('YOIMG_DEFAULT_CROP_QUALITIES', serialize(array(
     100,
@@ -50,7 +50,7 @@ function yoimg_crop_load_styles_and_scripts($hook)
             wp_enqueue_media();
         } elseif ($hook == 'upload.php') {
             // issue http://stackoverflow.com/questions/25884434/wordpress-wp-enqueue-media-causes-javascript-error-from-wp-admin-upload-phpmo
-            $mode = get_user_option('media_library_mode', get_current_user_id()) ? get_user_option('media_library_mode', get_current_user_id()) : 'grid';
+            $mode = get_user_option('media_library_mode', get_current_user_id()) ?: 'grid';
             $modes = array(
                 'grid',
                 'list'

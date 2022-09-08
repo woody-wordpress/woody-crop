@@ -38,6 +38,9 @@ function woodyCrop_reset($args = [], $assoc_args = [])
 
 function woodyCrop_debugMetas($force = false)
 {
+    $cleaning_filesize = null;
+    $existing_original_files = null;
+
     /* -------------------------------------------------------------------------------- */
     /* ATTENTION cette fonction supprime les images misent directement dans les Wysiwyg */
     /* -------------------------------------------------------------------------------- */
@@ -307,9 +310,10 @@ function woodyCrop_getPosts()
 
 function woodyCrop_HumanFileSize($bytes, $decimals = 2)
 {
+    $sz = [];
     $factor = floor((strlen($bytes) - 1) / 3);
     if ($factor > 0) {
         $sz = 'KMGT';
     }
-    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor - 1] . 'B';
+    return sprintf("%.{$decimals}f", $bytes / 1024 ** $factor) . @$sz[$factor - 1] . 'B';
 }

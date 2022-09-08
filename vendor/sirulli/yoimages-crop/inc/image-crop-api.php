@@ -39,6 +39,7 @@ function yoimg_flush_cropUrl_varnish($post)
 
 function yoimg_api(WP_REST_Request $request)
 {
+    $size = [];
     /**
      * Exemple : http://www.superot.wp.rc-dev.com/wp-json/woody/crop/382/ratio_square
      */
@@ -57,7 +58,7 @@ function yoimg_api(WP_REST_Request $request)
     // Woody constants
     if (empty(WP_UPLOAD_DIR)) {
         $upload_path = get_option('upload_path');
-        define(WP_UPLOAD_DIR, $upload_path);
+        define('WP_UPLOAD_DIR', $upload_path);
     }
 
     // Added default sizes
@@ -179,6 +180,10 @@ function yoimg_api_debug(WP_REST_Request $request)
 
 function yoimg_api_crop_from_size($img_path, $size, $force = false)
 {
+    $req_x = null;
+    $req_y = null;
+    $req_width = null;
+    $req_height = null;
     // Get infos from original image
     $img_path_parts = pathinfo($img_path);
 
@@ -186,7 +191,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     $cropped_image_dirname = $img_path_parts['dirname'] . '/thumbs';
 
     // get the size of the image
-    list($width_orig, $height_orig) = @getimagesize($img_path);
+    [$width_orig, $height_orig] = @getimagesize($img_path);
 
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
@@ -265,7 +270,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
 function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $width, $height)
 {
     // get the size of the image
-    list($width_orig, $height_orig, $image_type) = @getimagesize($img_path);
+    [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
 
     // Set webp filename
     $cropped_webp_path = $cropped_image_path . '.webp';

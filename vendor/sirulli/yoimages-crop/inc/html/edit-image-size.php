@@ -116,7 +116,7 @@ if ($has_replacement) {
                     <div class="attachments-browser">
                         <div class="attachments">
                             <div id="yoimg-cropper-container" style="max-width: <?php echo $full_image_attributes[1]; ?>px;max-height: <?php echo $full_image_attributes[2]; ?>px;">
-                                <img id="yoimg-cropper" src="<?php echo $full_image_attributes[0] . '?' . mt_rand(1000, 9999); ?>" style="max-width: 100%;" />
+                                <img id="yoimg-cropper" src="<?php echo $full_image_attributes[0] . '?' . random_int(1000, 9999); ?>" style="max-width: 100%;" />
                                 <div id="yoimg-replace-restore-wrapper">
                                     <!--<div id="yoimg-replace-img-btn" style="display:none;" title="<?php _e('Replace image source for', YOIMG_DOMAIN); ?> <?php echo $yoimg_image_size; ?>" class="button button-primary button-large"><?php _e('Replace', YOIMG_DOMAIN); ?></div> -->
                                     <?php if ($has_replacement) { ?>
@@ -153,7 +153,7 @@ if ($has_replacement) {
 
                                 if ($this_crop_exists) {
                                     ?>
-                                    <img src="<?php echo $image_attributes[0] . '?' . mt_rand(1000, 9999); ?>" data-baseurl="<?php echo $base_url; ?>" class="preview_<?php echo $yoimg_image_id; ?>" style="max-width: 100%;" />
+                                    <img src="<?php echo $image_attributes[0] . '?' . random_int(1000, 9999); ?>" data-baseurl="<?php echo $base_url; ?>" class="preview_<?php echo $yoimg_image_id; ?>" style="max-width: 100%;" />
                                     <?php
                                     $is_crop_smaller = $full_image_attributes[1] < $curr_size_width || $full_image_attributes[2] < $curr_size_height;
                                     $is_crop_retina_smaller = $yoimg_retina_crop_enabled && ($full_image_attributes[1] < ($curr_size_width * 2) || $full_image_attributes[2] < ($curr_size_height * 2));
