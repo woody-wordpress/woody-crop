@@ -14,7 +14,7 @@ function yoimg_get_cropped_image_filename($filename, $width, $height, $extension
 {
     $crop_options = get_option('yoimg_crop_settings');
     if (isset($crop_options['cachebusting_is_active']) && $crop_options['cachebusting_is_active']) {
-        return $filename . '-' . $width . 'x' . $height . '-crop-' . time() . ($retina ? '@2x': '') . '.' . $extension;
+        return $filename . '-' . $width . 'x' . $height . '-crop-' . time() . ($retina ? '@2x' : '') . '.' . $extension;
     } else {
         return $filename . '-' . $width . 'x' . $height . ($retina ? '@2x' : '') . '.' . $extension;
     }
