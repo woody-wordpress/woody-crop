@@ -119,7 +119,7 @@ function yoimg_get_sameratio_sizes($sizes, $size = null)
         }
 
         // Delete all images with the same ratio
-        foreach ($ratio_sizes as $ratio => $size_keys) {
+        foreach ($ratio_sizes as $size_keys) {
             $primary_size = array_shift($size_keys);
             foreach ($size_keys as $size_key) {
                 $sizes[$primary_size]['sameratio'][$size_key] = $sizes[$size_key];

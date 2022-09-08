@@ -82,7 +82,7 @@ if (! class_exists('YoImagesSettingsPage')) {
 			<?php
         }
 
-        private function sanitize_item(&$item, $key)
+        private function sanitize_item(&$item)
         {
             if (is_string($item)) {
                 $item = sanitize_text_field($item);

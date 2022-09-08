@@ -188,7 +188,7 @@ if ($has_replacement) {
                                         <?php
                                         $yoimg_crop_settings = get_option('yoimg_crop_settings');
                                         $crop_qualities = $yoimg_crop_settings && isset($yoimg_crop_settings['crop_qualities']) ? $yoimg_crop_settings['crop_qualities'] : unserialize(YOIMG_DEFAULT_CROP_QUALITIES);
-                                        foreach ($crop_qualities as $index => $value) {
+                                        foreach ($crop_qualities as $value) {
                                             ?>
                                             <option value="<?php echo $value; ?>"><?php echo $value; ?>%</option>
                                         <?php

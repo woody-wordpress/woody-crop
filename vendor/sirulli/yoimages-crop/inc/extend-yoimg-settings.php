@@ -140,7 +140,7 @@ function yoimg_crop_settings_sanitize($input)
             $crop_qualities = explode(',', $input ['crop_qualities']);
         }
         $crop_qualities_count = 0;
-        foreach ($crop_qualities as $index => $value) {
+        foreach ($crop_qualities as $value) {
             $crop_quality_value = ( int ) $value;
             if ($crop_quality_value > 0 && $crop_quality_value <= 100) {
                 $crop_qualities_arr [$crop_qualities_count] = $crop_quality_value;
