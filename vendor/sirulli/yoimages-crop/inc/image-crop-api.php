@@ -110,14 +110,6 @@ function yoimg_api(WP_REST_Request $wprestRequest)
                         $attachment_metadata['yoimg_attachment_metadata']['history'][] = $cropped_image_path;
                         $attachment_metadata['sizes'][$ratio_name]['file'] = $image_crop;
                         wp_update_attachment_metadata($attachment_id, $attachment_metadata);
-
-                        // Save metadata to all languages
-                        if (function_exists('pll_get_post_language') && !empty(PLL_DEFAULT_LANG)) {
-                            $current_lang = pll_get_post_language($attachment_id);
-                            if ($current_lang == PLL_DEFAULT_LANG) {
-                                do_action('save_attachment', $attachment_id);
-                            }
-                        }
                     }
                 }
 
@@ -381,7 +373,7 @@ function yoimg_api_crop_url(WP_REST_Request $wprestRequest)
 
     $return = [];
     if (!empty($attachment_metadata) && !empty($attachment_metadata['sizes'])) {
-        $return = array_filter($attachment_metadata['sizes'], fn($file) => strpos($file, 'http') !== false);
+        $return = array_filter($attachment_metadata['sizes'], fn ($file) => strpos($file, 'http') !== false);
     }
 
     // Added Headers for varnish purge
