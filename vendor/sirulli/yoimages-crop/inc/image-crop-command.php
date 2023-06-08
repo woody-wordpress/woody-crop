@@ -101,7 +101,6 @@ function woodyCrop_debugMetas($force = false)
             if ($update_metadata) {
                 if ($force) {
                     wp_update_attachment_metadata($post['id'], $attachment_metadata);
-                    do_action('save_attachment', $post['id']);
                 }
 
                 output_log(sprintf('Image nettoyée : %s - %s (%s)', $post['lang'], $post['title'], $post['id']));
@@ -231,7 +230,6 @@ function woodyCrop_resetMetas($force = false, $posts = [])
 
             if ($force) {
                 wp_update_attachment_metadata($post['id'], $attachment_metadata);
-                do_action('save_attachment', $post['id']);
             }
 
             $existing_original_files[] = $img_path;
