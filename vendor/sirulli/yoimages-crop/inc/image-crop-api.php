@@ -266,7 +266,9 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
     [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
 
     // Set webp filename
-    $cropped_webp_path = $cropped_image_path . '.webp';
+    if (YOIMG_WEBP_ENABLED) {
+        $cropped_image_path = dirname($cropped_image_path) . DIRECTORY_SEPARATOR . pathinfo(basename($cropped_image_path), PATHINFO_FILENAME) . '.webp';
+    }
 
     // ----------------------------------------
     $img = yoimg_api_load_image($img_path);
@@ -279,13 +281,14 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
                 imageinterlace($cropped_img, true);
             }
 
-            // Export WEBP progressive with no EXIF data
             if (YOIMG_WEBP_ENABLED) {
-                imagewebp($cropped_img, $cropped_webp_path, 75);
+                // Export WEBP progressive with no EXIF data
+                imagewebp($cropped_img, $cropped_image_path, 75);
+            } else {
+                // Export JPEG progressive with no EXIF data
+                imagejpeg($cropped_img, $cropped_image_path, 75);
             }
 
-            // Export JPEG progressive with no EXIF data
-            imagejpeg($cropped_img, $cropped_image_path, 75);
             break;
 
         case IMAGETYPE_GIF:
@@ -299,13 +302,14 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
             break;
 
         case IMAGETYPE_PNG:
-            // Export WEBP progressive with no EXIF data
             if (YOIMG_WEBP_ENABLED) {
-                imagewebp($cropped_img, $cropped_webp_path, 75);
+                // Export WEBP progressive with no EXIF data
+                imagewebp($cropped_img, $cropped_image_path, 75);
+            } else {
+                // Export PNG progressive with no EXIF data
+                imagepng($cropped_img, $cropped_image_path, 3);
             }
 
-            // Export PNG progressive with no EXIF data
-            imagepng($cropped_img, $cropped_image_path, 3);
             break;
     }
 
