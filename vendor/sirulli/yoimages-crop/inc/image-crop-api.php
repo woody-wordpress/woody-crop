@@ -190,6 +190,9 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     // get the size of the image
     [$width_orig, $height_orig] = @getimagesize($img_path);
 
+    // Set extension
+    $crop_image_extension = (YOIMG_WEBP_ENABLED) ? 'webp' : $img_path_parts['extension'];
+
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
             // Crop already set
@@ -198,7 +201,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
             $req_width = $size['req_width'];
             $req_height = $size['req_height'];
 
-            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height']  . '-crop-' . time() . '.' . $img_path_parts['extension'];
+            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height']  . '-crop-' . time() . '.' . $crop_image_extension;
             $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
         } else {
             $ratio_orig = (float) $height_orig / $width_orig;
@@ -233,7 +236,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
                 $req_y = 0;
             }
 
-            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height'] . '.' . $img_path_parts['extension'];
+            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height'] . '.' . $crop_image_extension;
             $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
         }
 
@@ -264,11 +267,6 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
 {
     // get the size of the image
     [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
-
-    // Set webp filename
-    if (YOIMG_WEBP_ENABLED) {
-        $cropped_image_path = dirname($cropped_image_path) . DIRECTORY_SEPARATOR . pathinfo(basename($cropped_image_path), PATHINFO_FILENAME) . '.webp';
-    }
 
     // ----------------------------------------
     $img = yoimg_api_load_image($img_path);
