@@ -168,16 +168,6 @@ function woodyCrop_resetMetas($force = false, $posts = [])
 
                         output_log(sprintf('DELETE : %s', $deleted_image_path));
                     }
-
-                    if (file_exists($deleted_image_path . '.webp')) {
-                        $filesize += filesize($deleted_image_path . '.webp');
-
-                        if ($force) {
-                            unlink($deleted_image_path . '.webp');
-                        }
-
-                        output_log(sprintf('DELETE : %s', $deleted_image_path . '.webp'));
-                    }
                 }
 
                 // Remplacer ou remplir la ligne par la crop API dans les metadatas
@@ -200,16 +190,6 @@ function woodyCrop_resetMetas($force = false, $posts = [])
                         }
 
                         output_log(sprintf('DELETE : %s', $file));
-                    }
-
-                    if (file_exists($file . '.webp')) {
-                        $filesize += filesize($file . '.webp');
-
-                        if ($force) {
-                            unlink($file . '.webp');
-                        }
-
-                        output_log(sprintf('DELETE : %s', $file . '.webp'));
                     }
 
                     if ($force) {

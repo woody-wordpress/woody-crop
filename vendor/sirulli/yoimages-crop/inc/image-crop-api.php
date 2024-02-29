@@ -191,7 +191,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     [$width_orig, $height_orig] = @getimagesize($img_path);
 
     // Set extension
-    $crop_image_extension = (YOIMG_WEBP_ENABLED) ? 'webp' : $img_path_parts['extension'];
+    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($img_path_parts['extension'], ['png', 'jpg', 'jpeg'])) ? 'webp' : $img_path_parts['extension'];
 
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
@@ -248,13 +248,6 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
         if (file_exists($cropped_image_path) && $force) {
             // Remove image before recreate
             unlink($cropped_image_path);
-        }
-
-        // Set webp filename
-        $cropped_webp_path = $cropped_image_path . '.webp';
-        if (file_exists($cropped_webp_path) && $force) {
-            // Remove image before recreate
-            unlink($cropped_webp_path);
         }
 
         yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $size['width'], $size['height']);
@@ -327,17 +320,28 @@ function yoimg_api_load_image($img_path)
     // Set artificially high because GD uses uncompressed images in memory.
     wp_raise_memory_limit('image');
 
-    $img = @imagecreatefromstring(file_get_contents($img_path));
+    [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
+    if (!$width_orig) {
+        return new WP_Error('invalid_image', __('Could not read image size.'), $img_path);
+    }
+
+    switch($image_type) {
+        case IMAGETYPE_GIF: $img = imagecreatefromgif($img_path);
+            break;
+        case IMAGETYPE_JPEG: $img = imagecreatefromjpeg($img_path);
+            break;
+        case IMAGETYPE_PNG: $img = imagecreatefrompng($img_path);
+            break;
+        default:
+            $img = @imagecreatefromstring(file_get_contents($img_path));
+    }
+
     if (!is_resource($img)) {
         return new WP_Error('invalid_image', __('File is not an image.'), $img_path);
     }
 
-    $size = @getimagesize($img_path);
-    if (!$size) {
-        return new WP_Error('invalid_image', __('Could not read image size.'), $img_path);
-    }
-
-    if (function_exists('imagealphablending') && function_exists('imagesavealpha')) {
+    if(function_exists('imagecolortransparent') && function_exists('imagecolorallocatealpha') && function_exists('imagealphablending') && function_exists('imagesavealpha') && ($type == IMAGETYPE_GIF || $type == IMAGETYPE_PNG)) {
+        imagecolortransparent($img, imagecolorallocatealpha($img, 0, 0, 0, 127));
         imagealphablending($img, false);
         imagesavealpha($img, true);
     }

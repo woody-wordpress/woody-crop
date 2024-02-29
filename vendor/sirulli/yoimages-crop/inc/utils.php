@@ -13,7 +13,7 @@ function yoimg_is_retina_crop_enabled_for_size($size)
 function yoimg_get_cropped_image_filename($filename, $width, $height, $extension, $retina = false)
 {
     // Set extension
-    $crop_image_extension = (YOIMG_WEBP_ENABLED) ? 'webp' : $extension;
+    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($extension, ['png', 'jpg', 'jpeg'])) ? 'webp' : $extension;
 
     $crop_options = get_option('yoimg_crop_settings');
     if (isset($crop_options['cachebusting_is_active']) && $crop_options['cachebusting_is_active']) {
