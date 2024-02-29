@@ -191,7 +191,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     [$width_orig, $height_orig] = @getimagesize($img_path);
 
     // Set extension
-    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($img_path_parts['extension'], ['png', 'jpg', 'jpeg'])) ? 'webp' : $img_path_parts['extension'];
+    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($img_path_parts['extension'], ['png', 'jpg', 'jpeg', 'webp'])) ? 'webp' : $img_path_parts['extension'];
 
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
@@ -320,27 +320,17 @@ function yoimg_api_load_image($img_path)
     // Set artificially high because GD uses uncompressed images in memory.
     wp_raise_memory_limit('image');
 
-    [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
-    if (!$width_orig) {
+    [$size] = @getimagesize($img_path);
+    if (!$size) {
         return new WP_Error('invalid_image', __('Could not read image size.'), $img_path);
     }
 
-    switch($image_type) {
-        case IMAGETYPE_GIF: $img = imagecreatefromgif($img_path);
-            break;
-        case IMAGETYPE_JPEG: $img = imagecreatefromjpeg($img_path);
-            break;
-        case IMAGETYPE_PNG: $img = imagecreatefrompng($img_path);
-            break;
-        default:
-            $img = @imagecreatefromstring(file_get_contents($img_path));
-    }
-
+    $img = @imagecreatefromstring(file_get_contents($img_path));
     if (!is_resource($img)) {
         return new WP_Error('invalid_image', __('File is not an image.'), $img_path);
     }
 
-    if(function_exists('imagecolortransparent') && function_exists('imagecolorallocatealpha') && function_exists('imagealphablending') && function_exists('imagesavealpha') && ($type == IMAGETYPE_GIF || $type == IMAGETYPE_PNG)) {
+    if(function_exists('imagecolortransparent') && function_exists('imagecolorallocatealpha') && function_exists('imagealphablending') && function_exists('imagesavealpha')) {
         imagecolortransparent($img, imagecolorallocatealpha($img, 0, 0, 0, 127));
         imagealphablending($img, false);
         imagesavealpha($img, true);
