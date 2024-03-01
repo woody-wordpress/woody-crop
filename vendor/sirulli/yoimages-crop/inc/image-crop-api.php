@@ -190,6 +190,9 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     // get the size of the image
     [$width_orig, $height_orig] = @getimagesize($img_path);
 
+    // Set extension
+    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($img_path_parts['extension'], ['png', 'jpg', 'jpeg', 'webp', 'gif'])) ? 'webp' : $img_path_parts['extension'];
+
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
             // Crop already set
@@ -198,7 +201,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
             $req_width = $size['req_width'];
             $req_height = $size['req_height'];
 
-            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height']  . '-crop-' . time() . '.' . $img_path_parts['extension'];
+            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height']  . '-crop-' . time() . '.' . $crop_image_extension;
             $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
         } else {
             $ratio_orig = (float) $height_orig / $width_orig;
@@ -233,7 +236,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
                 $req_y = 0;
             }
 
-            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height'] . '.' . $img_path_parts['extension'];
+            $cropped_image_filename = $img_path_parts['filename'] . '-' . $size['width'] . 'x' . $size['height'] . '.' . $crop_image_extension;
             $cropped_image_path = $cropped_image_dirname . '/' . $cropped_image_filename;
         }
 
@@ -247,13 +250,6 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
             unlink($cropped_image_path);
         }
 
-        // Set webp filename
-        $cropped_webp_path = $cropped_image_path . '.webp';
-        if (file_exists($cropped_webp_path) && $force) {
-            // Remove image before recreate
-            unlink($cropped_webp_path);
-        }
-
         yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_width, $req_height, $size['width'], $size['height']);
 
         return $cropped_image_path;
@@ -265,48 +261,40 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
     // get the size of the image
     [$width_orig, $height_orig, $image_type] = @getimagesize($img_path);
 
-    // Set webp filename
-    $cropped_webp_path = $cropped_image_path . '.webp';
-
     // ----------------------------------------
     $img = yoimg_api_load_image($img_path);
     $cropped_img = yoimg_api_resampled_image($img, $req_x, $req_y, $req_width, $req_height, $width, $height, false);
 
-    switch ($image_type) {
-        case IMAGETYPE_JPEG:
-            // Progressive
-            if (function_exists('imageinterlace')) {
-                imageinterlace($cropped_img, true);
-            }
+    // Sometimes is not defined
+    if(!defined('IMAGETYPE_WEBP')) {
+        define('IMAGETYPE_WEBP', 18);
+    }
 
-            // Export WEBP progressive with no EXIF data
-            if (YOIMG_WEBP_ENABLED) {
-                imagewebp($cropped_img, $cropped_webp_path, 75);
-            }
+    if (YOIMG_WEBP_ENABLED || $image_type == IMAGETYPE_WEBP) {
+        // Export WEBP progressive with no EXIF data
+        imagewebp($cropped_img, $cropped_image_path, 75);
+    } else {
+        switch ($image_type) {
+            case IMAGETYPE_JPEG:
+                // Progressive
+                if (function_exists('imageinterlace')) {
+                    imageinterlace($cropped_img, true);
+                }
 
-            // Export JPEG progressive with no EXIF data
-            imagejpeg($cropped_img, $cropped_image_path, 75);
-            break;
+                // Export JPEG progressive with no EXIF data
+                imagejpeg($cropped_img, $cropped_image_path, 75);
+                break;
 
-        case IMAGETYPE_GIF:
-            // Progressive
-            if (function_exists('imageinterlace')) {
-                imageinterlace($cropped_img, true);
-            }
+            case IMAGETYPE_GIF:
+                // Export GIF progressive with no EXIF data
+                imagegif($cropped_img, $cropped_image_path);
+                break;
 
-            // Export GIF progressive with no EXIF data
-            imagegif($cropped_img, $cropped_image_path);
-            break;
-
-        case IMAGETYPE_PNG:
-            // Export WEBP progressive with no EXIF data
-            if (YOIMG_WEBP_ENABLED) {
-                imagewebp($cropped_img, $cropped_webp_path, 75);
-            }
-
-            // Export PNG progressive with no EXIF data
-            imagepng($cropped_img, $cropped_image_path, 3);
-            break;
+            case IMAGETYPE_PNG:
+                // Export PNG progressive with no EXIF data
+                imagepng($cropped_img, $cropped_image_path, 3);
+                break;
+        }
     }
 
     // Free memory
@@ -325,17 +313,18 @@ function yoimg_api_load_image($img_path)
     // Set artificially high because GD uses uncompressed images in memory.
     wp_raise_memory_limit('image');
 
+    [$size] = @getimagesize($img_path);
+    if (!$size) {
+        return new WP_Error('invalid_image', __('Could not read image size.'), $img_path);
+    }
+
     $img = @imagecreatefromstring(file_get_contents($img_path));
     if (!is_resource($img)) {
         return new WP_Error('invalid_image', __('File is not an image.'), $img_path);
     }
 
-    $size = @getimagesize($img_path);
-    if (!$size) {
-        return new WP_Error('invalid_image', __('Could not read image size.'), $img_path);
-    }
-
-    if (function_exists('imagealphablending') && function_exists('imagesavealpha')) {
+    if(function_exists('imagecolortransparent') && function_exists('imagecolorallocatealpha') && function_exists('imagealphablending') && function_exists('imagesavealpha')) {
+        imagecolortransparent($img, imagecolorallocatealpha($img, 0, 0, 0, 127));
         imagealphablending($img, false);
         imagesavealpha($img, true);
     }

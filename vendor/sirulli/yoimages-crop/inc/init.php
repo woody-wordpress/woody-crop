@@ -95,25 +95,12 @@ function action_delete_attachment($post_id)
 {
     $attachment_metadata = maybe_unserialize(wp_get_attachment_metadata($post_id));
 
-    // Remove WebP files
-    if (!empty($attachment_metadata) && !empty($attachment_metadata['sizes'])) {
-        foreach ($attachment_metadata['sizes'] as $ratio) {
-            if (strpos($ratio['file'], 'wp-json') !== false && file_exists($ratio['file'] . '.webp')) {
-                wp_delete_file($ratio['file'] . '.webp');
-            }
-        }
-    }
-
     if (!empty($attachment_metadata) && !empty($attachment_metadata['yoimg_attachment_metadata']['history'])) {
         foreach ($attachment_metadata['yoimg_attachment_metadata']['history'] as $file) {
             wp_delete_file($file);
-
-            if (file_exists($file . '.webp')) {
-                wp_delete_file($file . '.webp');
-            }
         }
     }
-};
+}
 
 // add the action
 add_action('delete_attachment', 'action_delete_attachment', 10, 1);
