@@ -265,49 +265,38 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
     $img = yoimg_api_load_image($img_path);
     $cropped_img = yoimg_api_resampled_image($img, $req_x, $req_y, $req_width, $req_height, $width, $height, false);
 
-    switch ($image_type) {
-        case IMAGETYPE_JPEG:
-            // Progressive
-            if (function_exists('imageinterlace')) {
-                imageinterlace($cropped_img, true);
-            }
+    file_put_contents('/home/admin/www/woody_02/current/web/app/uploads/woody-sandbox/debug.log', IMAGETYPE_WEBP);
 
-            if (YOIMG_WEBP_ENABLED) {
-                // Export WEBP progressive with no EXIF data
-                imagewebp($cropped_img, $cropped_image_path, 75);
-            } else {
+    // Sometimes is not defined
+    if(!defined('IMAGETYPE_WEBP')) {
+        define('IMAGETYPE_WEBP', 18);
+    }
+
+    if (YOIMG_WEBP_ENABLED || $image_type == IMAGETYPE_WEBP) {
+        // Export WEBP progressive with no EXIF data
+        imagewebp($cropped_img, $cropped_image_path, 75);
+    } else {
+        switch ($image_type) {
+            case IMAGETYPE_JPEG:
+                // Progressive
+                if (function_exists('imageinterlace')) {
+                    imageinterlace($cropped_img, true);
+                }
+
                 // Export JPEG progressive with no EXIF data
                 imagejpeg($cropped_img, $cropped_image_path, 75);
-            }
+                break;
 
-            break;
-
-        case IMAGETYPE_GIF:
-            // Progressive
-            if (function_exists('imageinterlace')) {
-                imageinterlace($cropped_img, true);
-            }
-
-            if (YOIMG_WEBP_ENABLED) {
-                // Export WEBP progressive with no EXIF data
-                imagewebp($cropped_img, $cropped_image_path, 75);
-            } else {
+            case IMAGETYPE_GIF:
                 // Export GIF progressive with no EXIF data
                 imagegif($cropped_img, $cropped_image_path);
-            }
+                break;
 
-            break;
-
-        case IMAGETYPE_PNG:
-            if (YOIMG_WEBP_ENABLED) {
-                // Export WEBP progressive with no EXIF data
-                imagewebp($cropped_img, $cropped_image_path, 75);
-            } else {
+            case IMAGETYPE_PNG:
                 // Export PNG progressive with no EXIF data
                 imagepng($cropped_img, $cropped_image_path, 3);
-            }
-
-            break;
+                break;
+        }
     }
 
     // Free memory
