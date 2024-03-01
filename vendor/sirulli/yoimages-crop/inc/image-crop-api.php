@@ -191,7 +191,7 @@ function yoimg_api_crop_from_size($img_path, $size, $force = false)
     [$width_orig, $height_orig] = @getimagesize($img_path);
 
     // Set extension
-    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($img_path_parts['extension'], ['png', 'jpg', 'jpeg', 'webp'])) ? 'webp' : $img_path_parts['extension'];
+    $crop_image_extension = (YOIMG_WEBP_ENABLED && in_array($img_path_parts['extension'], ['png', 'jpg', 'jpeg', 'webp', 'gif'])) ? 'webp' : $img_path_parts['extension'];
 
     if (!empty($width_orig) && !empty($height_orig)) {
         if (isset($size['x']) && isset($size['y']) && isset($size['req_width']) && isset($size['req_height'])) {
@@ -288,8 +288,14 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
                 imageinterlace($cropped_img, true);
             }
 
-            // Export GIF progressive with no EXIF data
-            imagegif($cropped_img, $cropped_image_path);
+            if (YOIMG_WEBP_ENABLED) {
+                // Export WEBP progressive with no EXIF data
+                imagewebp($cropped_img, $cropped_image_path, 75);
+            } else {
+                // Export GIF progressive with no EXIF data
+                imagegif($cropped_img, $cropped_image_path);
+            }
+
             break;
 
         case IMAGETYPE_PNG:
