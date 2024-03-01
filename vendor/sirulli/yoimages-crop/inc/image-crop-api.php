@@ -265,8 +265,6 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
     $img = yoimg_api_load_image($img_path);
     $cropped_img = yoimg_api_resampled_image($img, $req_x, $req_y, $req_width, $req_height, $width, $height, false);
 
-    file_put_contents('/home/admin/www/woody_02/current/web/app/uploads/woody-sandbox/debug.log', IMAGETYPE_WEBP);
-
     // Sometimes is not defined
     if(!defined('IMAGETYPE_WEBP')) {
         define('IMAGETYPE_WEBP', 18);
