@@ -271,8 +271,13 @@ function yoimg_api_crop($img_path, $cropped_image_path, $req_x, $req_y, $req_wid
     }
 
     if (YOIMG_WEBP_ENABLED || $image_type == IMAGETYPE_WEBP) {
+        // Progressive
+        if (function_exists('imageinterlace')) {
+            imageinterlace($cropped_img, true);
+        }
+
         // Export WEBP progressive with no EXIF data
-        imagewebp($cropped_img, $cropped_image_path, 75);
+        imagewebp($cropped_img, $cropped_image_path, 85);
     } else {
         switch ($image_type) {
             case IMAGETYPE_JPEG:
